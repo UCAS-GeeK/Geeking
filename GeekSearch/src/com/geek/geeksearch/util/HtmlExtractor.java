@@ -1,7 +1,7 @@
 package com.geek.geeksearch.util;
 
 /**
- * filt parse
+ * Html³éÈ¡Æ÷
  *
  */
 public class HtmlExtractor {
