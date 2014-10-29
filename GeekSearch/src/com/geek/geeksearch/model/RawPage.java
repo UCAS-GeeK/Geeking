@@ -8,14 +8,43 @@ import java.sql.Date;
  */
 public class RawPage {
 	private String url = null;
-	private Integer length = null;
 	private Date date = null;
+	private Integer length = null;
+	//Í¨¹ý url ¼ÆËã md5
 	
 	public RawPage() {
 		
 	}
 	
-	//.....
+	public static String getPageContent(String type, Integer offset) {
+		
+	}
 	
+	
+	
+	
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
+	}
+
+	public Date getDate() {
+		return date;
+	}
+
+	public void setDate(Date date) {
+		this.date = date;
+	}
+
+	public Integer getLength() {
+		return length;
+	}
+
+	public void setLength(Integer length) {
+		this.length = length;
+	}
 
 }

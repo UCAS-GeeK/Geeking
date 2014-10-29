@@ -1,7 +1,7 @@
 package com.geek.geeksearch.util;
 
 /**
- * ∂¡»°configure.properties
+ * ∂¡»°configure.properties    
  *
  */
 public class Configuration {
