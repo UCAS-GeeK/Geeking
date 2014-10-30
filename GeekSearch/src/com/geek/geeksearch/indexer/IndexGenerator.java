@@ -1,8 +1,15 @@
 package com.geek.geeksearch.indexer;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 
+import org.ansj.domain.Term;
+import org.ansj.splitWord.analysis.IndexAnalysis;
+
+import com.geek.geeksearch.model.DocIndex;
 import com.geek.geeksearch.model.PageInfo;
 import com.geek.geeksearch.util.DBOperator;
 import com.geek.geeksearch.util.HtmlParser;
@@ -16,13 +23,17 @@ import com.geek.geeksearch.util.HtmlParser;
  *
  */
 public class IndexGenerator {
-	private AtomicLong docID = new AtomicLong(-1); // 文档ID
-	private AtomicLong termID = new AtomicLong(-1); // 词项ID
-	private DBOperator dbOperator = new DBOperator();
+	private AtomicLong docID = new AtomicLong(-1); // 文档ID long 可能不够，考虑用BigNumber
+	private static AtomicLong termID = new AtomicLong(-1); // 词项ID
+	HashMap<String, Long> termIDsMap = new HashMap<>();// 词项-词项ID 映射表
+	
+	private DBOperator dbOperator = new DBOperator(); //configure.properties
 	private String rawPagesDir = null; //configure.properties
 	
 	public IndexGenerator(String rawPagesDir) {
 		this.rawPagesDir = rawPagesDir;
+		//dbOperator = ...
+		
 	}
 	
 	public static void main(String[] args) {
@@ -39,6 +50,13 @@ public class IndexGenerator {
 				createIndexes(type, html);
 			}
 		}
+		
+		// 建立 词项ID-词项 索引表
+		createTermIdIndex(); 
+		
+		// 建立倒排索引
+		createInvertedIndex();
+		
 	}
 	
 	/* 生成各种索引 */
@@ -53,13 +71,47 @@ public class IndexGenerator {
 		//过滤标签获取正文
 		String plainText = HtmlParser.getPlainText(htmlStr, type);
 		
+		// 使用第三方分词工具ansj实现分词
+		List<Term> parsedTerms = IndexAnalysis.parse(plainText);
+		
 		//建立文档索引
-		createDocIndex(plainText);
+		createDocIndex(parsedTerms);
+	}
+	
+	public void createInvertedIndex() {
+		//因为建倒排索引需要较大内存，因此先释放不再需要的数据结构
+		//clearMemory();		
+	}
+	
+	/* 建立 词项ID-词项 索引表 */
+	public void createTermIdIndex() {
+		//将termIDsMap写入数据库
 	}
 	
 	/* 建立文档索引 */
-	public void createDocIndex(String text) {
-		//分词，得到一篇文档的词项列表，写入数据库
+	public void createDocIndex(List<Term> parsedTerms) {
+		// 将词项转化成ID		
+		List<Long> docTermIDs = transTerm2ID(parsedTerms);
+		DocIndex docIndex = new DocIndex();
+		docIndex.addIndex(docID.get(), docTermIDs, dbOperator);
+	}
+	
+	public List<Long> transTerm2ID(List<Term> parsedTerms) {
+		String termStr = "";
+		List<Long> docTermIDs = new ArrayList<>();
+		for (Term term : parsedTerms) {
+			termStr = term.toString();
+			if (termStr.isEmpty()) {
+				continue;
+			}
+			if (termIDsMap.containsKey(termStr)) {
+				docTermIDs.add(termIDsMap.get(termStr)); //获取词项ID加入docTermsList
+			} else {
+				termIDsMap.put(termStr, termID.incrementAndGet());
+				docTermIDs.add(termID.get());
+			}		
+		}
+		return docTermIDs;
 	}
 	
 	/* 建立网页信息索引 */
@@ -71,7 +123,9 @@ public class IndexGenerator {
 			System.err.printf("bad page info: %s\n", err);
 			return;
 		}
-		PageInfo pageInfo = new PageInfo(docID.incrementAndGet(), url, type, title, kwAndDesc[0], kwAndDesc[1]);	
+		
+		PageInfo pageInfo = new PageInfo(docID.incrementAndGet(), url, type, 
+				title, kwAndDesc[0], kwAndDesc[1]);	
 		pageInfo.add2DB(dbOperator);
 		System.out.print("title: "+title+";  kw: "+kwAndDesc[0]
 				+"\ndescrip: "+kwAndDesc[1]+"\n");
@@ -86,7 +140,7 @@ public class IndexGenerator {
 		return fileName.substring(0, idx); 
 	}
 	
-	/* 从网页库目录获取类型目录 列表*/
+	/* 从网页库目录获取类型目录 的列表*/
 	public String[] getTypes() {
 		File rootDir = new File(rawPagesDir);
 		if (!rootDir.exists() || !rootDir.isDirectory()) {   
