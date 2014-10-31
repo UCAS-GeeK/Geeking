@@ -18,7 +18,7 @@ import com.geek.geeksearch.util.HtmlParser;
  * 0. 读取全部html网页：
  * 1. 抽取关键信息， 生成PageInfo存入PageIndex数据库
  * 2. 过滤html标签获取正文，进行正文词条化
- * 3. 生成文档索引DocIndex，和词项ID-词项映射表TermsMap，将两者写入数据库
+ * 3. 生成文档索引DocIndex，和词项ID-词项映射表TermsIndex，将两者写入数据库
  * 4. 根据文档索引生成倒排索引InvertedIndex，写入数据库
  *
  */
