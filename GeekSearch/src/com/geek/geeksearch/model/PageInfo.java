@@ -2,22 +2,30 @@ package com.geek.geeksearch.model;
 
 import java.util.ArrayList;
 
+import com.geek.geeksearch.util.DBOperator;
+
 /**
  * 网页信息记录
  *
  */
 public class PageInfo {
-	private String url = null;
-	private String tittle = null;
-	private String digest = null;
-	private String date = null; //
-	private ArrayList<String> keyWords = new ArrayList<String>();
-	private String category = null; //枚举常量
-	private String offset = null;
+	private String url = "";
+	private String title = "";
+	private String description = "";
+	private String date = ""; //
+	private String keyWords = "";
+	private String type = ""; // 考虑枚举常量enum
 	
-	public PageInfo(String url, String category) {
+	public PageInfo(long docID, String url, String type, String title, String keywords, String descrip) {
 		this.url = url;
-		this.category = category;
+		this.type = type;
+		this.title = title;
+		this.keyWords = keywords;
+		this.description = descrip;
+	}
+	
+	public void add2DB(DBOperator dbOp) {
+		//
 	}
 	
 	public String getUrl() {
@@ -28,20 +36,20 @@ public class PageInfo {
 		this.url = url;
 	}
 	
-	public String getTittle() {
-		return tittle;
+	public String getTitle() {
+		return title;
 	}
 	
-	public void setTittle(String tittle) {
-		this.tittle = tittle;
+	public void setTitle(String title) {
+		this.title = title;
 	}
 	
-	public String getSubstract() {
-		return digest;
+	public String getDescription() {
+		return description;
 	}
 	
-	public void setSubstract(String digest) {
-		this.digest = digest;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 	
 	public String getDate() {
@@ -52,28 +60,20 @@ public class PageInfo {
 		this.date = date;
 	}
 	
-	public ArrayList<String> getKeyWords() {
-		return keyWords;
+	public String[] getKeyWords() {
+		return keyWords.split(",");
 	}
 	
-	public void setKeyWords(ArrayList<String> keyWords) {
+	public void setKeyWords(String keyWords) {
 		this.keyWords = keyWords;
 	}
 	
-	public String getCategory() {
-		return category;
+	public String getType() {
+		return type;
 	}
 	
-	public void setCategory(String category) {
-		this.category = category;
-	}
-	
-	public String getOffset() {
-		return offset;
-	}
-	
-	public void setOffset(String offset) {
-		this.offset = offset;
+	public void setType(String type) {
+		this.type = type;
 	}
 
 }
