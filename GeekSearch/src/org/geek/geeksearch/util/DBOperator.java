@@ -1,23 +1,4 @@
-package com.geek.geeksearch.util;
-
-/**
- * 数据库操作
- *
- */
-/************************************************* 
-DBConnection 类实现了mysql连接类的封装
-*************************************************/  
-
-/**
-* <p>Title: DBConnection</p> 
-* <p>Description: DBConnection，封装了众多的数据库操作</p> 
-* <p>Copyright: Copyright (c) 2010</p> 
-* <p>Company: </p> 
-*  @author  <a href="dreamhunter.dy@gmail.com">dongyu</a> 
-*  @version  1.0 
-*  @created 2010-03-16
-*/  
-
+package org.geek.geeksearch.util;
 
 import java.io.InputStream;
 import java.sql.Connection;
@@ -29,13 +10,16 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 
-
-
+/**
+ * 数据库操作
+ *
+ */
 public class DBOperator 
 {
     private Connection conn = null;
     private Statement stmt = null;
-    private PreparedStatement prepstmt = null;
+    private PreparedStatement prepStmt = null;
+    /* configure.properties */
     private String url = "jdbc:mysql://localhost:3306/GeekDB"; // URL指向要访问的数据库名search_engine
     private String user = "root"; // MySQL配置时的用户名
     private String password = ""; // MySQL配置时的密码
@@ -64,6 +48,19 @@ public class DBOperator
         }       
     }
     
+    public void cleanAllTables() {
+    	String sql = "truncate table termsindex";
+		executeUpdate(sql);
+    	sql = "truncate table pageindex";
+		executeUpdate(sql);
+    	sql = "truncate table termsindex";
+		executeUpdate(sql);
+		sql = "truncate table docindex";
+		executeUpdate(sql);
+		sql = "truncate table invertedindex";
+		executeUpdate(sql);
+	}
+    
     public Connection getConnection() 
     {
         return conn;
@@ -73,7 +70,7 @@ public class DBOperator
     {
         try
         {
-            prepstmt = conn.prepareStatement(sql);
+        	prepStmt = conn.prepareStatement(sql);
         }catch(Exception e){
             e.printStackTrace();
         } 
@@ -83,7 +80,7 @@ public class DBOperator
     {   
         try
         {
-            prepstmt.setString(index,value);
+        	prepStmt.setString(index,value);
         }catch(Exception e){
             e.printStackTrace();
         }
@@ -93,7 +90,7 @@ public class DBOperator
     {
         try
         {
-            prepstmt.setInt(index,value);
+        	prepStmt.setInt(index,value);
         }catch(Exception e){
             e.printStackTrace();
         }
@@ -103,7 +100,7 @@ public class DBOperator
     { 
         try
         {
-            prepstmt.setBoolean(index,value);
+        	prepStmt.setBoolean(index,value);
         }catch(Exception e){
             e.printStackTrace();
         }
@@ -113,7 +110,7 @@ public class DBOperator
     {
         try
         {
-            prepstmt.setDate(index,value);
+        	prepStmt.setDate(index,value);
         }catch(Exception e){
             e.printStackTrace();
         }
@@ -123,7 +120,7 @@ public class DBOperator
     {
         try
         {
-            prepstmt.setLong(index,value);
+        	prepStmt.setLong(index,value);
         }catch(Exception e){
             e.printStackTrace();
         }
@@ -133,7 +130,7 @@ public class DBOperator
     {
         try
         {
-            prepstmt.setFloat(index,value);
+        	prepStmt.setFloat(index,value);
         }catch(Exception e){
             e.printStackTrace();
         }
@@ -143,7 +140,7 @@ public class DBOperator
     {
         try
         {
-            prepstmt.setBinaryStream(index,in,length);
+        	prepStmt.setBinaryStream(index,in,length);
         }catch(Exception e){
             e.printStackTrace();
         }
@@ -153,7 +150,7 @@ public class DBOperator
     {
         try
         {
-            prepstmt.clearParameters();
+        	prepStmt.clearParameters();
         }catch(Exception e){
             e.printStackTrace();
         }
@@ -161,7 +158,7 @@ public class DBOperator
     
     public PreparedStatement getPreparedStatement()
     {
-        return prepstmt;
+        return prepStmt;
     }
     
     public Statement getStatement() 
@@ -188,8 +185,8 @@ public class DBOperator
     {
         try
         {
-            if (prepstmt != null) 
-                return prepstmt.executeQuery();
+            if (prepStmt != null) 
+                return prepStmt.executeQuery();
             else
                 return null;
         }catch(Exception e){
@@ -214,8 +211,8 @@ public class DBOperator
     {
         try
         {
-            if (prepstmt != null)
-                prepstmt.executeUpdate();
+            if (prepStmt != null)
+            	prepStmt.executeUpdate();
         }catch(Exception e){
             e.printStackTrace();
         }
@@ -230,10 +227,10 @@ public class DBOperator
                 stmt.close();
                 stmt = null;
             }
-            if (prepstmt != null) 
+            if (prepStmt != null) 
             {
-                prepstmt.close();
-                prepstmt = null;
+            	prepStmt.close();
+            	prepStmt = null;
             }
             conn.close();
             conn = null;

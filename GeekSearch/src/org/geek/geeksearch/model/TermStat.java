@@ -10,7 +10,7 @@ import java.util.Set;
  */
 public class TermStat {
 	private final long docID;
-	private long termFreq = -1; // term frequency
+	private long termFreq = 0; // term frequency
 	private Set<Long> posSet = new HashSet<>(); // position set
 	
 	public TermStat(long docID) {
@@ -21,12 +21,17 @@ public class TermStat {
 		return docID;
 	}
 	
-	public long getTermFreq() {
+	public long getTF() {
 		return termFreq;
 	}
 	
-	public void setTermFreq(long termFreq) {
+	public void setTF(long termFreq) {
 		this.termFreq = termFreq;
+	}
+	
+	// ++TF
+	public void IncrementTF() {
+		++termFreq;
 	}
 	
 	public Set<Long> getPosSet() {
@@ -35,5 +40,9 @@ public class TermStat {
 	
 	public void setPosSet(Set<Long> posSet) {
 		this.posSet = posSet;
+	}
+	
+	public void add2PosSet(long pos) {
+		posSet.add(pos);
 	}
 }

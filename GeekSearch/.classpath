@@ -17,5 +17,6 @@
 	<classpathentry kind="lib" path="libs/ansj_seg-2.0.7.jar"/>
 	<classpathentry kind="lib" path="libs/nlp-lang-0.3.jar"/>
 	<classpathentry kind="lib" path="libs/htmllexer.jar"/>
+	<classpathentry kind="lib" path="libs/mysql-connector-java-5.1.7-bin.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

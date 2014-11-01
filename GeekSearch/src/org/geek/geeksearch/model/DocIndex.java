@@ -42,7 +42,7 @@ public class DocIndex {
 	private String toString(List<Long> docTermIDs) {
 		StringBuffer docTerms = new StringBuffer();
 		for (Long termID : docTermIDs) {
-			docTerms = docTerms.append("#").append(termID.toString());
+			docTerms = docTerms.append(termID.toString()).append("#");
 		}
 //		System.out.println(terms.toString());
 		return docTerms.toString();	
@@ -57,7 +57,8 @@ public class DocIndex {
 	
 	/* 每有一条文档索引，就写一次数据库 */
 	private void add2DB(DBOperator dbOp, long docID, String terms) {
-		//
+		String sql = " INSERT INTO DocIndex values("+docID+",'"+terms+"') ";
+		dbOp.executeUpdate(sql);
 	}
 	
 //	/* 索引数目达到一定数目后一起写入数据库（后期实现） */
