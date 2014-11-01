@@ -1,18 +1,26 @@
 package org.geek.geeksearch.indexer;
 
 import java.io.File;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicLong;
 
 import org.geek.geeksearch.model.DocIndex;
 import org.geek.geeksearch.model.InvertedIndex;
 import org.geek.geeksearch.model.PageInfo;
+import org.geek.geeksearch.model.TermStat;
 import org.geek.geeksearch.util.DBOperator;
 import org.geek.geeksearch.util.HtmlParser;
+
+import com.sun.org.apache.xalan.internal.xsltc.runtime.Hashtable;
 
 /**
  * 0. 读取全部html网页：
@@ -23,18 +31,18 @@ import org.geek.geeksearch.util.HtmlParser;
  *
  */
 public class IndexGenerator {
-	private AtomicLong docID = new AtomicLong(-1); // 文档ID long 可能不够，考虑用BigNumber
-	private static AtomicLong termID = new AtomicLong(-1); // 词项ID
-	HashMap<String, Long> termIDsMap = new HashMap<>();// 词项-词项ID 映射表
-	Set<InvertedIndex> invIdxSet = new HashSet<>();
+	private AtomicLong docID = new AtomicLong(-1); //文档ID long 可能不够，考虑用BigNumber
+	private static AtomicLong termID = new AtomicLong(-1); //词项ID
+	HashMap<String, Long> termIDsMap = new HashMap<>(); //词项-词项ID 映射表
+	Map<Long,InvertedIndex> invIdxMap = new HashMap<>(); //倒排索引表 
 	
-	private DBOperator dbOperator = new DBOperator(); //configure.properties
-	private String rawPagesDir = null; //configure.properties
+	private final DBOperator dbOperator;
+	private final String rawPagesDir; //configure.properties
 	
 	public IndexGenerator(String rawPagesDir) {
 		this.rawPagesDir = rawPagesDir;
-		//dbOperator = ...
-		
+		this.dbOperator = new DBOperator();//debug
+		dbOperator.cleanAllTables();//重建索引，清空所有table		
 	}
 	
 	public static void main(String[] args) {
@@ -51,11 +59,10 @@ public class IndexGenerator {
 				createIndexes(type, html);
 			}
 		}
-		// 建立 词项ID-词项 索引表
+//		 建立 词项ID-词项 索引表
 		createTermIdIndex();		
 		// 建立倒排索引
-		createInvertedIndex();
-		
+		createInvertedIndex();		
 	}
 
 	/* 生成各种索引 */
@@ -77,28 +84,60 @@ public class IndexGenerator {
 		//因为建倒排索引需要较大内存，因此先释放不再需要的数据结构
 		termIDsMap.clear();
 		//读取数据库docIndex整张表（默认内存够用）
+		String sql = " SELECT * FROM DocIndex "; // 要执行的SQL语句
+		ResultSet res = dbOperator.executeQuery(sql);
 		//遍历每条记录，遍历记录的每个词项ID
-		String docID = "11";
-		String terms = "#2#12#89#1#2#12#89#1";//debug
-		List<String> docTermIDs = DocIndex.toList(terms);
-		if (docTermIDs == null) {
-			return; //debug continue;
-		}
-		for (String termIDStr : docTermIDs) {
-			if (termIDStr == null || termIDStr.isEmpty()) {
-				continue;
+		try {
+			while (res.next()) {
+				long dID = res.getLong(1);
+				String terms = res.getString(2);
+				List<String> docTermIDs = DocIndex.toList(terms);
+				if (docTermIDs == null) {
+					continue;
+				}				
+				int pos = 0;
+				InvertedIndex invIdx;
+				TermStat stat;
+				for (String termIDStr : docTermIDs) {
+					if (termIDStr == null || termIDStr.isEmpty()) {
+						continue;
+					}
+					long tID = Long.valueOf(termIDStr);
+					if (!invIdxMap.containsKey(tID)) {
+						invIdx = new InvertedIndex(tID);
+						stat = new TermStat(dID);
+						invIdx.getStatsMap().put(dID, stat);
+						invIdxMap.put(tID, invIdx);
+					} else {
+						stat = invIdxMap.get(tID).getStatsMap().containsKey(dID) ? 
+								invIdxMap.get(tID).getStatsMap().get(dID) : new TermStat(dID);
+						invIdxMap.get(tID).getStatsMap().put(dID, stat);
+					} 
+					stat.IncrementTF(); //++TF
+					stat.add2PosSet(pos++); //add pos
+//					String string =  invIdxMap.get(tID).getStatsMap().get(dID).getPosSet().toString();
+//					string = "tID="+tID+"->DocID="+dID+":TF="+invIdxMap.get(tID).getStatsMap().get(dID).getTF()
+//							+";POS="+string;
+//					System.out.println(string);
+				}
 			}
-			long termID = Long.valueOf(termIDStr);
-			InvertedIndex invIdx = new InvertedIndex(termID);
-			
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
-		
-		
+		InvertedIndex.addAll2DB(invIdxMap, dbOperator);
 	}
 	
 	/* 建立 词项ID-词项 索引表 */
 	public void createTermIdIndex() {
 		//将termIDsMap写入数据库
+		Iterator<Entry<String, Long>> iter = termIDsMap.entrySet().iterator(); 
+		while (iter.hasNext()) {
+			Map.Entry<String, Long> entry = iter.next();
+			String terms = entry.getKey();
+			long tID = entry.getValue();
+			String sql = " INSERT INTO TermsIndex values("+tID+",'"+terms+"') "; 
+			dbOperator.executeUpdate(sql);
+		}
 	}
 	
 	/* 建立文档索引 */

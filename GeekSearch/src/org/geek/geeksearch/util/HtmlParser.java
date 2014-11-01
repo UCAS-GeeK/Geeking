@@ -2,7 +2,9 @@ package org.geek.geeksearch.util;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileReader;
+import java.io.InputStreamReader;
 
 import org.htmlparser.filters.AndFilter;
 import org.htmlparser.filters.HasAttributeFilter;
@@ -166,8 +168,8 @@ public class HtmlParser {
 		BufferedReader bufReader = null;
 		StringBuffer strBuf = new StringBuffer();
 		try {
-			FileReader reader  = new FileReader(file);
-			bufReader = new BufferedReader(reader);
+			FileInputStream reader  = new FileInputStream(file);
+			bufReader = new BufferedReader(new InputStreamReader(reader, "GB2312"));
 			String line = null;
 			while((line = bufReader.readLine()) != null)
 			{

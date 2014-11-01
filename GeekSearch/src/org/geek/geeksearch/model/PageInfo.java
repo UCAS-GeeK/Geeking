@@ -9,31 +9,32 @@ import org.geek.geeksearch.util.DBOperator;
  *
  */
 public class PageInfo {
-	private String url = "";
+	private final long docID;
+	private final String url;
 	private String title = "";
 	private String description = "";
-	private String date = ""; //
+	private String date = "2014-01-01"; //
 	private String keyWords = "";
 	private String type = ""; // 考虑枚举常量enum
 	
 	public PageInfo(long docID, String url, String type, String title, String keywords, String descrip) {
+		this.docID = docID;
 		this.url = url;
 		this.type = type;
 		this.title = title;
+		//date
 		this.keyWords = keywords;
 		this.description = descrip;
 	}
 	
 	public void add2DB(DBOperator dbOp) {
-		//
+		String sql = " INSERT INTO PageIndex values("+docID+",'"+url+"','"+title
+				+"','"+description+"','"+date+"','"+type+"','"+keyWords+"') ";
+		dbOp.executeUpdate(sql);
 	}
 	
 	public String getUrl() {
 		return url;
-	}
-	
-	public void setUrl(String url) {
-		this.url = url;
 	}
 	
 	public String getTitle() {
