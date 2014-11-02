@@ -3,7 +3,6 @@ package org.geek.geeksearch.util;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileReader;
 import java.io.InputStreamReader;
 
 import org.htmlparser.filters.AndFilter;
@@ -51,10 +50,9 @@ public class HtmlParser {
 	private static String deleSpace(String text) {
 		text = text.replaceAll("\\s{2,}", " ");
 		text = text.replaceAll("\n|\r|\t", "");
-		System.out.printf("content: %s\n\n", text.trim());
 		return text.trim();
 	}
-	
+
 	private static NodeFilter createFilter(String type) {
 		NodeFilter filter = new HasAttributeFilter();
 		if (type.equals("163")) { //网易
@@ -159,12 +157,22 @@ public class HtmlParser {
 		return null;
 	}
 	
-	public static String readHtmlFile(String path) {
+	public static boolean checkPath(String path) {
+		int idx = path.lastIndexOf(".");
+		String suffix = idx > 0 ? path.substring(idx).toLowerCase() : "";
+		if (!suffix.equals(".html") && !suffix.equals(".shtml") && !suffix.equals(".htm")) {
+			return false;
+		}
 		File file = new File(path);
 		if (!file.exists() || !file.isFile()) {
 			System.err.printf("unexisting path of html: %s\n", path);
-			return null;
+			return false;
 		}
+		return true;
+	}
+	
+	public static String readHtmlFile(String path) {
+		File file = new File(path);
 		BufferedReader bufReader = null;
 		StringBuffer strBuf = new StringBuffer();
 		try {

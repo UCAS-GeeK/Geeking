@@ -1,13 +1,10 @@
 package org.geek.geeksearch.model;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.apache.catalina.tribes.group.interceptors.TwoPhaseCommitInterceptor.MapEntry;
 import org.geek.geeksearch.util.DBOperator;
 
 
@@ -52,8 +49,7 @@ public class InvertedIndex {
 		while (iter.hasNext()) { // 遍历倒排索引
 			Map.Entry<Long, InvertedIndex> entry = iter.next();
 			tID = entry.getKey(); // 获取词项ID
-			dF = entry.getValue().getDF(); // 获取dF
-			
+			dF = entry.getValue().getStatsMap().size(); // 获取dF
 			/* 
 			 * 一个 termID 对应的一条 documentIDs 在数据库中的存储格式:
 			 * docFreq|docID1:TF:[pos1, pos2...]#docID2:TF:[pos1, pos2...]#...
