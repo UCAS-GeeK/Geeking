@@ -203,6 +203,7 @@ public class DBOperator
             if (stmt != null)
                 stmt.executeUpdate(sql);
         }catch(Exception e){
+        	System.err.println("error occurs while updating database: "+sql);
             e.printStackTrace();
         }
     }

@@ -5,12 +5,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
 import java.util.concurrent.atomic.AtomicLong;
 
 import org.geek.geeksearch.model.DocIndex;
@@ -19,8 +17,6 @@ import org.geek.geeksearch.model.PageInfo;
 import org.geek.geeksearch.model.TermStat;
 import org.geek.geeksearch.util.DBOperator;
 import org.geek.geeksearch.util.HtmlParser;
-
-import com.sun.org.apache.xalan.internal.xsltc.runtime.Hashtable;
 
 /**
  * 0. 读取全部html网页：
@@ -46,7 +42,7 @@ public class IndexGenerator {
 	}
 	
 	public static void main(String[] args) {
-		IndexGenerator generator = new IndexGenerator("RawPages");
+		IndexGenerator generator = new IndexGenerator("E:\\eclipseWorkspace\\Geeking\\RawPages4Test");
 		generator.createIndexes();
 	}
 	
@@ -68,16 +64,28 @@ public class IndexGenerator {
 	/* 生成各种索引 */
 	public void createIndexes(String type, String html) {
 		String path = rawPagesDir+"\\"+type+"\\"+html;
-		//if (checkHtml()) return;
+		if (!HtmlParser.checkPath(path)) {
+			return;
+		}
 		String htmlStr = HtmlParser.readHtmlFile(path);
+		if (htmlStr == null || htmlStr.isEmpty()) {
+			return;
+		}
 		//建立网页信息索引
 		createPageIndex(htmlStr, type, getURL(html));		
 		//过滤标签获取正文
-		String plainText = HtmlParser.getPlainText(htmlStr, type);		
+		String plainText = HtmlParser.getPlainText(htmlStr, type);
+		if (plainText == null || plainText.isEmpty()) {
+			return;
+		}
 		// 使用第三方分词工具ansj实现分词
-		List<String> parsedTerms = Tokenizer.doTextTokenise(plainText);		
+		List<String> parsedTerms = Tokenizer.doTextTokenise(plainText);
+		if (parsedTerms == null || parsedTerms.isEmpty()) {
+			return;
+		}
 		//建立文档索引
 		createDocIndex(parsedTerms);
+		System.out.println("docID = "+docID);
 	}
 	
 	public void createInvertedIndex() {
@@ -179,12 +187,12 @@ public class IndexGenerator {
 		PageInfo pageInfo = new PageInfo(docID.incrementAndGet(), url, type, 
 				title, kwAndDesc[0], kwAndDesc[1]);	
 		pageInfo.add2DB(dbOperator);
-		System.out.print("title: "+title+";  kw: "+kwAndDesc[0]
-				+"\ndescrip: "+kwAndDesc[1]+"\n");
+//		System.out.print("title: "+title+";  kw: "+kwAndDesc[0]
+//				+"\ndescrip: "+kwAndDesc[1]+"\n");
 	}
 	
 	public String getURL(String fileName) {
-		int idx = fileName.indexOf(".");
+		int idx = fileName.lastIndexOf(".");
 		if (idx <= 0) {
 			System.err.printf("wrong type of file name!", fileName);
 			return "";

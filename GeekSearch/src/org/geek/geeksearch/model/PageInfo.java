@@ -1,6 +1,5 @@
 package org.geek.geeksearch.model;
 
-import java.util.ArrayList;
 
 import org.geek.geeksearch.util.DBOperator;
 
