@@ -12,23 +12,23 @@ public class PageInfo {
 	private final String url;
 	private String title = "";
 	private String description = "";
-	private String date = "2014-01-01"; //
+	private String pubTime = ""; //
 	private String keyWords = "";
 	private String type = ""; // 考虑枚举常量enum
 	
-	public PageInfo(long docID, String url, String type, String title, String keywords, String descrip) {
+	public PageInfo(long docID, String url, String type, String title, String pubTime, String keywords, String descrip) {
 		this.docID = docID;
 		this.url = url;
 		this.type = type;
 		this.title = title;
-		//date
+		this.pubTime = pubTime;
 		this.keyWords = keywords;
 		this.description = descrip;
 	}
 	
 	public void add2DB(DBOperator dbOp) {
-		String sql = " INSERT INTO PageIndex values("+docID+",'"+url+"','"+title
-				+"','"+description+"','"+date+"','"+type+"','"+keyWords+"') ";
+		String sql = " INSERT INTO PagesIndex values("+docID+",'"+url+"','"+title
+				+"','"+description+"','"+pubTime+"','"+type+"','"+keyWords+"') ";
 		dbOp.executeUpdate(sql);
 	}
 	
@@ -52,12 +52,12 @@ public class PageInfo {
 		this.description = description;
 	}
 	
-	public String getDate() {
-		return date;
+	public String getPubTime() {
+		return pubTime;
 	}
 	
-	public void setDate(String date) {
-		this.date = date;
+	public void setPubTime(String pubTime) {
+		this.pubTime = pubTime;
 	}
 	
 	public String[] getKeyWords() {
