@@ -49,15 +49,13 @@ public class DBOperator
     }
     
     public void cleanAllTables() {
-    	String sql = "truncate table termsindex";
+    	String sql = " TRUNCATE TABLE TermsIndex ";
 		executeUpdate(sql);
-    	sql = "truncate table pageindex";
+    	sql = " TRUNCATE TABLE PagesIndex ";
 		executeUpdate(sql);
-    	sql = "truncate table termsindex";
+		sql = " TRUNCATE TABLE DocsIndex ";
 		executeUpdate(sql);
-		sql = "truncate table docindex";
-		executeUpdate(sql);
-		sql = "truncate table invertedindex";
+		sql = " TRUNCATE TABLE InvertedIndex ";
 		executeUpdate(sql);
 	}
     
@@ -144,7 +142,7 @@ public class DBOperator
         }catch(Exception e){
             e.printStackTrace();
         }
-    } 
+    }
     
     public void clearParameters()throws SQLException
     {

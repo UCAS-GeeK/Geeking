@@ -31,7 +31,7 @@ public class HtmlParser {
 		StringBuffer textBuf = new StringBuffer();
 		
 		htmlStr = deleNoise(htmlStr);
-		NodeFilter filter = createFilter(type);
+		NodeFilter filter = createTextFilter(type);
 		try {
 			parser = Parser.createParser(htmlStr, "GB2312");
 			NodeList list = parser.parse(filter);
@@ -53,7 +53,7 @@ public class HtmlParser {
 		return text.trim();
 	}
 
-	private static NodeFilter createFilter(String type) {
+	private static NodeFilter createTextFilter(String type) {
 		NodeFilter filter = new HasAttributeFilter();
 		if (type.equals("163")) { //网易
 			filter = new AndFilter(new TagNameFilter("div"), 
@@ -155,6 +155,57 @@ public class HtmlParser {
 		}
 		System.err.println("title is null!");
 		return null;
+	}
+	
+	// 获取新闻发布时间
+	public static String getPubTime(String htmlStr, String type) {
+		String pubTime = "";
+//		Matcher matcher;
+//		String regular = "^((d{2}(([02468][048])|([13579][26]))[-/s]?((((0?[13578])|(1[02]))[-/s]?((0?[1-9])|([1-2][0-9])|(3[01])))|(((0?[469])|(11))[-/s]?((0?[1-9])|([1-2][0-9])|(30)))|(0?2[-/s]?((0?[1-9])|([1-2][0-9])))))|(d{2}(([02468][1235679])|([13579][01345789]))[-/s]?((((0?[13578])|(1[02]))[-/s]?((0?[1-9])|([1-2][0-9])|(3[01])))|(((0?[469])|(11))[-/s]?((0?[1-9])|([1-2][0-9])|(30)))|(0?2[-/s]?((0?[1-9])|(1[0-9])|(2[0-8]))))))(s(((0?[0-9])|([1][0-9])|([2][0-4])):([0-5]?[0-9])((s)|(:([0-5]?[0-9])))))?$"; 
+//		Pattern pattern = Pattern.compile(regular, Pattern.CASE_INSENSITIVE);
+		NodeFilter filter = createTimeFilter(type);
+		try {
+			parser = Parser.createParser(htmlStr, "GB2312");
+			NodeList list = parser.parse(filter);
+			if (list == null || list.size() <= 0) {
+				return null;
+			}
+			for (Node node : list.toNodeArray()) {// 只会执行一次
+				pubTime = node.toPlainTextString().trim();
+				pubTime = pubTime.substring(0, 16);
+				break;
+//				matcher = pattern.matcher(node.toPlainTextString());
+//				if (matcher.find()) {
+//					pubTime = matcher.toString();
+//					break;
+//				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return pubTime;
+	}
+	
+	private static NodeFilter createTimeFilter(String type) {
+		NodeFilter filter = new HasAttributeFilter();
+		if (type.equals("163")) { //网易
+			filter = new AndFilter(new TagNameFilter("div"), 
+					new HasAttributeFilter("class", "ep-time-soure cDGray"));				
+		} else if (type.equals("sohu")) { //搜狐
+			return new AndFilter(new TagNameFilter("div"), //## 
+					new HasAttributeFilter("id", "pubtime_baidu"));
+		} else if (type.equals("qq")) { //腾讯
+			filter = new AndFilter(new TagNameFilter("span"), 
+					new HasAttributeFilter("class", "article-time"));
+		} else if (type.equals("msn")) { //MSN
+			filter = new AndFilter(new TagNameFilter("span"), 
+					new HasAttributeFilter("id", "pubtime_baidu"));
+		} else {
+			// other 
+		}
+		return filter;
+//		return new AndFilter(new NodeClassFilter(ParagraphTag.class), 
+//				new HasParentFilter(filter));
 	}
 	
 	public static boolean checkPath(String path) {
