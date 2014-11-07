@@ -10,7 +10,6 @@ public class Configuration {
 
 	/**
 	 * 读取properties文件
-	 * @author Qutr
 	 */
 	private Properties propertie;
 	//private FileInputStream inputFile;
@@ -33,8 +32,6 @@ public class Configuration {
 	}
 
 	/**
-	 * 重载函数，得到key的值
-	 * @param key 取得其值的键
 	 * @return key的值
 	 */
 	public String getValue(String key) {
@@ -49,13 +46,13 @@ public class Configuration {
 	public static void main(String[] args) {
 		Configuration conf = new Configuration();
 
-		String rawsPath = conf.getValue("path_GeekDB");
-		String dictPath = conf.getValue("user_GeekDB");
-		String mysqlPath = conf.getValue("password_GeekDB");
+		String path_GeekDB = conf.getValue("path_GeekDB");
+		String user_GeekDB = conf.getValue("user_GeekDB");
+		String password_GeekDB = conf.getValue("password_GeekDB");
 
-		System.out.println("the path is " + rawsPath);
-		System.out.println("the user is " + dictPath);
-		System.out.println("the password is " + mysqlPath);
+		System.out.println("the path is " + path_GeekDB);
+		System.out.println("the user is " + user_GeekDB);
+		System.out.println("the password is " + password_GeekDB);
 	}
 
 }
