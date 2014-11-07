@@ -9,6 +9,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import org.geek.geeksearch.configure.Configuration;
+
 
 /**
  * 数据库操作
@@ -16,20 +18,24 @@ import java.sql.Statement;
  */
 public class DBOperator 
 {
+	private Configuration conf = new Configuration();
     private Connection conn = null;
     private Statement stmt = null;
     private PreparedStatement prepStmt = null;
     /* configure.properties */
-    private String url = "jdbc:mysql://localhost:3306/GeekDB"; // URL指向要访问的数据库名search_engine
-    private String user = "root"; // MySQL配置时的用户名
-    private String password = ""; // MySQL配置时的密码
+    private String path_GeekDB = null;//指向要访问的数据库名
+    private String user_GeekDB = null;// MySQL配置时的用户名
+    private String password_GeekDB = null; // MySQL配置时的密码
     
     public DBOperator()
     {
         try
         {
+        	path_GeekDB = conf.getValue("path_GeekDB");
+        	user_GeekDB = conf.getValue("user_GeekDB");
+        	password_GeekDB = conf.getValue("password_GeekDB");
             Class.forName("com.mysql.jdbc.Driver");
-            conn = DriverManager.getConnection(url, user, password);
+            conn = DriverManager.getConnection(path_GeekDB, user_GeekDB, password_GeekDB);
             stmt = conn.createStatement();
         }catch(Exception e){
             e.printStackTrace();
@@ -41,7 +47,7 @@ public class DBOperator
         try
         {
             Class.forName("com.mysql.jdbc.Driver");
-            conn = DriverManager.getConnection(url, user, password);
+            conn = DriverManager.getConnection(path_GeekDB, user_GeekDB, password_GeekDB);
             this.prepareStatement(sql);
         }catch(Exception e){
             e.printStackTrace();
