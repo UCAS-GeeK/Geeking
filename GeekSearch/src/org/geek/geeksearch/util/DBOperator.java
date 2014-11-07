@@ -18,7 +18,6 @@ import org.geek.geeksearch.configure.Configuration;
  */
 public class DBOperator 
 {
-	private Configuration conf = new Configuration();
     private Connection conn = null;
     private Statement stmt = null;
     private PreparedStatement prepStmt = null;
@@ -27,13 +26,13 @@ public class DBOperator
     private String user_GeekDB = null;// MySQL配置时的用户名
     private String password_GeekDB = null; // MySQL配置时的密码
     
-    public DBOperator()
+    public DBOperator(Configuration config)
     {
         try
         {
-        	path_GeekDB = conf.getValue("path_GeekDB");
-        	user_GeekDB = conf.getValue("user_GeekDB");
-        	password_GeekDB = conf.getValue("password_GeekDB");
+        	path_GeekDB = config.getValue("path_GeekDB");
+        	user_GeekDB = config.getValue("user_GeekDB");
+        	password_GeekDB = config.getValue("password_GeekDB");
             Class.forName("com.mysql.jdbc.Driver");
             conn = DriverManager.getConnection(path_GeekDB, user_GeekDB, password_GeekDB);
             stmt = conn.createStatement();
