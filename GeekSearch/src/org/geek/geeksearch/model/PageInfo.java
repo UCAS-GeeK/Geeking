@@ -1,6 +1,9 @@
 package org.geek.geeksearch.model;
 
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 import org.geek.geeksearch.util.DBOperator;
 
 /**
@@ -9,7 +12,7 @@ import org.geek.geeksearch.util.DBOperator;
  */
 public class PageInfo {
 	private final long docID;
-	private final String url;
+	private String url;
 	private String title = "";
 	private String description = "";
 	private String pubTime = ""; //
@@ -24,6 +27,29 @@ public class PageInfo {
 		this.pubTime = pubTime;
 		this.keyWords = keywords;
 		this.description = descrip;
+	}
+	
+	/* for query process */
+	public PageInfo(long docID) {
+		this.docID = docID;
+	}
+	
+	public boolean loadInfo(DBOperator dbOperator) {
+		String sql = " SELECT * FROM PAGESINDEX WHERE DocID='"+docID+"' ";
+		ResultSet rSet = dbOperator.executeQuery(sql);
+		try {
+			url = rSet.getString("Url");
+			title = rSet.getString("Title");
+			description = rSet.getString("Description");
+			title = rSet.getString("Title");
+			pubTime = rSet.getString("Date");
+			type = rSet.getString("Type");
+			keyWords = rSet.getString("keywords");
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+		return true;
 	}
 	
 	public void add2DB(DBOperator dbOp) {

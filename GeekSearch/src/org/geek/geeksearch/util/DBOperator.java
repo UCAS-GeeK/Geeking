@@ -178,6 +178,7 @@ public class DBOperator
             else 
                 return null;
         }catch(Exception e){
+        	System.err.println("error occurs while executing query: "+sql);
             e.printStackTrace();
         }
         
@@ -206,7 +207,7 @@ public class DBOperator
             if (stmt != null)
                 stmt.executeUpdate(sql);
         }catch(Exception e){
-        	System.err.println("error occurs while updating database: "+sql);
+        	System.err.println("error occurs while executing update: "+sql);
             e.printStackTrace();
         }
     }
