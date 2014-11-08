@@ -1,124 +1,124 @@
 $(function(){ 
-//ȡ��div�� 
+//取得div层 
 var $search = $('#search'); 
-//ȡ�������JQuery���� 
+//取得输入框JQuery对象 
 var $searchInput = $search.find('#search-text'); 
-//�ر�������ṩ���������Զ���� 
+//关闭浏览器提供给输入框的自动完成 
 $searchInput.attr('autocomplete','off'); 
-//�����Զ���ɵ������б�������ʾ���������ص�����,������������ť�ĺ��棬����ʾ��ʱ���ٵ���λ�� 
+//创建自动完成的下拉列表，用于显示服务器返回的数据,插入在搜索按钮的后面，等显示的时候再调整位置 
 var $autocomplete = $('<div class="autocomplete"></div>') 
 .hide() 
 .insertAfter('#submit'); 
-//��������б�����ݲ������������б��� 
+//清空下拉列表的内容并且隐藏下拉列表区 
 var clear = function(){ 
 $autocomplete.empty().hide(); 
 }; 
-//ע���¼����������ʧȥ�����ʱ����������б����� 
+//注册事件，当输入框失去焦点的时候清空下拉列表并隐藏 
 $searchInput.blur(function(){ 
 setTimeout(clear,500); 
 }); 
-//�����б��и�������Ŀ������������ʾ�����б����ʱ���ƶ������߼��̵����¼��ͻ��ƶ���������Ŀ����ٶ��������� 
+//下拉列表中高亮的项目的索引，当显示下拉列表项的时候，移动鼠标或者键盘的上下键就会移动高亮的项目，想百度搜索那样 
 var selectedItem = null; 
-//timeout��ID 
+//timeout的ID 
 var timeoutid = null; 
-//����������ĸ������� 
+//设置下拉项的高亮背景 
 var setSelectedItem = function(item){ 
-//������������ 
+//更新索引变量 
 selectedItem = item ; 
-//�����¼���ѭ����ʾ�ģ�С��0���ó�����ֵ���������ֵ���ó�0 
+//按上下键是循环显示的，小于0就置成最大的值，大于最大值就置成0 
 if(selectedItem < 0){ 
 selectedItem = $autocomplete.find('li').length - 1; 
 } 
 else if(selectedItem > $autocomplete.find('li').length-1 ) { 
 selectedItem = 0; 
 } 
-//�����Ƴ������б���ĸ���������Ȼ���ٸ�����ǰ�����ı��� 
+//首先移除其他列表项的高亮背景，然后再高亮当前索引的背景 
 $autocomplete.find('li').removeClass('highlight') 
 .eq(selectedItem).addClass('highlight'); 
 }; 
 var ajax_request = function(){ 
-//ajax�����ͨ�� 
+//ajax服务端通信 
 $.ajax({ 
-'url':'/GeekSearch/auto_server.jsp', //�������ĵ�ַ 
-'data':{'search-text':$searchInput.val()}, //���� 
-'dataType':'json', //������������ 
-'type':'POST', //�������� 
+'url':'/GeekSearch/auto_server.jsp', //服务器的地址 
+'data':{'search-text':$searchInput.val()}, //参数 
+'dataType':'json', //返回数据类型 
+'type':'POST', //请求类型 
 'success':function(data){ 
 if(data.length) { 
-//����data����ӵ��Զ������ 
+//遍历data，添加到自动完成区 
 $.each(data, function(index,term) { 
-//����li��ǩ,��ӵ������б��� 
+//创建li标签,添加到下拉列表中 
 $('<li></li>').text(term).appendTo($autocomplete) 
 .addClass('clickable') 
 .hover(function(){ 
-//�����б�ÿһ����¼�������ƽ�ȥ�Ĳ��� 
+//下拉列表每一项的事件，鼠标移进去的操作 
 $(this).siblings().removeClass('highlight'); 
 $(this).addClass('highlight'); 
 selectedItem = index; 
 },function(){ 
-//�����б�ÿһ����¼�������뿪�Ĳ��� 
+//下拉列表每一项的事件，鼠标离开的操作 
 $(this).removeClass('highlight'); 
-//������뿪ʱ������-1��������� 
+//当鼠标离开时索引置-1，当作标记 
 selectedItem = -1; 
 }) 
 .click(function(){ 
-//��굥�������б����һ��Ļ����ͽ���һ���ֵ��ӵ�������� 
+//鼠标单击下拉列表的这一项的话，就将这一项的值添加到输入框中 
 $searchInput.val(term); 
-//��ղ����������б� 
+//清空并隐藏下拉列表 
 $autocomplete.empty().hide(); 
 }); 
-});//�¼�ע����� 
-//���������б��λ�ã�Ȼ����ʾ�����б� 
+});//事件注册完毕 
+//设置下拉列表的位置，然后显示下拉列表 
 var ypos = $searchInput.position().top; 
 var xpos = $searchInput.position().left; 
 $autocomplete.css('width',$searchInput.css('width')); 
 $autocomplete.css({'position':'relative','left':xpos + "px",'top':ypos +"px"}); 
 setSelectedItem(0); 
-//��ʾ�����б� 
+//显示下拉列表 
 $autocomplete.show(); 
 } 
 } 
 }); 
 }; 
-//�����������¼�ע�� 
+//对输入框进行事件注册 
 $searchInput 
 .keyup(function(event) { 
-//��ĸ���֣��˸񣬿ո� 
+//字母数字，退格，空格 
 if(event.keyCode > 40 || event.keyCode == 8 || event.keyCode ==32) { 
-//����ɾ�������б��е���Ϣ 
+//首先删除下拉列表中的信息 
 $autocomplete.empty().hide(); 
 clearTimeout(timeoutid); 
 timeoutid = setTimeout(ajax_request,100); 
 } 
 else if(event.keyCode == 38){ 
-//�� 
-//selectedItem = -1 ��������뿪 
+//上 
+//selectedItem = -1 代表鼠标离开 
 if(selectedItem == -1){ 
 setSelectedItem($autocomplete.find('li').length-1); 
 } 
 else { 
-//������1 
+//索引减1 
 setSelectedItem(selectedItem - 1); 
 } 
 event.preventDefault(); 
 } 
 else if(event.keyCode == 40) { 
-//�� 
-//selectedItem = -1 ��������뿪 
+//下 
+//selectedItem = -1 代表鼠标离开 
 if(selectedItem == -1){ 
 setSelectedItem(0); 
 } 
 else { 
-//������1 
+//索引加1 
 setSelectedItem(selectedItem + 1); 
 } 
 event.preventDefault(); 
 } 
 }) 
 .keypress(function(event){ 
-//enter�� 
+//enter键 
 if(event.keyCode == 13) { 
-//�б�Ϊ�ջ�������뿪���µ�ǰû������ֵ 
+//列表为空或者鼠标离开导致当前没有索引值 
 if($autocomplete.find('li').length == 0 || selectedItem == -1) { 
 return; 
 } 
@@ -128,13 +128,13 @@ event.preventDefault();
 } 
 }) 
 .keydown(function(event){ 
-//esc�� 
+//esc键 
 if(event.keyCode == 27 ) { 
 $autocomplete.empty().hide(); 
 event.preventDefault(); 
 } 
 }); 
-//ע�ᴰ�ڴ�С�ı���¼������µ��������б��λ�� 
+//注册窗口大小改变的事件，重新调整下拉列表的位置 
 $(window).resize(function() { 
 var ypos = $searchInput.position().top; 
 var xpos = $searchInput.position().left; 

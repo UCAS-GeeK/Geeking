@@ -20,7 +20,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 position:relative; 
 	width:78px;
 	height:28px;
-	font:14px "ËÎÌå"
+	font:14px "å®‹ä½“"
 } 
 .autocomplete{ 
 border: 1px solid #9ACCFB; 
@@ -39,7 +39,7 @@ background-color: #9ACCFB;
 	#textArea{
 	width:300px;
 	height:30px;
-	font:14px "ËÎÌå"
+	font:14px "å®‹ä½“"
 	}
 	</style>
 	<script type="text/javascript" src="jquery.js"></script>
@@ -56,7 +56,7 @@ background-color: #9ACCFB;
 	
     <form id="search" action="search.jsp" method="get">	
 		<input name="search-text" type="text" maxlength="100" id="search-text" value=<%=keyword%>>
-		<input type="submit" value="ËÑË÷Ò»ÏÂ" id = "submit">
+		<input type="submit" value="æœç´¢ä¸€ä¸‹" id = "submit">
 	</form>
 	
 
@@ -65,7 +65,7 @@ background-color: #9ACCFB;
 		Response resp = new Response();
 		ArrayList<Result> results = resp.getResponse(keyword);
 		
-		System.out.println("·µ»Ø½á¹ûÈçÏÂ£º");
+		System.out.println("è¿”å›žç»“æžœå¦‚ä¸‹");
 		for(Result result : results)
 		{
 	%>	
