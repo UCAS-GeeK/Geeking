@@ -3,7 +3,6 @@ package org.geek.geeksearch.indexer;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
-import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +11,7 @@ import org.ansj.splitWord.analysis.BaseAnalysis;
 import org.ansj.splitWord.analysis.NlpAnalysis;
 import org.ansj.splitWord.analysis.ToAnalysis;
 import org.ansj.util.FilterModifWord;
+import org.geek.geeksearch.configure.Configuration;
 
 /**
  * 分词器
@@ -20,8 +20,11 @@ import org.ansj.util.FilterModifWord;
 public class Tokenizer {
 	
 	public Tokenizer() {
-		String libPath = "E:\\eclipseWorkspace\\Geeking\\GeekSearch\\library\\stopLibrary.dic";
-		loadStopWordsLib(libPath);
+		/* for query process, not deal with stop words */
+	}
+	
+	public Tokenizer(Configuration config) {
+		loadStopWordsLib(config.getValue("StopLibPath"));
 	}
 	
 	/* 正文词条化

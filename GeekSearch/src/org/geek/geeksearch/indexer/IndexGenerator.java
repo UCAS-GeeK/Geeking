@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.atomic.AtomicLong;
 
+import org.geek.geeksearch.configure.Configuration;
 import org.geek.geeksearch.model.DocIndex;
 import org.geek.geeksearch.model.InvertedIndex;
 import org.geek.geeksearch.model.PageInfo;
@@ -27,26 +28,30 @@ import org.geek.geeksearch.util.HtmlParser;
  *
  */
 public class IndexGenerator {
+	private final String rawPagesDir;
 	private AtomicLong docID = new AtomicLong(-1); //文档ID long 可能不够，考虑用BigNumber
 	private AtomicLong termID = new AtomicLong(-1); //词项ID
-	HashMap<String, Long> termIDsMap = new HashMap<>(); //词项-词项ID 映射表
-	Map<Long,InvertedIndex> invIdxMap = new HashMap<>(); //倒排索引表 
+	private HashMap<String, Long> termIDsMap = new HashMap<>(); //词项-词项ID 映射表
+	private Map<Long,InvertedIndex> invIdxMap = new HashMap<>(); //倒排索引表 
 	
-	private Tokenizer tokenizer = new Tokenizer();
+	private final Configuration config;
+	private final Tokenizer tokenizer;
 	private final DBOperator dbOperator;
-	private final String rawPagesDir; //configure.properties
 	
-	public IndexGenerator(String rawPagesDir) {
-		this.rawPagesDir = rawPagesDir;
-		this.dbOperator = new DBOperator();//debug
+	public IndexGenerator() {
+		this.config = new Configuration();
+		this.rawPagesDir = config.getValue("RawPagesPath");
+		this.tokenizer = new Tokenizer(config);
+		this.dbOperator = new DBOperator(config);
 		dbOperator.cleanAllTables();//重建索引，清空所有table		
 	}
 	
 	public static void main(String[] args) {
-		IndexGenerator generator = new IndexGenerator("E:\\eclipseWorkspace\\Geeking\\RawPages4Test");
+		IndexGenerator generator = new IndexGenerator();
 		generator.createIndexes();
 	}
 	
+	/* 构建索引入口 */
 	public void createIndexes() {
 		String[] typeArr = getTypes();
 		for (String type : typeArr) {
