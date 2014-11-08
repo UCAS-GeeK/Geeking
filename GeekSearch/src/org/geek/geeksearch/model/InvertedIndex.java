@@ -69,8 +69,8 @@ public class InvertedIndex {
 				positions = entry2.getValue().getPosSet().toString();
 				docIDs += dID+":"+tF+":"+positions+"#";
 			}
-			String sql = " INSERT INTO InvertedIndex values("+tID+",'"
-					+dF+"|"+docIDs+"') ";
+			String sql = " INSERT INTO InvertedIndex values("+tID+",'"	
+					+dF+"|"+docIDs+"') ";// testInvertedIndex for test
 			dbOp.executeUpdate(sql);
 			docIDs = "";
 		}
@@ -85,7 +85,7 @@ public class InvertedIndex {
 			return;
 		}
 		docFreq = Long.parseLong(docIDs.substring(0, idx));
-		String[] docs = docIDs.substring(idx).split("#");
+		String[] docs = docIDs.substring(idx+1).split("#");
 		if (docs == null || docs.length == 0) {
 			System.err.println("no docIDs of termID: "+termID);
 			return;
@@ -121,7 +121,12 @@ public class InvertedIndex {
 						1 : -1;
 			}
 		});
+		/* just for order verify */
+//		System.out.println("\ntermID="+termID);
+//		for (Map.Entry<Long, TermStat> map : sortedStatsMap) {
+//			System.out.print(map.getValue().getTF()+", ");
+//		}
+		
 	}
-	
 	
 }

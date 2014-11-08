@@ -29,7 +29,8 @@ public class QueryProcessor {
 		this.config = new Configuration();
 		this.dbOperator = new DBOperator(config);
 		this.tokenizer = new Tokenizer();
-		loadIndexes();
+		loadInvertedIndex();
+		loadTermsIndex();
 	}
 	
 	/* 检索入口 */
@@ -123,12 +124,6 @@ public class QueryProcessor {
 		}
 		return termID;
 	}
-	
-	/* 从数据库加载索引到内存 */
-	private void loadIndexes() {
-		loadInvertedIndex();
-		loadTermsIndex();
-	}
 
 	/* 加载 InvertedIndex 表 */
 	private void loadInvertedIndex() {
@@ -137,8 +132,7 @@ public class QueryProcessor {
 		if (rSet == null) {
 			System.err.println("load nothing from table InvertedIndex!");
 			return;
-		}
-		
+		}		
 		InvertedIndex invIdx;
 		long termID = -1;
 		String docIDs = "";
@@ -157,6 +151,7 @@ public class QueryProcessor {
 			System.err.println("error occurs while loading termID: "+termID);
 			e.printStackTrace();
 		}
+//		InvertedIndex.addAll2DB(invIdxMap, dbOperator); //just for test
 	}
 
 	/* 加载 TermsIndex 表 */
@@ -166,8 +161,7 @@ public class QueryProcessor {
 		if (rSet == null) {
 			System.err.println("load nothing from table TermsIndex!");
 			return;
-		}
-		
+		}		
 		String term = "";
 		long id = -1;
 		try {
@@ -178,6 +172,7 @@ public class QueryProcessor {
 					continue;
 				}
 				termIDsMap.put(term, id);
+				System.out.println(id+" = "+term);//
 			}
 		} catch (SQLException e) {
 			System.err.println("error occurs while loading term: "+term);
@@ -185,9 +180,10 @@ public class QueryProcessor {
 		}
 	}
 	
+	/* just for test */
 	public static void main(String[] args) {
 		QueryProcessor queryProc = new QueryProcessor();
+		queryProc.doQuery("科比防守");
 	}
-	
 	
 }
