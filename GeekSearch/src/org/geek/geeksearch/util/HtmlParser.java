@@ -77,6 +77,7 @@ public class HtmlParser {
 				new HasParentFilter(filter));
 	}
 	
+	/* 过滤scrip和style */
 	private static String deleNoise(String htmlStr) {
 		Pattern pattern;
 		Matcher matcher;		

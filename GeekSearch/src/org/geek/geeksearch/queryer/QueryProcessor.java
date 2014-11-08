@@ -183,7 +183,7 @@ public class QueryProcessor {
 	/* just for test */
 	public static void main(String[] args) {
 		QueryProcessor queryProc = new QueryProcessor();
-//		queryProc.doQuery("科比防守"); // 尚未完全实现
+		queryProc.doQuery("科比防守"); // 尚未完全实现
 	}
 	
 }
