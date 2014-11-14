@@ -47,8 +47,8 @@ public class InvertedIndex {
 		return termID;
 	}
 	
-	public static void addAll2DB(Map<Long,InvertedIndex> termIDsMap, DBOperator dbOp) {
-		Iterator<Entry<Long, InvertedIndex>> iter = termIDsMap.entrySet().iterator();
+	public static void addAll2DB(Map<Long,InvertedIndex> invIdxMap, DBOperator dbOp) {
+		Iterator<Entry<Long, InvertedIndex>> iter = invIdxMap.entrySet().iterator();
 		long tID = -1, dF = -1, dID = -1, tF = -1;
 		String positions = "", docIDs = "";
 		while (iter.hasNext()) { // 遍历倒排索引
@@ -64,6 +64,7 @@ public class InvertedIndex {
 				Map.Entry<Long, TermStat> entry2 = iter2.next();
 				dID = entry2.getKey(); // 获取文档ID
 				tF = entry2.getValue().getTF(); // 获取tF
+				//计算tf-idf
 				positions = entry2.getValue().getPosSet().toString();
 				docIDs += dID+":"+tF+":"+positions+"#";
 			}

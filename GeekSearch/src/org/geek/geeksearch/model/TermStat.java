@@ -12,6 +12,7 @@ public class TermStat {
 	private final long docID;
 	private long termFreq = 0; // term frequency
 	private Set<Long> posSet = new HashSet<>(); // position set
+	private double tfIdf = -1; //该文档和某个词项的tf-idf值
 	private double weight = -1; // 点乘结果:weight = Σ{词项权重(1)*该文档权重(tf-idf)}
 	
 	public double getWeight() {

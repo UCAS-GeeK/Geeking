@@ -20,15 +20,17 @@ public class QueryProcessor {
 	private HashMap<String, Long> termIDsMap = new HashMap<>(); //词项-词项ID 映射表
 	private Map<Long,InvertedIndex> invIdxMap = new HashMap<>(); //倒排索引表
 	private HashMap<String,Integer> queryHistory = new HashMap<>(); //检索历史，到一定size写入数据库
+	private int topK = 100; //设置胜者表的topK
 	
 	private final Configuration config;
 	private final Tokenizer tokenizer;
-	private final DBOperator dbOperator;
+	private final DBOperator dbOperator; 
 	
 	public QueryProcessor() {
 		this.config = new Configuration();
 		this.dbOperator = new DBOperator(config);
 		this.tokenizer = new Tokenizer();
+		setTopK(config);
 		loadInvertedIndex();
 		loadTermsIndex();
 	}
@@ -84,7 +86,8 @@ public class QueryProcessor {
 	private List<TermStat> getRelevantDocs(List<Long> queryIDs) {
 		List<TermStat> relevantDocs = new ArrayList<>();
 		//for 从 invIdxMap 获取 每个词项的invertedIndex中的TopK个TermStat
-			//relevantDocs = 和上个词项的TopK进行merge，并计算tf*idf,累加到TermStat.weight
+			//relevantDocs = 和上个词项的TopK进行merge，并计算nnn.ntn,累加到TermStat.weight
+		
 
 		return relevantDocs;
 	}
@@ -184,6 +187,18 @@ public class QueryProcessor {
 	public static void main(String[] args) {
 		QueryProcessor queryProc = new QueryProcessor();
 		queryProc.doQuery("科比防守"); // 尚未完全实现
+	}
+	
+	/* 设置胜者表的topK */
+	private void setTopK(Configuration config) {
+		int tmp;
+		try {
+			tmp = Integer.parseInt(config.getValue("ChampionTopK"));
+		} catch (Exception e) {
+			e.printStackTrace();
+			return;
+		}
+		topK = tmp;		
 	}
 	
 }

@@ -100,7 +100,7 @@ public class IndexGenerator {
 		//读取数据库docIndex整张表（默认内存够用）
 		String sql = " SELECT * FROM DocsIndex "; // 要执行的SQL语句
 		ResultSet res = dbOperator.executeQuery(sql);
-		//遍历每条记录，遍历记录的每个词项ID
+		//遍历每条记录
 		try {
 			while (res.next()) {
 				long dID = res.getLong(1);
@@ -112,6 +112,7 @@ public class IndexGenerator {
 				int pos = 0;
 				InvertedIndex invIdx;
 				TermStat stat;
+				//遍历记录的每个词项ID
 				for (String termIDStr : docTermIDs) {
 					if (termIDStr == null || termIDStr.isEmpty()) {
 						continue;
