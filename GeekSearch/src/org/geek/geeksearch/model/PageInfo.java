@@ -1,6 +1,8 @@
 package org.geek.geeksearch.model;
 
-import java.util.ArrayList;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import org.geek.geeksearch.util.DBOperator;
 
@@ -10,26 +12,49 @@ import org.geek.geeksearch.util.DBOperator;
  */
 public class PageInfo {
 	private final long docID;
-	private final String url;
+	private String url;
 	private String title = "";
 	private String description = "";
-	private String date = "2014-01-01"; //
+	private String pubTime = ""; //
 	private String keyWords = "";
 	private String type = ""; // 考虑枚举常量enum
 	
-	public PageInfo(long docID, String url, String type, String title, String keywords, String descrip) {
+	public PageInfo(long docID, String url, String type, String title, String pubTime, String keywords, String descrip) {
 		this.docID = docID;
 		this.url = url;
 		this.type = type;
 		this.title = title;
-		//date
+		this.pubTime = pubTime;
 		this.keyWords = keywords;
 		this.description = descrip;
 	}
 	
+	/* for query process */
+	public PageInfo(long docID) {
+		this.docID = docID;
+	}
+	
+	public boolean loadInfo(DBOperator dbOperator) {
+		String sql = " SELECT * FROM PAGESINDEX WHERE DocID='"+docID+"' ";
+		ResultSet rSet = dbOperator.executeQuery(sql);
+		try {
+			url = rSet.getString("Url");
+			title = rSet.getString("Title");
+			description = rSet.getString("Description");
+			title = rSet.getString("Title");
+			pubTime = rSet.getString("Date");
+			type = rSet.getString("Type");
+			keyWords = rSet.getString("keywords");
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+		return true;
+	}
+	
 	public void add2DB(DBOperator dbOp) {
-		String sql = " INSERT INTO PageIndex values("+docID+",'"+url+"','"+title
-				+"','"+description+"','"+date+"','"+type+"','"+keyWords+"') ";
+		String sql = " INSERT INTO PagesIndex values("+docID+",'"+url+"','"+title
+				+"','"+description+"','"+pubTime+"','"+type+"','"+keyWords+"') ";
 		dbOp.executeUpdate(sql);
 	}
 	
@@ -53,12 +78,12 @@ public class PageInfo {
 		this.description = description;
 	}
 	
-	public String getDate() {
-		return date;
+	public String getPubTime() {
+		return pubTime;
 	}
 	
-	public void setDate(String date) {
-		this.date = date;
+	public void setPubTime(String pubTime) {
+		this.pubTime = pubTime;
 	}
 	
 	public String[] getKeyWords() {

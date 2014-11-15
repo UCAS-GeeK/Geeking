@@ -9,6 +9,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import org.geek.geeksearch.configure.Configuration;
+
 
 /**
  * 数据库操作
@@ -20,16 +22,19 @@ public class DBOperator
     private Statement stmt = null;
     private PreparedStatement prepStmt = null;
     /* configure.properties */
-    private String url = "jdbc:mysql://localhost:3306/GeekDB"; // URL指向要访问的数据库名search_engine
-    private String user = "root"; // MySQL配置时的用户名
-    private String password = ""; // MySQL配置时的密码
+    private String path_GeekDB = null;//指向要访问的数据库名
+    private String user_GeekDB = null;// MySQL配置时的用户名
+    private String password_GeekDB = null; // MySQL配置时的密码
     
-    public DBOperator()
+    public DBOperator(Configuration config)
     {
         try
         {
+        	path_GeekDB = config.getValue("path_GeekDB");
+        	user_GeekDB = config.getValue("user_GeekDB");
+        	password_GeekDB = config.getValue("password_GeekDB");
             Class.forName("com.mysql.jdbc.Driver");
-            conn = DriverManager.getConnection(url, user, password);
+            conn = DriverManager.getConnection(path_GeekDB, user_GeekDB, password_GeekDB);
             stmt = conn.createStatement();
         }catch(Exception e){
             e.printStackTrace();
@@ -41,7 +46,7 @@ public class DBOperator
         try
         {
             Class.forName("com.mysql.jdbc.Driver");
-            conn = DriverManager.getConnection(url, user, password);
+            conn = DriverManager.getConnection(path_GeekDB, user_GeekDB, password_GeekDB);
             this.prepareStatement(sql);
         }catch(Exception e){
             e.printStackTrace();
@@ -49,15 +54,13 @@ public class DBOperator
     }
     
     public void cleanAllTables() {
-    	String sql = "truncate table termsindex";
+    	String sql = " TRUNCATE TABLE TermsIndex ";
 		executeUpdate(sql);
-    	sql = "truncate table pageindex";
+    	sql = " TRUNCATE TABLE PagesIndex ";
 		executeUpdate(sql);
-    	sql = "truncate table termsindex";
+		sql = " TRUNCATE TABLE DocsIndex ";
 		executeUpdate(sql);
-		sql = "truncate table docindex";
-		executeUpdate(sql);
-		sql = "truncate table invertedindex";
+		sql = " TRUNCATE TABLE InvertedIndex ";
 		executeUpdate(sql);
 	}
     
@@ -144,7 +147,7 @@ public class DBOperator
         }catch(Exception e){
             e.printStackTrace();
         }
-    } 
+    }
     
     public void clearParameters()throws SQLException
     {
@@ -175,6 +178,7 @@ public class DBOperator
             else 
                 return null;
         }catch(Exception e){
+        	System.err.println("error occurs while executing query: "+sql);
             e.printStackTrace();
         }
         
@@ -203,6 +207,7 @@ public class DBOperator
             if (stmt != null)
                 stmt.executeUpdate(sql);
         }catch(Exception e){
+        	System.err.println("error occurs while executing update: "+sql);
             e.printStackTrace();
         }
     }

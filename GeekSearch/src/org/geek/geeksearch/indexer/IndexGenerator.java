@@ -5,22 +5,19 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
 import java.util.concurrent.atomic.AtomicLong;
 
+import org.geek.geeksearch.configure.Configuration;
 import org.geek.geeksearch.model.DocIndex;
 import org.geek.geeksearch.model.InvertedIndex;
 import org.geek.geeksearch.model.PageInfo;
 import org.geek.geeksearch.model.TermStat;
 import org.geek.geeksearch.util.DBOperator;
 import org.geek.geeksearch.util.HtmlParser;
-
-import com.sun.org.apache.xalan.internal.xsltc.runtime.Hashtable;
 
 /**
  * 0. 读取全部html网页：
@@ -31,35 +28,39 @@ import com.sun.org.apache.xalan.internal.xsltc.runtime.Hashtable;
  *
  */
 public class IndexGenerator {
+	private final String rawPagesDir;
 	private AtomicLong docID = new AtomicLong(-1); //文档ID long 可能不够，考虑用BigNumber
-	private static AtomicLong termID = new AtomicLong(-1); //词项ID
-	HashMap<String, Long> termIDsMap = new HashMap<>(); //词项-词项ID 映射表
-	Map<Long,InvertedIndex> invIdxMap = new HashMap<>(); //倒排索引表 
+	private AtomicLong termID = new AtomicLong(-1); //词项ID
+	private HashMap<String, Long> termIDsMap = new HashMap<>(); //词项-词项ID 映射表
+	private Map<Long,InvertedIndex> invIdxMap = new HashMap<>(); //倒排索引表 
 	
+	private final Configuration config;
+	private final Tokenizer tokenizer;
 	private final DBOperator dbOperator;
-	private final String rawPagesDir; //configure.properties
 	
-	public IndexGenerator(String rawPagesDir) {
-		this.rawPagesDir = rawPagesDir;
-		this.dbOperator = new DBOperator();//debug
+	public IndexGenerator() {
+		this.config = new Configuration();
+		this.rawPagesDir = config.getValue("RawPagesPath");
+		this.tokenizer = new Tokenizer(config);
+		this.dbOperator = new DBOperator(config);
 		dbOperator.cleanAllTables();//重建索引，清空所有table		
 	}
 	
 	public static void main(String[] args) {
-		IndexGenerator generator = new IndexGenerator("RawPages");
+		IndexGenerator generator = new IndexGenerator();
 		generator.createIndexes();
 	}
 	
+	/* 构建索引入口 */
 	public void createIndexes() {
 		String[] typeArr = getTypes();
 		for (String type : typeArr) {
 			String[] htmlArr = getHTMLs(type);
 			for (String html : htmlArr) {
-//				System.out.println(type+"/"+html);
 				createIndexes(type, html);
 			}
 		}
-//		 建立 词项ID-词项 索引表
+		//建立 词项ID-词项 索引表
 		createTermIdIndex();		
 		// 建立倒排索引
 		createInvertedIndex();		
@@ -68,14 +69,27 @@ public class IndexGenerator {
 	/* 生成各种索引 */
 	public void createIndexes(String type, String html) {
 		String path = rawPagesDir+"\\"+type+"\\"+html;
-		//if (checkHtml()) return;
+		if (!HtmlParser.checkPath(path)) {
+			return;
+		}
 		String htmlStr = HtmlParser.readHtmlFile(path);
+		if (htmlStr == null || htmlStr.isEmpty()) {
+			return;
+		}
 		//建立网页信息索引
 		createPageIndex(htmlStr, type, getURL(html));		
 		//过滤标签获取正文
-		String plainText = HtmlParser.getPlainText(htmlStr, type);		
+		String plainText = HtmlParser.getPlainText(htmlStr, type);
+//		System.out.println("docID = "+docID);
+//		System.out.println(plainText);
+		if (plainText == null || plainText.isEmpty()) {
+			return;
+		}
 		// 使用第三方分词工具ansj实现分词
-		List<String> parsedTerms = Tokenizer.doTextTokenise(plainText);		
+		List<String> parsedTerms = tokenizer.doTextTokenise(plainText);
+		if (parsedTerms == null || parsedTerms.isEmpty()) {
+			return;
+		}
 		//建立文档索引
 		createDocIndex(parsedTerms);
 	}
@@ -84,7 +98,7 @@ public class IndexGenerator {
 		//因为建倒排索引需要较大内存，因此先释放不再需要的数据结构
 		termIDsMap.clear();
 		//读取数据库docIndex整张表（默认内存够用）
-		String sql = " SELECT * FROM DocIndex "; // 要执行的SQL语句
+		String sql = " SELECT * FROM DocsIndex "; // 要执行的SQL语句
 		ResultSet res = dbOperator.executeQuery(sql);
 		//遍历每条记录，遍历记录的每个词项ID
 		try {
@@ -169,6 +183,7 @@ public class IndexGenerator {
 	/* 建立网页信息索引 */
 	public void createPageIndex(String htmlStr, String type, String url) {
 		String title = HtmlParser.getTitle(htmlStr);
+		String pubTime = HtmlParser.getPubTime(htmlStr, type);
 		String[] kwAndDesc = HtmlParser.getKeyWordAndDesc(htmlStr);
 		if (url.isEmpty() || type.isEmpty() || kwAndDesc.length != 2) {
 			String err = "type="+type+";url="+url+";kwAndDesc="+kwAndDesc.toString();
@@ -177,14 +192,14 @@ public class IndexGenerator {
 		}
 		
 		PageInfo pageInfo = new PageInfo(docID.incrementAndGet(), url, type, 
-				title, kwAndDesc[0], kwAndDesc[1]);	
+				title, pubTime, kwAndDesc[0], kwAndDesc[1]);	
 		pageInfo.add2DB(dbOperator);
-		System.out.print("title: "+title+";  kw: "+kwAndDesc[0]
-				+"\ndescrip: "+kwAndDesc[1]+"\n");
+//		System.out.print("title="+title+";  kw="+kwAndDesc[0]+";  pubTime="
+//				+pubTime+"\ndescrip="+kwAndDesc[1]+"\n");
 	}
 	
 	public String getURL(String fileName) {
-		int idx = fileName.indexOf(".");
+		int idx = fileName.lastIndexOf(".");
 		if (idx <= 0) {
 			System.err.printf("wrong type of file name!", fileName);
 			return "";

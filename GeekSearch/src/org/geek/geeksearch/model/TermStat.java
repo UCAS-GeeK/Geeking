@@ -12,7 +12,16 @@ public class TermStat {
 	private final long docID;
 	private long termFreq = 0; // term frequency
 	private Set<Long> posSet = new HashSet<>(); // position set
+	private double weight = -1; // 点乘结果:weight = Σ{词项权重(1)*该文档权重(tf-idf)}
 	
+	public double getWeight() {
+		return weight;
+	}
+
+	public void setWeight(double weight) {
+		this.weight = weight;
+	}
+
 	public TermStat(long docID) {
 		this.docID = docID;
 	}
