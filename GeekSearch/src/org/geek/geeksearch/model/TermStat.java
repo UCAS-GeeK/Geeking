@@ -12,15 +12,34 @@ public class TermStat {
 	private final long docID;
 	private long termFreq = 0; // term frequency
 	private Set<Long> posSet = new HashSet<>(); // position set
-	private double tfIdf = -1; //该文档和某个词项的tf-idf值
-	private double weight = -1; // 点乘结果:weight = Σ{词项权重(1)*该文档权重(tf-idf)}
+	private long tfIdf = 0; //该文档和某个词项的tf-idf值
+	/* 点乘结果:weight = Σ{检索词项权重(1)*该文档权重(tf-idf)}
+	 * 在本类中，只和docID有关，是产生query最终结果时该文档和query的相似度
+	 */
+	private long weight = 0; 
 	
-	public double getWeight() {
+	//计算tf-idf
+	public long calcTfIdf(long idf) {
+		/**********测试阶段使用不带log的tf-idf**********/
+//		tfIdf = (long)(1+Math.log(termFreq))*idf;
+		tfIdf = termFreq*idf;
+		return tfIdf;
+	}
+	
+	public void setTfIdf(long tfIdf) {
+		this.tfIdf = tfIdf;
+	}
+	
+	public long getTfIdf() {
+		return tfIdf;
+	}
+	
+	public long getWeight() {
 		return weight;
 	}
 
-	public void setWeight(double weight) {
-		this.weight = weight;
+	public void addWeight(long tfIdf) {
+		this.weight += tfIdf;
 	}
 
 	public TermStat(long docID) {
@@ -35,8 +54,8 @@ public class TermStat {
 		return termFreq;
 	}
 	
-	public void setTF(long termFreq) {
-		this.termFreq = termFreq;
+	public void setTF(long tf) {
+		this.termFreq = tf;
 	}
 	
 	// ++TF

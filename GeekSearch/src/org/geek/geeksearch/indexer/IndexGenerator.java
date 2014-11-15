@@ -77,11 +77,9 @@ public class IndexGenerator {
 			return;
 		}
 		//建立网页信息索引
-		createPageIndex(htmlStr, type, getURL(html));		
+		createPageIndex(htmlStr, type, html);		
 		//过滤标签获取正文
 		String plainText = HtmlParser.getPlainText(htmlStr, type);
-//		System.out.println("docID = "+docID);
-//		System.out.println(plainText);
 		if (plainText == null || plainText.isEmpty()) {
 			return;
 		}
@@ -100,6 +98,7 @@ public class IndexGenerator {
 		//读取数据库docIndex整张表（默认内存够用）
 		String sql = " SELECT * FROM DocsIndex "; // 要执行的SQL语句
 		ResultSet res = dbOperator.executeQuery(sql);
+		long totalDocCnt = -1;//对总文档数计数
 		//遍历每条记录
 		try {
 			while (res.next()) {
@@ -108,7 +107,7 @@ public class IndexGenerator {
 				List<String> docTermIDs = DocIndex.toList(terms);
 				if (docTermIDs == null) {
 					continue;
-				}				
+				}
 				int pos = 0;
 				InvertedIndex invIdx;
 				TermStat stat;
@@ -135,11 +134,12 @@ public class IndexGenerator {
 //							+";POS="+string;
 //					System.out.println(string);
 				}
+				++totalDocCnt;
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		InvertedIndex.addAll2DB(invIdxMap, dbOperator);
+		InvertedIndex.addAll2DB(invIdxMap, dbOperator, totalDocCnt);
 	}
 	
 	/* 建立 词项ID-词项 索引表 */
@@ -168,7 +168,11 @@ public class IndexGenerator {
 	public List<Long> transTerm2ID(List<String> parsedTerms) {
 		List<Long> docTermIDs = new ArrayList<>();
 		for (String term : parsedTerms) {
-			if (term == null || term.isEmpty()) {
+			if (term == null) {
+				continue;
+			}
+			term = term.trim();
+			if (term.isEmpty()) {
 				continue;
 			}
 			if (termIDsMap.containsKey(term)) {
@@ -199,14 +203,14 @@ public class IndexGenerator {
 //				+pubTime+"\ndescrip="+kwAndDesc[1]+"\n");
 	}
 	
-	public String getURL(String fileName) {
-		int idx = fileName.lastIndexOf(".");
-		if (idx <= 0) {
-			System.err.printf("wrong type of file name!", fileName);
-			return "";
-		}
-		return fileName.substring(0, idx); 
-	}
+//	public String getURL(String fileName) {
+//		int idx = fileName.lastIndexOf(".");
+//		if (idx <= 0) {
+//			System.err.printf("wrong type of file name!", fileName);
+//			return "";
+//		}
+//		return fileName.substring(0, idx); 
+//	}
 	
 	/* 从网页库目录获取类型目录 的列表*/
 	public String[] getTypes() {

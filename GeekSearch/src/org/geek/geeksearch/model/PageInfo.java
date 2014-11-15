@@ -10,7 +10,7 @@ import org.geek.geeksearch.util.DBOperator;
  * 网页信息记录
  *
  */
-public class PageInfo {
+public class PageInfo implements Cloneable{
 	private final long docID;
 	private String url;
 	private String title = "";
@@ -37,14 +37,19 @@ public class PageInfo {
 	public boolean loadInfo(DBOperator dbOperator) {
 		String sql = " SELECT * FROM PAGESINDEX WHERE DocID='"+docID+"' ";
 		ResultSet rSet = dbOperator.executeQuery(sql);
+		if (rSet == null) {
+			return false;
+		}
 		try {
-			url = rSet.getString("Url");
-			title = rSet.getString("Title");
-			description = rSet.getString("Description");
-			title = rSet.getString("Title");
-			pubTime = rSet.getString("Date");
-			type = rSet.getString("Type");
-			keyWords = rSet.getString("keywords");
+			while (rSet.next()) {
+				url = rSet.getString("Url");
+				title = rSet.getString("Title");
+				description = rSet.getString("Description");
+				title = rSet.getString("Title");
+				pubTime = rSet.getString("Date");
+				type = rSet.getString("Type");
+				keyWords = rSet.getString("keywords");				
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return false;
@@ -56,6 +61,12 @@ public class PageInfo {
 		String sql = " INSERT INTO PagesIndex values("+docID+",'"+url+"','"+title
 				+"','"+description+"','"+pubTime+"','"+type+"','"+keyWords+"') ";
 		dbOp.executeUpdate(sql);
+	}
+	
+	@Override
+	public Object clone() throws CloneNotSupportedException{
+		Object object = super.clone();
+		return object;
 	}
 	
 	public String getUrl() {
