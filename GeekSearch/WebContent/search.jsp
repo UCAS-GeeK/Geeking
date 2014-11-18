@@ -1,80 +1,120 @@
-<%@ page language="java" import="java.util.*" pageEncoding="gb2312"%>
+<%@ page language="java" import="java.util.*"  pageEncoding="gb2312"%>
 <jsp:directive.page import="org.geek.geeksearch.queryer.Response" />
 <jsp:directive.page import="org.geek.geeksearch.queryer.Result" />
 
 <%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+	String path = request.getContextPath();
+	String basePath = request.getScheme() + "://"
+			+ request.getServerName() + ":" + request.getServerPort()
+			+ path + "/";
 %>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
-  <head>
-    <base href="<%=basePath%>">
-    
-    <title>Search Result</title>
-    
- <style type="text/css"> 
- #search{ 
- text-align: center; 
-position:relative; 
-	width:78px;
-	height:28px;
-	font:14px "å®‹ä½“"
-} 
-.autocomplete{ 
-border: 1px solid #9ACCFB; 
-background-color: white; 
-text-align: left; 
-} 
-.autocomplete li{ 
-list-style-type: none; 
-} 
-.clickable { 
-cursor: default; 
-} 
-.highlight { 
-background-color: #9ACCFB; 
-} 
-	#textArea{
-	width:300px;
-	height:30px;
-	font:14px "å®‹ä½“"
-	}
-	</style>
-	<script type="text/javascript" src="jquery.js"></script>
-	<script type="text/javascript" src="auto_complete.js"></script>
+<head>
+<base href="<%=basePath%>">
 
-  </head>
-  
-  <body>
-    
-    <%	
-		String keyword = new String(request.getParameter("search-text").getBytes("ISO-8859-1"),"GB2312"); 	
+<title>Search Result</title>
+
+<style type="text/css">
+#search {
+	text-align: center;
+	position: relative;
+	width: 78px;
+	height: 28px;
+	font: 14px "ËÎÌå"
+}
+
+.autocomplete {
+	border: 1px solid #9ACCFB;
+	background-color: white;
+	text-align: left;
+}
+
+.autocomplete li {
+	list-style-type: none;
+}
+
+.clickable {
+	cursor: default;
+}
+
+.highlight {
+	background-color: #9ACCFB;
+}
+
+#textArea {
+	width: 300px;
+	height: 30px;
+	font: 14px "ËÎÌå"
+}
+</style>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="auto_complete.js"></script>
+<script type="text/javascript">
+
+$(document).ready(function(){
+	$(".recommend").click(function(){
+		alert($(this).text());
+//		$("#search-text").val((this).text());
+//		$("#submit").trigger("click");
+//		alert('#targetÔªËØ°ó¶¨ÁËclickÊÂ¼þ');
+		});
+	});
+
+
+</script>
+</head>
+
+<body>
+
+	<%
+		String keyword = new String(request.getParameter("search-text")
+				.getBytes("ISO-8859-1"), "GB2312");
 	%>
-	
-	
-    <form id="search" action="search.jsp" method="get">	
-		<input name="search-text" type="text" maxlength="100" id="search-text" value=<%=keyword%>>
-		<input type="submit" value="æœç´¢ä¸€ä¸‹" id = "submit">
+
+
+	<form id="search" action="search.jsp" method="get">
+		<input name="search-text" type="text" maxlength="100" id="search-text"
+			value=<%=keyword%>> <input type="submit" value="ËÑË÷Ò»ÏÂ"
+			id="submit">
 	</form>
-	
 
-	
-	<%  
+
+	<p>ÍÆ¼ö´Ê£º
+	<%
 		Response resp = new Response();
+
 		ArrayList<Result> results = resp.getResponse(keyword);
-		
-		System.out.println("è¿”å›žç»“æžœå¦‚ä¸‹");
-		for(Result result : results)
-		{
-	%>	
-			<h2><a href=<%=result.getUrl()%>><%=result.getTitle()%></a></h2>
-			<p><%=result.getContent()%><p>
-			<p><%=result.getUrl()%> &nbsp;&nbsp;&nbsp; <%=result.getDate()%><p>
-	<%  		
-		}
+		String[] recommend_words = resp.get_recommend_query(keyword);
+		String words = "";
+		for (int i = 0; i < recommend_words.length; i++) {
+			System.out.println("ÍøÒ³ÉÏÏÔÊ¾µÄÍÆ¼ö´Ê£º "+recommend_words[i]);
 	%>
-    	
-  </body>
+	
+	<a  href="search.jsp?search-text=<%=recommend_words[i]%>" class="recommend"><%=recommend_words[i]%></a>&nbsp;&nbsp;&nbsp;
+	<%
+		}
+		%></p><%
+		resp.hot_query_get_from_mysql();
+		System.out.println(keyword);
+		resp.query_store(keyword);
+		for (Result result : results) {
+	%>
+	<h2>
+		<a href=<%=result.getUrl()%>><%=result.getTitle()%></a>
+	</h2>
+	<p><%=result.getContent()%>
+	<p>
+	<p><%=result.getUrl()%>
+		&nbsp;&nbsp;&nbsp;
+		<%=result.getDate()%>
+	
+	<a href=<%=result.getRawContent() %>>¿ìÕÕ</a>
+		<%
+			}
+		%>
+	
+	
+</body>
 </html>
