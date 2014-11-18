@@ -25,7 +25,7 @@ public class Response {
 	public void query_store(String request)
 	{
 		if (!hot_words.containsKey(request))
-			hot_words.put(request, 0);
+			hot_words.put(request, 1);
 		else
 			hot_words.put(request, hot_words.get(request)+1);
 			
