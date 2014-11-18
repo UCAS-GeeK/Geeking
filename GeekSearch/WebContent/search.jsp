@@ -55,7 +55,7 @@
 
 $(document).ready(function(){
 	$(".recommend").click(function(){
-		alert($(this).text());
+//		alert($(this).text());
 //		$("#search-text").val((this).text());
 //		$("#submit").trigger("click");
 //		alert('#target元素绑定了click事件');
@@ -110,7 +110,8 @@ $(document).ready(function(){
 		&nbsp;&nbsp;&nbsp;
 		<%=result.getDate()%>
 	
-	<a href=<%=result.getRawContent() %>>快照</a>
+	<a href="RawPages4Test\163\test.html">快照</a>
+<!--  	<a href=<%=result.getRawContent() %>>快照</a> -->
 		<%
 			}
 		%>
