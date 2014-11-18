@@ -2,6 +2,7 @@ package org.geek.geeksearch.queryer;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 
 import org.geek.geeksearch.indexer.Tokenizer;
 
@@ -14,7 +15,9 @@ public class Response {
 
 	private Tokenizer dictSeg;
 	
-	private HashMap<String,Integer> hot_words;
+	public static HashMap<String,Integer> hot_words = new HashMap<String,Integer>();
+	boolean need_to_recommend = true;
+	
 	public Response()
 	{
 //		dictSeg = new Tokenizer();
@@ -22,16 +25,32 @@ public class Response {
 	public void query_store(String request)
 	{
 		if (!hot_words.containsKey(request))
-			hot_words.put(request, hot_words.get(request)+1);
-		else
 			hot_words.put(request, 0);
+		else
+			hot_words.put(request, hot_words.get(request)+1);
+			
 		
 	}
-	public void hot_query_get_from_mysql(String request)
+	public void hot_query_get_from_mysql()
 	{
-		
+		hot_words.put("姚明", 3);
+		hot_words.put("足球新闻", 4);
+		hot_words.put("篮球新闻", 5);
 	}
+	public String[] get_recommend_query(String requert){
+		if(need_to_recommend){
+			CheckSpell checkspell = new CheckSpell();
+			checkspell.create_ngram_index();
+
+			String[] sug = checkspell.suggestSimilar(requert,3);
+			for(int i = 0; i < sug.length; i++)
+				System.out.println(sug[i]);
+			return sug;
+		}
+		else
+			return null;
 	
+	}
 	public ArrayList<Result> getResponse(String request)
 	{
 		System.out.println("搜索词是： "+request);
