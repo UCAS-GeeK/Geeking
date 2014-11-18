@@ -131,7 +131,7 @@ public class CheckSpell {
 			Iterator iterator=hits.iterator();
 		     while(iterator.hasNext()){
 		    	 sugWord.string = (String) iterator.next();
-		    	 System.out.println(sugWord.string);
+		    	 
 				
 				// don't suggest a word for itself, that would be silly
 				if (sugWord.string.equals(word)) {
@@ -144,15 +144,19 @@ public class CheckSpell {
 				if (sugWord.score < min) {
 					continue;
 				}
+				
 				sugWord.freq = words.get(sugWord.string); 
 				if ((goalFreq > sugWord.freq)|| sugWord.freq < 1) {
 						continue;
 				}
-			
+				System.out.println(sugWord.string+":"+sugWord.score);
+				 System.out.println("插入词："+sugWord.string);
 				sugQueue.insertWithOverflow(sugWord);
 				if (sugQueue.size() == numSug) {
 					// if queue full, maintain the minScore score
+					
 					min = sugQueue.top().score;
+					System.out.println("new_min:"+min);
 				}
 				sugWord = new SuggestWord();
 			}
@@ -195,19 +199,11 @@ public class CheckSpell {
 		}
 		Set<String> combine = new HashSet<String>();
 		combine.addAll(gram_3);
-//		combine.removeAll(gram_2);
 		combine.addAll(gram_2);
-//		combine.removeAll(start_2);
 		combine.addAll(start_2);
-//		combine.removeAll(end_2);
 		combine.addAll(end_2);
-//		combine.removeAll(start_3);
 		combine.addAll(start_3);
-//		combine.removeAll(end_3);
 		combine.addAll(end_3);
-//		System.out.println("combine里的单词：");
-//		for(int i = 0; i < combine.size();i++)
-//			System.out.println(combine.get(i));
 		return combine;
 	}
 
