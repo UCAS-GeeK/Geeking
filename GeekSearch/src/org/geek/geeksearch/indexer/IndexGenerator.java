@@ -203,15 +203,6 @@ public class IndexGenerator {
 //				+pubTime+"\ndescrip="+kwAndDesc[1]+"\n");
 	}
 	
-//	public String getURL(String fileName) {
-//		int idx = fileName.lastIndexOf(".");
-//		if (idx <= 0) {
-//			System.err.printf("wrong type of file name!", fileName);
-//			return "";
-//		}
-//		return fileName.substring(0, idx); 
-//	}
-	
 	/* 从网页库目录获取类型目录 的列表*/
 	public String[] getTypes() {
 		File rootDir = new File(rawPagesDir);
