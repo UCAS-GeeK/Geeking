@@ -10,10 +10,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
-import java.util.Map.Entry;
-
-import org.ansj.domain.Term;
-import org.apache.catalina.tribes.group.interceptors.TwoPhaseCommitInterceptor.MapEntry;
 import org.geek.geeksearch.configure.Configuration;
 import org.geek.geeksearch.indexer.IndexGenerator;
 import org.geek.geeksearch.indexer.Tokenizer;
@@ -22,13 +18,13 @@ import org.geek.geeksearch.model.PageInfo;
 import org.geek.geeksearch.model.TermStat;
 import org.geek.geeksearch.util.DBOperator;
 
-import sun.launcher.resources.launcher;
 
 public class QueryProcessor {
-	private HashMap<String, Long> termIDsMap = new HashMap<>(); //词项-词项ID 映射表
+	private Map<String, Long> termIDsMap = new HashMap<>(); //词项-词项ID 映射表
 	private Map<Long,InvertedIndex> invIdxMap = new HashMap<>(); //倒排索引表
-	private HashMap<String,Integer> queryHistory = new HashMap<>(); //检索历史，到一定size写入数据库
+	private Map<String,Integer> queryHistory = new HashMap<>(); //检索历史，到一定size写入数据库
 	private int topK = 100; //设置胜者表的topK
+	private List<String> queryTerms = new ArrayList<>(); //查询词 
 	
 	private final Configuration config;
 	private final Tokenizer tokenizer;
@@ -46,7 +42,7 @@ public class QueryProcessor {
 	/**
 	 * 检索入口
 	 * 返回值为已排序并聚类后的相关page
-	 * 第二层链表表示同一类page，如果
+	 * 第二层链表表示同一类page
 	 * 
 	 */
 	public List<List<PageInfo>> doQuery(String query) {
@@ -109,6 +105,8 @@ public class QueryProcessor {
 				System.out.println("no page info of "+doc.getKey());
 				continue;
 			}
+			//计算关键词高亮位置
+			page.highlight(queryTerms);
 			resultPages.add(page);
 			System.out.println("\nretrived page: "+ doc.getKey());
 		}
@@ -164,16 +162,16 @@ public class QueryProcessor {
 	/* query解析 */
 	private List<Long> parseQuery(String query) {
 		// 分词
-		List<String> queryTerms = tokenizer.doQueryTokenise(query);
-//		List<String> queryTerms = new ArrayList<>();// just for test
-//		queryTerms.add("中");
-//		queryTerms.add("詹姆斯");
-		if (queryTerms == null || queryTerms.isEmpty()) {
+		List<String> qTerms = tokenizer.doQueryTokenise(query);
+//		List<String> qTerms = new ArrayList<>();// just for test
+//		qTerms.add("中");
+//		qTerms.add("詹姆斯");
+		if (qTerms == null || qTerms.isEmpty()) {
 			return null;
 		}
 		// 映射成ID
 		List<Long> queryIDs = new ArrayList<>();
-		for (String term : queryTerms) {
+		for (String term : qTerms) {
 			if (term == null || term.isEmpty()) {
 				continue;
 			}
@@ -182,6 +180,7 @@ public class QueryProcessor {
 				//跳过索引库中没有的词项
 				continue;
 			}
+			queryTerms.add(term);
 			queryIDs.add(id);
 		}
 		return queryIDs;
@@ -286,6 +285,7 @@ public class QueryProcessor {
 		
 		if (result == null) {
 			System.out.println("sorry, 找不到相关页面");
+			return;
 		}
 		for (List<PageInfo> set : result) {
 			System.out.println("以下新闻为一类：");

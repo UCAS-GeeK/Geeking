@@ -66,16 +66,18 @@ public class PageCluster {
 		return matrix[m][n];
 	}
 	
+	/* 去除非文字符号 */
 	private static String removeSign(String str) {
 		StringBuffer strBuf = new StringBuffer();
 		for (char item : str.toCharArray())
-			if (charReg(item)){
+			if (isValidChar(item)){
 				strBuf.append(item);
 			}
 		return strBuf.toString();
 	}
 	
-	private static boolean charReg(char charValue) {
+	/* 是否汉字或字符 */
+	private static boolean isValidChar(char charValue) {
 		return (charValue >= 0x4E00 && charValue <= 0X9FA5)
 				|| (charValue >= 'a' && charValue <= 'z')
 				|| (charValue >= 'A' && charValue <= 'Z')
@@ -93,4 +95,4 @@ public class PageCluster {
 		System.out.println(isSimilarPage(pg1, pg2));
 	}
 	
-}
+} 

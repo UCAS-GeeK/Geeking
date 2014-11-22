@@ -44,7 +44,7 @@ public class Tokenizer {
 	public List<String> doQueryTokenise(String query) {
 		// 使用第三方分词工具ansj实现分词
 		List<Term> splitedTerms = NlpAnalysis.parse(query);
-		// 不过滤停用词
+		// 不过滤停用词(推荐部分是否用到？)
 		// 去除词性
 		return cleanTerms(splitedTerms);
 	}
