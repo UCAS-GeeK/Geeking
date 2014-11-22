@@ -22,5 +22,5 @@
 	<classpathentry kind="lib" path="libs/json-lib-2.4-jdk15-javadoc.jar"/>
 	<classpathentry kind="lib" path="libs/json-lib-2.4-jdk15-sources.jar"/>
 	<classpathentry kind="lib" path="libs/commons-logging-1.1.1.jar"/>
-	<classpathentry kind="output" path="build/classes"/>
+	<classpathentry kind="output" path="bin"/>
 </classpath>
