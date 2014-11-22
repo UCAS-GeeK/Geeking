@@ -79,7 +79,7 @@ $(function(){
 	}
     function InitTable(pageIndex) {
     	var keyword=$("#search-text").val();
-    	alert(keyword);
+//    	alert(keyword);
     	if(keyword=="")
     		alert("请输入query");
     	else{
@@ -99,12 +99,15 @@ $(function(){
     						$("#Searchresult").append(
     								"<h2><a href="+term.url+">"+term.title+"</a></h2>"
     								);
-    						$("#Seatchresult").append("<p>"+term.content+"</p>");
+    						$("#Searchresult").append("<p>"+term.content+"</p>");
+    						
+    						$("#Searchresult").append("网页来源: "+term.url+"   时间: "+term.date+"    ");
     						$("#Searchresult").append("<a href='RawPages4Test\163\test.html'>快照</a>")
+    						
     					});// 事件注册完毕
     					if(data.recommend_words.length){
     						$.each(data.recommend_words,function(index,term){
-    							var html="<a href='search.jsp?search-text="+encodeURI(term)+"'>"+encodeURI(term)+"</a>";
+    							var html="<a href='search.jsp?search-text="+term+"'>"+term+"</a>";
     							$("#recommend_words").append(html);
     						});
     					
@@ -123,15 +126,15 @@ $(function(){
 
 	<%
 		String keyword = new String(request.getParameter("search-text")
-				.getBytes("ISO-8859-1"), "GB2312");
+				.getBytes("ISO-8859-1"), "utf-8");
 	%>
 	<form id="search" action="search.jsp" method="get">
 		<input name="search-text" type="text" maxlength="100" id="search-text" value=<%=keyword%>> 
 		<input type="submit" value="搜索一下"id="submit">
 	</form>
 
-	<div id="recommend_words"></div>
-	<p>推荐词：</p>
+	<div id="recommend_words"><p>推荐词：</p></div>
+	
 	<div id="Searchresult"></div>
 	<div id="Pagination" class="pagination"><!-- 这里显示分页 --></div>
 </body>

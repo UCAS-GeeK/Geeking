@@ -1,4 +1,4 @@
-package org.geek.geeksearch.queryer;
+package org.geek.geeksearch.recommender;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -8,6 +8,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import org.geek.geeksearch.queryer.Response;
 
 public class CheckSpell {
 	
