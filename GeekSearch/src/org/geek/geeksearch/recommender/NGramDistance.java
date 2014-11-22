@@ -1,6 +1,5 @@
 package org.geek.geeksearch.recommender;
 
-import org.geek.geeksearch.queryer.StringDistance;
 
 /**
 * Licensed to the Apache Software Foundation (ASF) under one or more
