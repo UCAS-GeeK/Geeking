@@ -95,4 +95,4 @@ public class PageCluster {
 		System.out.println(isSimilarPage(pg1, pg2));
 	}
 	
-}
+} 

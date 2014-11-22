@@ -10,10 +10,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
-import java.util.Map.Entry;
-
-import org.ansj.domain.Term;
-import org.apache.catalina.tribes.group.interceptors.TwoPhaseCommitInterceptor.MapEntry;
 import org.geek.geeksearch.configure.Configuration;
 import org.geek.geeksearch.indexer.IndexGenerator;
 import org.geek.geeksearch.indexer.Tokenizer;
@@ -22,7 +18,6 @@ import org.geek.geeksearch.model.PageInfo;
 import org.geek.geeksearch.model.TermStat;
 import org.geek.geeksearch.util.DBOperator;
 
-import sun.launcher.resources.launcher;
 
 public class QueryProcessor {
 	private Map<String, Long> termIDsMap = new HashMap<>(); //词项-词项ID 映射表
