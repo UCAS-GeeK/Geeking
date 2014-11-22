@@ -1,4 +1,5 @@
-package org.geek.geeksearch.queryer;
+package org.geek.geeksearch.recommender;
+
 
 
 /**
@@ -18,44 +19,22 @@ package org.geek.geeksearch.queryer;
  * limitations under the License.
  */
 
+
+
+
 /**
- *  SuggestWord, used in suggestSimilar method in SpellChecker class.
- * 
+ * Sorts SuggestWord instances
  *
  */
-final class SuggestWord {
-  /**
-   * the score of the word
-   */
-  public float score;
+final class SuggestWordQueue extends PriorityQueue<SuggestWord> {
 
-  /**
-   * The freq of the word
-   */
-  public int freq;
+  SuggestWordQueue (int size) {
+    initialize(size);
+  }
 
-  /**
-   * the suggested word
-   */
-  public String string;
-
-  public final int compareTo(SuggestWord a) {
-    // first criteria: the edit distance
-    if (score > a.score) {
-      return 1;
-    }
-    if (score < a.score) {
-      return -1;
-    }
-
-    // second criteria (if first criteria is equal): the popularity
-    if (freq > a.freq) {
-      return 1;
-    }
-
-    if (freq < a.freq) {
-      return -1;
-    }
-    return 0;
+  @Override
+  protected final boolean lessThan (SuggestWord wa, SuggestWord wb) {
+    int val = wa.compareTo(wb);
+    return val < 0;
   }
 }

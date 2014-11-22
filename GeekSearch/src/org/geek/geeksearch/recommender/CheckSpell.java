@@ -1,4 +1,4 @@
-package org.geek.geeksearch.queryer;
+package org.geek.geeksearch.recommender;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -8,6 +8,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import org.geek.geeksearch.queryer.Response;
 
 public class CheckSpell {
 	
@@ -84,7 +86,7 @@ public class CheckSpell {
 		}
 	}
 
-	public static String[] suggestSimilar(String word, int numSug) {
+	public static ArrayList<String> suggestSimilar(String word, int numSug) {
 
 			final int freq;
 			final int lengthWord = word.length();
@@ -96,7 +98,7 @@ public class CheckSpell {
 			// frequency, return the word itself
 			if (freq > 0) {
 //				return new String[] { word };
-				return new String[] {};
+				return new ArrayList<String>();
 			}
 			BooleanQuery query = new BooleanQuery();
 			String[] grams;
@@ -162,11 +164,11 @@ public class CheckSpell {
 			}
 
 			// convert to array string
-			String[] list = new String[sugQueue.size()];
+			ArrayList<String> list = new ArrayList<String>(sugQueue.size());
 			System.out.println("推荐词：");
 			for (int i = sugQueue.size() - 1; i >= 0; i--) {
-				list[i] = sugQueue.pop().string;
-				System.out.println(list[i]);
+				list.add(i, sugQueue.pop().string);
+				System.out.println(list.get(i));
 			}
 
 			return list;
@@ -225,8 +227,6 @@ public class CheckSpell {
 			String key = (String) entry.getKey();
 			ArrayList<String> val = (ArrayList<String>) entry.getValue();
 		}*/
-		String[] sug = suggestSimilar("足球新文",3);
-		for(int i = 0; i < sug.length; i++)
-			System.out.println(sug[i]);
+
 	}
 }
