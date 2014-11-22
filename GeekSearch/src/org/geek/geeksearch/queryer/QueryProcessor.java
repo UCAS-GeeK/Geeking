@@ -168,9 +168,9 @@ public class QueryProcessor {
 	private List<Long> parseQuery(String query) {
 		// 分词
 		List<String> qTerms = tokenizer.doQueryTokenise(query);
-//		List<String> queryTerms = new ArrayList<>();// just for test
-//		queryTerms.add("中");
-//		queryTerms.add("詹姆斯");
+//		List<String> qTerms = new ArrayList<>();// just for test
+//		qTerms.add("中");
+//		qTerms.add("詹姆斯");
 		if (qTerms == null || qTerms.isEmpty()) {
 			return null;
 		}
@@ -290,6 +290,7 @@ public class QueryProcessor {
 		
 		if (result == null) {
 			System.out.println("sorry, 找不到相关页面");
+			return;
 		}
 		for (List<PageInfo> set : result) {
 			System.out.println("以下新闻为一类：");
