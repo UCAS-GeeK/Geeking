@@ -6,6 +6,7 @@ public class Result {
 	private String content;
 	private String url;
 	private String date;
+	private String raw_content;
 	
 	public Result(String title, String content, String url, String date)
 	{
@@ -20,7 +21,9 @@ public class Result {
 	public String getTitle() {
 		return title;
 	}
-
+	public String getRawContent() {
+		return raw_content;
+	}
 	public String getContent() {
 		return content;
 	}
