@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jst.server.core.container/org.eclipse.jst.server.tomcat.runtimeTarget/Apache Tomcat v7.0">
+		<attributes>
+			<attribute name="owner.project.facets" value="jst.web"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
+	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="libs/ansj_seg-2.0.7.jar"/>
+	<classpathentry kind="lib" path="libs/htmllexer.jar"/>
+	<classpathentry kind="lib" path="libs/htmlparser.jar"/>
+	<classpathentry kind="lib" path="libs/mysql-connector-java-5.1.7-bin.jar"/>
+	<classpathentry kind="lib" path="libs/nlp-lang-0.3.jar"/>
+	<classpathentry kind="lib" path="libs/avro-1.7.6.jar"/>
+	<classpathentry kind="lib" path="libs/commons-compress-1.4.1.jar"/>
+	<classpathentry kind="lib" path="libs/commons-pool2-2.0.jar"/>
+	<classpathentry kind="lib" path="libs/hamcrest-core-1.3.jar"/>
+	<classpathentry kind="lib" path="libs/jackson-core-asl-1.9.13.jar"/>
+	<classpathentry kind="lib" path="libs/jackson-mapper-asl-1.9.13.jar"/>
+	<classpathentry kind="lib" path="libs/jedis-2.4.2.jar"/>
+	<classpathentry kind="lib" path="libs/jsoup-1.7.3.jar"/>
+	<classpathentry kind="lib" path="libs/junit-4.11.jar"/>
+	<classpathentry kind="lib" path="libs/juniversalchardet-1.0.3.jar"/>
+	<classpathentry kind="lib" path="libs/log4j-1.2.17.jar"/>
+	<classpathentry kind="lib" path="libs/paranamer-2.3.jar"/>
+	<classpathentry kind="lib" path="libs/slf4j-api-1.6.4.jar"/>
+	<classpathentry kind="lib" path="libs/snappy-java-1.0.5.jar"/>
+	<classpathentry kind="lib" path="libs/start.bat"/>
+	<classpathentry kind="lib" path="libs/start.sh"/>
+	<classpathentry kind="lib" path="libs/WebCollector-1.31.jar"/>
+	<classpathentry kind="lib" path="libs/xz-1.0.jar"/>
+	<classpathentry kind="output" path="build/classes"/>
+</classpath>

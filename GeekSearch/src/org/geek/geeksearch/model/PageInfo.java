@@ -3,6 +3,10 @@ package org.geek.geeksearch.model;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.geek.geeksearch.util.DBOperator;
 
@@ -15,9 +19,11 @@ public class PageInfo implements Cloneable{
 	private String url;
 	private String title = "";
 	private String description = "";
-	private String pubTime = ""; //
+	private String pubTime = ""; //网页发布时间
 	private String keyWords = "";
 	private String type = ""; // 考虑枚举常量enum
+	private Map<String, List<Integer>> titleHlightPos = new HashMap<String, List<Integer>>();// 标题高亮位置
+	private Map<String, List<Integer>> descHlightPos = new HashMap<String, List<Integer>>();// 摘要高亮位置
 	
 	public PageInfo(long docID, String url, String type, String title, String pubTime, String keywords, String descrip) {
 		this.docID = docID;
@@ -69,8 +75,48 @@ public class PageInfo implements Cloneable{
 		return object;
 	}
 	
+	/* 计算 title/description 高亮位置 */
+	public void highlight(List<String> queryTerms) {
+		//highlight title
+		int pos = -1;
+		for (String term : queryTerms) {
+			String tmp = title;
+			List<Integer> posList = new ArrayList<>();
+			int realPos = 0;
+			while(true) {
+				pos = tmp.indexOf(term);
+				if (pos < 0) {
+					titleHlightPos.put(term, posList);
+					break;
+				}
+				realPos = pos+realPos;
+				posList.add(realPos);
+				tmp = tmp.substring(pos+term.length());
+			}
+		}
+		//highlight description
+		for (String term : queryTerms) {
+			String tmp = description;
+			List<Integer> posList = new ArrayList<>();
+			
+			while(true) {//
+				pos = tmp.indexOf(term);
+				if (pos < 0) {
+					descHlightPos.put(term, posList);
+					break;
+				}
+				posList.add(pos);
+				tmp = tmp.substring(pos+term.length());
+			}
+		}
+	}
+	
 	public String getUrl() {
-		return url;
+		return parseUrl();
+	}
+	
+	private String parseUrl(){
+		return url.replace("$", ":").replace("#", "/");
 	}
 	
 	public String getTitle() {
@@ -111,6 +157,44 @@ public class PageInfo implements Cloneable{
 	
 	public void setType(String type) {
 		this.type = type;
+	}
+	
+	
+	public Map<String, List<Integer>> getTitleHlightPos() {
+		return titleHlightPos;
+	}
+
+	public void setTitleHlightPos(Map<String, List<Integer>> titleHlightPos) {
+		this.titleHlightPos = titleHlightPos;
+	}
+
+	public Map<String, List<Integer>> getDescHlightPos() {
+		return descHlightPos;
+	}
+
+	public void setDescHlightPos(Map<String, List<Integer>> descHlightPos) {
+		this.descHlightPos = descHlightPos;
+	}
+
+	//just for test
+	public static void main(String[] args) {
+		List<String> queryTerms = new ArrayList<String>();
+		queryTerms.add("科比");
+		queryTerms.add("2");
+		PageInfo page = new PageInfo(9);
+		page.setTitle("科比32000分!救命2+1太美 这28分比44分更强_篮球-NBA"
+				+ "科比32000分!救命2+1太美 这28分比44分更强_篮球-NBA"
+				+ "科比32000分!救命2+1太美 这28分比44分更强_篮球-NBA");
+		page.setDescription("科比32000分!救命2+1太美 这28分比44分更强_篮球-NBA"
+				+ "科比32000分!救命2+1太美 这28分比44分更强_篮球-NBA"
+				+ "科比32000分!救命2+1太美 这28分比44分更强_篮球-NBA");
+		page.highlight(queryTerms);
+		//verify
+		for (Map.Entry<String, List<Integer>> entry : page.getTitleHlightPos().entrySet()) {
+			for (Integer pos : entry.getValue()) {
+				System.out.println(entry.getKey()+" : "+pos);
+			}
+		}
 	}
 
 }
