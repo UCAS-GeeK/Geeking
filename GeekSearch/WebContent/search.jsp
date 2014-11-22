@@ -24,20 +24,25 @@
 	height: 28px;
 	font: 14px "宋体"
 }
+
 .autocomplete {
 	border: 1px solid #9ACCFB;
 	background-color: white;
 	text-align: left;
 }
+
 .autocomplete li {
 	list-style-type: none;
 }
+
 .clickable {
 	cursor: default;
 }
+
 .highlight {
 	background-color: #9ACCFB;
 }
+
 #textArea {
 	width: 300px;
 	height: 30px;
@@ -64,6 +69,7 @@ $(function(){
 			prev_text: "前一页",
 			next_text: "后一页"
 		});
+
 	 
 	function pageselectCallback(page_index, jq){
 		$("#Searchresult").empty();
