@@ -5,15 +5,11 @@ String basePath = request.getScheme()+"://"
 	+request.getServerName()+":"
 	+request.getServerPort()+path+"/";
 %>
-
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
-    <base href="<%=basePath%>">
-    
+    <base href="<%=basePath%>">    
     <title>dySE</title>
-      
-
  <style type="text/css"> 
  	#submit{
 	width:78px;
@@ -54,7 +50,6 @@ background-color: #9ACCFB;
 		<input align="center" type="text" maxlength="100" id="search-text" name="search-text"/>
 		<input type="submit" value="ËÑË÷Ò»ÏÂ"  id ="submit">		
 	</form>
-</div> 
   </body>
 
 </html>

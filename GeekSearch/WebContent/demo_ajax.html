@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>jQuery Pagination分页插件ajax demo</title>
+<link rel="stylesheet" href="pagination.css" />
+<style type="text/css">
+body{font-size:84%; color:#333333; line-height:1.4;}
+a{color:#34538b;}
+</style>
+<script type="text/javascript" src="jquery.min.js"></script>
+<script type="text/javascript" src="jquery.pagination.js"></script>
+<script type="text/javascript">
+$(function(){
+	var pageSize = 3;
+	var pageIndex = 0;
+//	InitTable(0)
+	//此demo通过Ajax加载分页元素		
+		var num_entries = 10;
+		// 创建分页
+		$("#Pagination").pagination(num_entries, {
+			num_edge_entries: 1, //边缘页数
+			num_display_entries: 4, //主体页数
+			callback: pageselectCallback,
+			items_per_page: 3, //每页显示1项
+			prev_text: "前一页",
+			next_text: "后一页"
+		});
+
+	 
+	function pageselectCallback(page_index, jq){
+		$("#Searchresult").empty();
+		InitTable(page_index);
+		return false;
+	}
+    function InitTable(pageIndex) {                                  
+		$.ajax({
+			'url' : '/GeekSearch/search_result_server.jsp', // 服务器的地址
+			'data' : {'search-text':'aaa','pageIndex':pageIndex, 'pageSize':pageSize}, // 参数
+			'dataType' : 'json', // 返回数据类型
+			'type' : 'POST', // 请求类型
+			'success' : function(data) {
+				if (data.length) {
+					// 遍历data，添加到自动完成区					
+					$.each(data, function(index, term) {
+						// 创建li标签,添加到下拉列表中
+						$('<h2></h2>').text(term.title).appendTo($("#Searchresult"))
+						$('<p></p>').text(term.content).appendTo($("#Searchresult"))
+								.addClass('clickable');
+						$('<p></p>').text(term.title).appendTo($("#Searchresult"))
+						.addClass('clickable');
+					});// 事件注册完毕
+				}
+			}
+		});
+    }
+	//ajax加载
+});
+</script>
+</head>
+
+<body>
+
+<div id="Searchresult"></div>
+<div id="Pagination" class="pagination"><!-- 这里显示分页 --></div>
+</body>
+</html>
