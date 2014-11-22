@@ -9,6 +9,7 @@ import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 import org.geek.geeksearch.indexer.Tokenizer;
+import org.geek.geeksearch.recommender.CheckSpell;
 
 
 public class Response {

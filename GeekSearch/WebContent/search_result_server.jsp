@@ -18,21 +18,26 @@
 	JSONArray recommend_words = new JSONArray();
 	if (request.getParameter("search-text") != null) {
 		
+		return_results.clear();//清空return_results
 		String new_key = URLDecoder.decode(request.getParameter("search-text"), "UTF-8");
 		System.out.println("query: "+new_key);
 		int index=Integer.parseInt(request.getParameter("pageIndex"));
 		int size=Integer.parseInt(request.getParameter("pageSize"));
 		System.out.println("index:"+index+" size"+size);
 		if (new_key.equals(key)){
-			for (int i = 0; i < size; i++)
+			for (int i = 0; i < size; i++){
 				return_results.add(i,results.get(i+size*index));
+			}
+				
 		}else{
 			key = new_key;
 			resp = new Response();
 			results = JSONArray.fromObject(resp.getResponse(key));
 			recommend_words = JSONArray.fromObject(resp.get_recommend_query(key));
-			for (int i = 0; i < size; i++)
+			for (int i = 0; i < size; i++){
 				return_results.add(i,results.get(i+size*index));
+			}
+				
 		}
 		
 		

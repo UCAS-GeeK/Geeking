@@ -1,4 +1,4 @@
-package org.geek.geeksearch.queryer;
+package org.geek.geeksearch.recommender;
 import java.io.IOException;
 import java.util.*;
 
