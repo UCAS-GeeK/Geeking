@@ -1,19 +1,12 @@
 package org.geek.geeksearch.recommender;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
-
-import org.apache.catalina.tribes.group.interceptors.TwoPhaseCommitInterceptor.MapEntry;
-import org.eclipse.jdt.internal.compiler.ast.ThisReference;
-import org.geek.geeksearch.queryer.QueryProcessor;
-import org.geek.geeksearch.queryer.Response;
 
 public class CheckSpell {
 	
