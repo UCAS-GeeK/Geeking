@@ -309,11 +309,12 @@ public class QueryProcessor {
 				if (keywords == null || keywords.isEmpty()) {
 					continue;
 				}
-				words = keywords.split("[、，。；？！,.;?!]");
+				words = keywords.split("[、，。；？！,.;?! ]");
 				for (String word : words) {
 					if (word == null || word.isEmpty()) {
 						continue;
 					}
+					word = word.trim();
 					if (!hot_words.containsKey(word))
 						hot_words.put(word, 1);
 					else
