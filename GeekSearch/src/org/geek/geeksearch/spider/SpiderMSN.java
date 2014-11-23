@@ -1,16 +1,11 @@
 package org.geek.geeksearch.spider;
 
-import java.io.File;
-import java.io.IOException;
 import java.net.URL;
 
 import org.geek.geeksearch.util.HtmlParser;
 
 import cn.edu.hfut.dmic.webcollector.crawler.BreadthCrawler;
 import cn.edu.hfut.dmic.webcollector.model.Page;
-import cn.edu.hfut.dmic.webcollector.output.FileSystemOutput;
-import cn.edu.hfut.dmic.webcollector.util.FileUtils;
-import cn.edu.hfut.dmic.webcollector.util.LogUtils;
 
 //爬取MSN信息
 public class SpiderMSN extends BreadthCrawler {
