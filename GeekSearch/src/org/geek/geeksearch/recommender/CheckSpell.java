@@ -1,5 +1,7 @@
 package org.geek.geeksearch.recommender;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -7,6 +9,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import org.geek.geeksearch.configure.Configuration;
+import org.geek.geeksearch.queryer.Response;
+import org.geek.geeksearch.util.DBOperator;
 
 public class CheckSpell {
 	
@@ -17,10 +23,11 @@ public class CheckSpell {
 	static Map<String, ArrayList<String>> end_2_index = new HashMap<>();
 	static Map<String, ArrayList<String>> start_3_index = new HashMap<>();
 	static Map<String, ArrayList<String>> end_3_index = new HashMap<>();
-	static Map<String,Integer> hot_words = new HashMap<>(); //检索历史，到一定size写入数据库
 	static NGramDistance ngram_dis = new NGramDistance();
 	static float min = (float) 0.5;
 	static float goalFreq = 0;
+	static DBOperator dbOperator = new DBOperator(new Configuration());
+	static Map<String,Integer> hot_words = create_ngram_index(); //检索历史，到一定size写入数据库
 	
 	/* 将查询词存入hot_words */
 	public static void store_query(String query){
@@ -28,18 +35,60 @@ public class CheckSpell {
 			hot_words.put(query, 1);
 		else
 			hot_words.put(query, hot_words.get(query)+1);
+		
+		addGram(query);
 	}
 	
-	/* 初始化hot_words */
-	public static void create_ngram_index(Map<String, Integer> words) {
-		hot_words = words;
-		Iterator<Map.Entry<String, Integer>> iter = hot_words.entrySet().iterator();
-		System.out.println("hot_words:");
+	/* 从数据库加载热词（keywords） */
+	private static Map<String, Integer> loadHotWords() {
+		Map<String, Integer> wordsMap = new HashMap<>();
+		String sql = " SELECT * FROM PAGESINDEX ";//
+		ResultSet rSet = dbOperator.executeQuery(sql);
+		if (rSet == null) {
+			System.err.println("load nothing from table PagesIndex!");
+			return null;
+		}
+		String keywords;
+		String[] words;
+		try {
+			while (rSet.next()) {
+				keywords = rSet.getString("keywords");
+				if (keywords == null || keywords.isEmpty()) {
+					continue;
+				}
+				words = keywords.split("[、，。；？！,.;?! ]");
+				for (String word : words) {
+					if (word == null || word.isEmpty()) {
+						continue;
+					}
+					word = word.trim();
+					if (!wordsMap.containsKey(word))
+						wordsMap.put(word, 1);
+					else
+						wordsMap.put(word, wordsMap.get(word)+1);
+				}
+//				System.out.println(id+" = "+term);
+			}
+		} catch (SQLException e) {
+			System.err.println("error occurs while loading keywords");
+			e.printStackTrace();
+		}		
+		return wordsMap;
+	}
+	
+	/* 初始化hot_words, 只需一次初始化*/
+	private static Map<String, Integer> create_ngram_index() {
+		Map<String, Integer> wordsMap = loadHotWords();//从数据库加载
+
+		//addGram
+		Iterator<Map.Entry<String, Integer>> iter = wordsMap.entrySet().iterator();
+//		System.out.println("hot_words:");
 		while (iter.hasNext()) {
 		    Map.Entry<String, Integer> entry = iter.next(); 
 		    addGram(entry.getKey().toString());
-		    System.out.println(entry.getKey().toString());
-		} 
+//		    System.out.println(entry.getKey().toString()+"!!!!!!!!!");
+		}
+		return wordsMap;
 	}
 
 	private static void addGram(String text) {
@@ -177,7 +226,6 @@ public class CheckSpell {
 				list.add(i, sugQueue.pop().string);
 				System.out.println(list.get(i));
 			}
-
 			return list;
 	}
 
