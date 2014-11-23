@@ -233,6 +233,10 @@ public class CheckSpell {
 		return res;
 	}
 
+	public static Map<String, Integer> getHot_words() {
+		return hot_words;
+	}
+
 	public static void main(String[] args) {
 //		create_ngram_index();
 		Iterator iter = gram_2_index.entrySet().iterator();

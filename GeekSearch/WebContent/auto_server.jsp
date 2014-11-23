@@ -1,10 +1,11 @@
 
+<%@page import="org.geek.geeksearch.recommender.CheckSpell"%>
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <jsp:directive.page import="org.geek.geeksearch.queryer.Response" />
 <jsp:directive.page import="org.geek.geeksearch.queryer.Result" />
 <%
 	System.out.println("进入");
-	HashMap<String,Integer> hot_words = Response.hot_words;
+	Map<String,Integer> hot_words = CheckSpell.getHot_words();
 	if (request.getParameter("search-text") != null) {
 		String key = request.getParameter("search-text");
 		if (key.length() != 0) {
