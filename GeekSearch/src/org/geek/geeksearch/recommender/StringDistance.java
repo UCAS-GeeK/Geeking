@@ -1,4 +1,4 @@
-package org.geek.geeksearch.queryer;
+package org.geek.geeksearch.recommender;
 
 /**
  * Licensed to the Apache Software Foundation (ASF) under one or more

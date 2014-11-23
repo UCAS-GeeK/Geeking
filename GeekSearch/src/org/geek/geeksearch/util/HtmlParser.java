@@ -80,7 +80,7 @@ public class HtmlParser {
 	/* 过滤scrip和style */
 	private static String deleNoise(String htmlStr) {
 		Pattern pattern;
-		Matcher matcher;		
+		Matcher matcher;
 		//定义script正则式
 		String script = "<script[^>]*?>[\\s\\S]*?</script>";    
 		//定义style正则式    
