@@ -78,7 +78,7 @@ public class HtmlParser {
 	}
 	
 	/* 过滤scrip和style */
-	private static String deleNoise(String htmlStr) {
+	public static String deleNoise(String htmlStr) {
 		Pattern pattern;
 		Matcher matcher;
 		//定义script正则式

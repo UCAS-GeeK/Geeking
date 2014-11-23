@@ -1,17 +1,18 @@
 
+<%@page import="org.geek.geeksearch.recommender.CheckSpell"%>
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <jsp:directive.page import="org.geek.geeksearch.queryer.Response" />
 <jsp:directive.page import="org.geek.geeksearch.queryer.Result" />
 <%
 	System.out.println("进入");
-	HashMap<String,Integer> hot_words = Response.hot_words;
+	Map<String,Integer> hot_words = CheckSpell.getHot_words();
 	if (request.getParameter("search-text") != null) {
 		String key = request.getParameter("search-text");
 		if (key.length() != 0) {
 			String json = "[";
-			Iterator iter = hot_words.entrySet().iterator();
+			Iterator<Map.Entry<String,Integer>> iter = hot_words.entrySet().iterator();
 			while (iter.hasNext()) {
-				Map.Entry entry = (Map.Entry) iter.next();
+				Map.Entry<String,Integer> entry = iter.next();
 				String hot_word = (String) entry.getKey();
 				System.out.println(hot_word);
 				int freq = (Integer)entry.getValue();

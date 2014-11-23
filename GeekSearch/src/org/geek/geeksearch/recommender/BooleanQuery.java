@@ -1,6 +1,5 @@
 package org.geek.geeksearch.recommender;
-import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
 
 
 public class BooleanQuery {
