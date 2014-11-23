@@ -41,7 +41,6 @@ public class QueryProcessor {
 		setTopK(config);
 		loadInvertedIndex();
 		loadTermsIndex();
-		loadHotWords();
 	}
 	
 	/**
@@ -290,44 +289,6 @@ public class QueryProcessor {
 		}
 		else
 			return null;
-	}
-	
-	/* 从数据库加载热词（keywords） */
-	private void loadHotWords() {
-		Map<String, Integer> hot_words = new HashMap<>();
-		String sql = " SELECT * FROM PAGESINDEX ";//
-		ResultSet rSet = dbOperator.executeQuery(sql);
-		if (rSet == null) {
-			System.err.println("load nothing from table PagesIndex!");
-			return;
-		}
-		String keywords;
-		String[] words;
-		try {
-			while (rSet.next()) {
-				keywords = rSet.getString("keywords");
-				if (keywords == null || keywords.isEmpty()) {
-					continue;
-				}
-				words = keywords.split("[、，。；？！,.;?! ]");
-				for (String word : words) {
-					if (word == null || word.isEmpty()) {
-						continue;
-					}
-					word = word.trim();
-					if (!hot_words.containsKey(word))
-						hot_words.put(word, 1);
-					else
-						hot_words.put(word, hot_words.get(word)+1);
-				}
-//				System.out.println(id+" = "+term);
-			}
-		} catch (SQLException e) {
-			System.err.println("error occurs while loading keywords");
-			e.printStackTrace();
-		}
-		//CheckSpell只需一次初始化
-		CheckSpell.create_ngram_index(hot_words);
 	}
 	
 	public boolean isNeed_to_recommend() {
