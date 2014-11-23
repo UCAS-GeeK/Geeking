@@ -7,31 +7,45 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
+import org.apache.catalina.tribes.group.interceptors.TwoPhaseCommitInterceptor.MapEntry;
+import org.eclipse.jdt.internal.compiler.ast.ThisReference;
+import org.geek.geeksearch.queryer.QueryProcessor;
 import org.geek.geeksearch.queryer.Response;
 
 public class CheckSpell {
 	
 //	static String[] keywords = { "信息检索", "数据检索", "贝叶斯", "分类器" };
-	static HashMap<String, ArrayList<String>> gram_2_index = new HashMap<String, ArrayList<String>>();
-	static HashMap<String, ArrayList<String>> gram_3_index = new HashMap<String, ArrayList<String>>();
-	static HashMap<String, ArrayList<String>> start_2_index = new HashMap<String, ArrayList<String>>();
-	static HashMap<String, ArrayList<String>> end_2_index = new HashMap<String, ArrayList<String>>();
-	static HashMap<String, ArrayList<String>> start_3_index = new HashMap<String, ArrayList<String>>();
-	static HashMap<String, ArrayList<String>> end_3_index = new HashMap<String, ArrayList<String>>();
-	static HashMap<String, Integer> words = Response.hot_words;
+	static Map<String, ArrayList<String>> gram_2_index = new HashMap<>();
+	static Map<String, ArrayList<String>> gram_3_index = new HashMap<>();
+	static Map<String, ArrayList<String>> start_2_index = new HashMap<>();
+	static Map<String, ArrayList<String>> end_2_index = new HashMap<>();
+	static Map<String, ArrayList<String>> start_3_index = new HashMap<>();
+	static Map<String, ArrayList<String>> end_3_index = new HashMap<>();
+	static Map<String,Integer> hot_words = new HashMap<>(); //检索历史，到一定size写入数据库
 	static NGramDistance ngram_dis = new NGramDistance();
 	static float min = (float) 0.5;
 	static float goalFreq = 0;
-	public static void create_ngram_index() {
-		new Response().hot_query_get_from_mysql();
-		Iterator iter = words.entrySet().iterator();
+	
+	/* 将查询词存入hot_words */
+	public static void store_query(String query){
+		if (!hot_words.containsKey(query))
+			hot_words.put(query, 1);
+		else
+			hot_words.put(query, hot_words.get(query)+1);
+	}
+	
+	/* 初始化hot_words */
+	public static void create_ngram_index(Map<String, Integer> words) {
+		hot_words = words;
+		Iterator<Map.Entry<String, Integer>> iter = hot_words.entrySet().iterator();
 		System.out.println("hot_words:");
-		while (iter.hasNext()) { 
-		    Map.Entry entry = (Map.Entry) iter.next(); 
-		    addGram((String)entry.getKey());
-		    System.out.println((String)entry.getKey());
+		while (iter.hasNext()) {
+		    Map.Entry<String, Integer> entry = iter.next(); 
+		    addGram(entry.getKey().toString());
+		    System.out.println(entry.getKey().toString());
 		} 
 	}
 
@@ -90,10 +104,10 @@ public class CheckSpell {
 
 			final int freq;
 			final int lengthWord = word.length();
-			if(!words.containsKey(word))
+			if(!hot_words.containsKey(word))
 				freq=0;
 			else
-			    freq= words.get(word);
+			    freq= hot_words.get(word);
 			// if the word exists in the real index and we don't care for word
 			// frequency, return the word itself
 			if (freq > 0) {
@@ -147,7 +161,7 @@ public class CheckSpell {
 					continue;
 				}
 				
-				sugWord.freq = words.get(sugWord.string); 
+				sugWord.freq = hot_words.get(sugWord.string); 
 				if ((goalFreq > sugWord.freq)|| sugWord.freq < 1) {
 						continue;
 				}
@@ -220,7 +234,7 @@ public class CheckSpell {
 	}
 
 	public static void main(String[] args) {
-		create_ngram_index();
+//		create_ngram_index();
 		Iterator iter = gram_2_index.entrySet().iterator();
 /*		while (iter.hasNext()) {
 			Map.Entry entry = (Map.Entry) iter.next();

@@ -10,25 +10,29 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+
+import net.sf.json.JSONArray;
+
 import org.geek.geeksearch.configure.Configuration;
 import org.geek.geeksearch.indexer.IndexGenerator;
 import org.geek.geeksearch.indexer.Tokenizer;
 import org.geek.geeksearch.model.InvertedIndex;
 import org.geek.geeksearch.model.PageInfo;
 import org.geek.geeksearch.model.TermStat;
+import org.geek.geeksearch.recommender.CheckSpell;
 import org.geek.geeksearch.util.DBOperator;
 
 
 public class QueryProcessor {
 	private Map<String, Long> termIDsMap = new HashMap<>(); //词项-词项ID 映射表
 	private Map<Long,InvertedIndex> invIdxMap = new HashMap<>(); //倒排索引表
-	private Map<String,Integer> queryHistory = new HashMap<>(); //检索历史，到一定size写入数据库
 	private int topK = 100; //设置胜者表的topK
-	private List<String> queryTerms = new ArrayList<>(); //查询词 
-	
 	private final Configuration config;
 	private final Tokenizer tokenizer;
 	private final DBOperator dbOperator; 
+	
+	private boolean need_to_recommend = false;
+	private List<String> queryTerms = new ArrayList<>(); //查询词 
 	
 	public QueryProcessor() {
 		this.config = new Configuration();
@@ -37,6 +41,7 @@ public class QueryProcessor {
 		setTopK(config);
 		loadInvertedIndex();
 		loadTermsIndex();
+		loadHotWords();
 	}
 	
 	/**
@@ -46,6 +51,10 @@ public class QueryProcessor {
 	 * 
 	 */
 	public List<List<PageInfo>> doQuery(String query) {
+		//初始化查询
+		queryTerms.clear();
+		need_to_recommend = false;
+		
 		// 分词 
 		List<Long> queryIDs = parseQuery(query);
 		if (queryIDs == null || queryIDs.isEmpty()) {
@@ -61,8 +70,7 @@ public class QueryProcessor {
 		}
 		
 		// 聚类
-		return PageCluster.doCluster(resultPages); 
-		// snippet和快照在PageInfo.java中实现
+		return PageCluster.doCluster(resultPages);
 	}
 	
 	/* 获取相关网页，并从数据库PagesIndex获取网页信息 */
@@ -162,10 +170,10 @@ public class QueryProcessor {
 	/* query解析 */
 	private List<Long> parseQuery(String query) {
 		// 分词
-		List<String> qTerms = tokenizer.doQueryTokenise(query);
-//		List<String> qTerms = new ArrayList<>();// just for test
-//		qTerms.add("中");
-//		qTerms.add("詹姆斯");
+//		List<String> qTerms = tokenizer.doQueryTokenise(query);
+		List<String> qTerms = new ArrayList<>();// just for test
+		qTerms.add("中");
+		qTerms.add("詹姆斯");
 		if (qTerms == null || qTerms.isEmpty()) {
 			return null;
 		}
@@ -243,7 +251,7 @@ public class QueryProcessor {
 		if (rSet == null) {
 			System.err.println("load nothing from table TermsIndex!");
 			return;
-		}		
+		}
 		String term = "";
 		long id = -1;
 		try {
@@ -273,7 +281,62 @@ public class QueryProcessor {
 		}
 		topK = tmp;		
 	}
+
+	/* 获取推荐词 */
+	public String get_recommend_query(String query){
+		if(need_to_recommend){
+			ArrayList<String> sug = CheckSpell.suggestSimilar(query,3);
+			return JSONArray.fromObject(sug).toString();
+		}
+		else
+			return null;
+	}
 	
+	/* 从数据库加载热词（keywords） */
+	private void loadHotWords() {
+		Map<String, Integer> hot_words = new HashMap<>();
+		String sql = " SELECT * FROM PAGESINDEX ";//
+		ResultSet rSet = dbOperator.executeQuery(sql);
+		if (rSet == null) {
+			System.err.println("load nothing from table PagesIndex!");
+			return;
+		}
+		String keywords;
+		String[] words;
+		try {
+			while (rSet.next()) {
+				keywords = rSet.getString("keywords");
+				if (keywords == null || keywords.isEmpty()) {
+					continue;
+				}
+				words = keywords.split("[、，。；？！,.;?!]");
+				for (String word : words) {
+					if (word == null || word.isEmpty()) {
+						continue;
+					}
+					if (!hot_words.containsKey(word))
+						hot_words.put(word, 1);
+					else
+						hot_words.put(word, hot_words.get(word)+1);
+				}
+//				System.out.println(id+" = "+term);
+			}
+		} catch (SQLException e) {
+			System.err.println("error occurs while loading keywords");
+			e.printStackTrace();
+		}
+		//CheckSpell只需一次初始化
+		CheckSpell.create_ngram_index(hot_words);
+	}
+	
+	public boolean isNeed_to_recommend() {
+		return need_to_recommend;
+	}
+
+	public void setNeed_to_recommend(boolean need_to_recommend) {
+		this.need_to_recommend = need_to_recommend;
+	}
+
 	/* just for test */
 	public static void main(String[] args) {
 		//重新建立索引
