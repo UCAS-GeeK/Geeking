@@ -55,11 +55,14 @@ public class QueryProcessor {
 		need_to_recommend = false;
 		
 		// 分词 
+		long start = System.currentTimeMillis();		
 		List<Long> queryIDs = parseQuery(query);
 		if (queryIDs == null || queryIDs.isEmpty()) {
 			System.out.println("nothing to search!");
 			return null;
 		}
+		System.err.println("===Time cost for parsing query: "
+				+(System.currentTimeMillis()-start)/1000+" ===");
 		
 		// 获取已排序的相关网页及信息
 		List<PageInfo> resultPages = getResultPages(queryIDs);
@@ -171,7 +174,7 @@ public class QueryProcessor {
 		// 分词
 //		List<String> qTerms = tokenizer.doQueryTokenise(query);
 		List<String> qTerms = new ArrayList<>();// just for test
-		qTerms.add("中");
+//		qTerms.add("中");
 		qTerms.add("詹姆斯");
 		if (qTerms == null || qTerms.isEmpty()) {
 			return null;
@@ -306,16 +309,19 @@ public class QueryProcessor {
 //		generator.createIndexes();
 		QueryProcessor queryProc = new QueryProcessor();
 		
+		long start = System.currentTimeMillis();
 		List<List<PageInfo>> result = queryProc.doQuery("中");//中 詹姆斯
+		System.err.println("===Time cost for doing query: "
+				+(System.currentTimeMillis()-start)/1000+" ===");
 		
 		if (result == null) {
 			System.out.println("sorry, 找不到相关页面");
 			return;
 		}
 		for (List<PageInfo> set : result) {
-			System.out.println("以下新闻为一类：");
+			System.out.println("\n以下新闻为一类：");
 			for (PageInfo page : set) {
-				System.out.println(page.getUrl()+"\n标题："+page.getTitle());
+				System.out.println("URL："+page.getUrl()+"\n标题："+page.getTitle());
 			}
 		}
 	}
