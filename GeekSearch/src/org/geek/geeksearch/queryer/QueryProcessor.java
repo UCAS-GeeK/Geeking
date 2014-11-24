@@ -55,11 +55,14 @@ public class QueryProcessor {
 		need_to_recommend = false;
 		
 		// 分词 
+		long start = System.currentTimeMillis();		
 		List<Long> queryIDs = parseQuery(query);
 		if (queryIDs == null || queryIDs.isEmpty()) {
 			System.out.println("nothing to search!");
 			return null;
 		}
+		System.err.println("===Time cost for parsing query: "
+				+(System.currentTimeMillis()-start)/1000+" ===");
 		
 		// 获取已排序的相关网页及信息
 		List<PageInfo> resultPages = getResultPages(queryIDs);
@@ -316,7 +319,7 @@ public class QueryProcessor {
 			return;
 		}
 		for (List<PageInfo> set : result) {
-			System.out.println("以下新闻为一类：");
+			System.out.println("\n以下新闻为一类：");
 			for (PageInfo page : set) {
 				System.out.println("URL："+page.getUrl()+"\n标题："+page.getTitle());
 			}

@@ -43,7 +43,7 @@ public class IndexGenerator {
 		this.rawPagesDir = config.getValue("RawPagesPath");
 		this.tokenizer = new Tokenizer(config);
 		this.dbOperator = new DBOperator(config);
-		dbOperator.cleanAllTables();//重建索引，清空所有table		
+//		dbOperator.cleanAllTables();//重建索引，清空所有table		
 	}
 	
 	public static void main(String[] args) {
