@@ -54,16 +54,26 @@ public class IndexGenerator {
 	/* 构建索引入口 */
 	public void createIndexes() {
 		String[] typeArr = getTypes();
+		long start = System.currentTimeMillis();
 		for (String type : typeArr) {
 			String[] htmlArr = getHTMLs(type);
 			for (String html : htmlArr) {
 				createIndexes(type, html);
 			}
 		}
+		long end = System.currentTimeMillis();
+		System.err.println("===Time cost for parsing html + "
+				+ "creating pageIndex&docsIndex: "+(end-start)/1000+" ===");
 		//建立 词项ID-词项 索引表
-		createTermIdIndex();		
+		createTermIdIndex();
+		start = System.currentTimeMillis();
+		
+		System.err.println("===Time cost for creating TermIdIndex "
+				+ ": "+(start-end)/1000+" ===");
 		// 建立倒排索引
-		createInvertedIndex();		
+		createInvertedIndex();
+		System.err.println("===Time cost for creating InvertedIndex "
+				+ ": "+(start-System.currentTimeMillis())/1000+" ===");
 	}
 
 	/* 生成各种索引 */

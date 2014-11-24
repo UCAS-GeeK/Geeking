@@ -171,7 +171,7 @@ public class QueryProcessor {
 		// 分词
 //		List<String> qTerms = tokenizer.doQueryTokenise(query);
 		List<String> qTerms = new ArrayList<>();// just for test
-		qTerms.add("中");
+//		qTerms.add("中");
 		qTerms.add("詹姆斯");
 		if (qTerms == null || qTerms.isEmpty()) {
 			return null;
@@ -306,7 +306,10 @@ public class QueryProcessor {
 //		generator.createIndexes();
 		QueryProcessor queryProc = new QueryProcessor();
 		
+		long start = System.currentTimeMillis();
 		List<List<PageInfo>> result = queryProc.doQuery("中");//中 詹姆斯
+		System.err.println("===Time cost for doing query: "
+				+(System.currentTimeMillis()-start)/1000+" ===");
 		
 		if (result == null) {
 			System.out.println("sorry, 找不到相关页面");
@@ -315,7 +318,7 @@ public class QueryProcessor {
 		for (List<PageInfo> set : result) {
 			System.out.println("以下新闻为一类：");
 			for (PageInfo page : set) {
-				System.out.println(page.getUrl()+"\n标题："+page.getTitle());
+				System.out.println("URL："+page.getUrl()+"\n标题："+page.getTitle());
 			}
 		}
 	}
