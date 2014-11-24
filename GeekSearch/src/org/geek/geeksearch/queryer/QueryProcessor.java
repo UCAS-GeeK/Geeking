@@ -26,13 +26,14 @@ import org.geek.geeksearch.util.DBOperator;
 public class QueryProcessor {
 	private Map<String, Long> termIDsMap = new HashMap<>(); //词项-词项ID 映射表
 	private Map<Long,InvertedIndex> invIdxMap = new HashMap<>(); //倒排索引表
-	private int topK = 100; //设置胜者表的topK
+	private int topK = 80; //设置胜者表的topK，默认80
 	private final Configuration config;
 	private final Tokenizer tokenizer;
 	private final DBOperator dbOperator; 
 	
-	private boolean need_to_recommend = false;
-	private List<String> queryTerms = new ArrayList<>(); //查询词 
+	// 不支持多线程
+	private boolean need_to_recommend = true;
+	private List<String> queryTerms = new ArrayList<>(); //查询词  
 	
 	public QueryProcessor() {
 		this.config = new Configuration();
@@ -289,9 +290,9 @@ public class QueryProcessor {
 		if(need_to_recommend){
 			ArrayList<String> sug = CheckSpell.suggestSimilar(query,3);
 			return JSONArray.fromObject(sug).toString();
-		}
-		else
+		} else {
 			return null;
+		}
 	}
 	
 	public boolean isNeed_to_recommend() {

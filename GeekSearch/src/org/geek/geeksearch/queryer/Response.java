@@ -59,8 +59,8 @@ public class Response {
 	 */
 	public static void main(String[] args) {
 		Response response = new Response();
-		String jString = response.getResponse("");
-		System.out.println(jString);
+		response.getResponse("");
+		System.out.println(response.get_recommend_query("詹母斯"));
 	}
 
 }
