@@ -32,7 +32,6 @@ public class QueryProcessor {
 	private final DBOperator dbOperator; 
 	
 	// 不支持多线程
-	private boolean need_to_recommend = true;
 	private List<String> queryTerms = new ArrayList<>(); //查询词  
 	
 	public QueryProcessor() {
@@ -53,7 +52,6 @@ public class QueryProcessor {
 	public List<List<PageInfo>> doQuery(String query) {
 		//初始化查询
 		queryTerms.clear();
-		need_to_recommend = false;
 		
 		// 分词 
 		long start = System.currentTimeMillis();		
@@ -283,24 +281,6 @@ public class QueryProcessor {
 			return;
 		}
 		topK = tmp;		
-	}
-
-	/* 获取推荐词 */
-	public String get_recommend_query(String query){
-		if(need_to_recommend){
-			ArrayList<String> sug = CheckSpell.suggestSimilar(query,3);
-			return JSONArray.fromObject(sug).toString();
-		} else {
-			return null;
-		}
-	}
-	
-	public boolean isNeed_to_recommend() {
-		return need_to_recommend;
-	}
-
-	public void setNeed_to_recommend(boolean need_to_recommend) {
-		this.need_to_recommend = need_to_recommend;
 	}
 
 	/* just for test */
