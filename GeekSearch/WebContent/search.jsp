@@ -1,6 +1,6 @@
 <%@ page language="java" import="java.util.*"  pageEncoding="utf-8"%>
 <jsp:directive.page import="org.geek.geeksearch.queryer.Response" />
-<jsp:directive.page import="org.geek.geeksearch.queryer.Result" />
+
 
 <%
 	String path = request.getContextPath();
@@ -71,8 +71,12 @@ $(function(){
 		});
 
 	 
+	function js_method(){
+			alert("hello");
+	}
+	
 	function pageselectCallback(page_index, jq){
-		$("#Searchresult").empty();
+		$("#Searchresult").empty();//清空Searchresult，否则上一页的内容还会存留
 		
 		InitTable(page_index);
 		return false;
@@ -82,7 +86,8 @@ $(function(){
 //    	alert(keyword);
     	if(keyword=="")
     		alert("请输入query");
-    	else{
+    	else
+    	{
  //   		contentType: “application/x-www-form-urlencoded; charset=UTF-8″    		
     		$.ajax({
     			'url' : '/GeekSearch/search_result_server.jsp', // 服务器的地址
@@ -90,19 +95,91 @@ $(function(){
     			'dataType' : 'json', // 返回数据类型
     			'type' : 'POST', // 请求类型
     			'success' : function(data) {
-//    				alert(data.results);
-//    				if (data.length) {
+    				
+    				if (data.length) {
     					// 遍历data，添加到自动完成区					
     					$.each(data.results, function(index, term) {
-    						// 创建li标签,添加到下拉列表中
- //   						alert(term.title);
-    						$("#Searchresult").append(
-    								"<h2><a href="+term.url+">"+term.title+"</a></h2>"
-    								);
-    						$("#Searchresult").append("<p>"+term.content+"</p>");
+    						//$("#Searchresult").append("<div class=\"first\"> </div>");
+    						//$("#Searchresult").append("<div class=\"other\"> </div>");
+    						$.each(term, function(j,page){
+    						// 创建li标签,添加到下拉列表中,
+    						//每个类判断j是不是第一个,//$("#Searchresult").append("    "+"<a href= js_method()>相同新闻</a>");//这里要修改
+    						//alert("imshow sth");
+    						if (term.length>1){
+    							if (j==0){
+    							//	alert(j);
+    								$("#Searchresult").append("<div class=first"+index+"> "
+               						+"<h2><a href="+page.url+">"+page.title+"</a></h2>" 
+        							+" <button class=show"+index+" type=button>显示相同新闻</button>    "
+        	    					+" <button class=hide"+index+" type=button>隐藏相同新闻</button>"
+            						+"<p>"+page.description+"</p>"
+            						
+            						+"网页来源: "+page.url+"   时间: "+page.pubTime+"    "
+            						+"<a href='RawPages4Test\163\test.html'>快照</a>"
+
+            						+"</div>");
+        	    						
+        	    					
+        	    				}
+    							
     						
-    						$("#Searchresult").append("网页来源: "+term.url+"   时间: "+term.date+"    ");
-    						$("#Searchresult").append("<a href='RawPages4Test\163\test.html'>快照</a>")
+    							else {
+    								//alert("+ index +");
+    								$("#Searchresult").append("<div class =others"+index+">" 
+               						+"<h2><a href="+page.url+">"+page.title+"</a></h2>"
+            						+"<p>"+page.description+"</p>"
+            						
+            						+"网页来源: "+page.url+"   时间: "+page.pubTime+"    "
+            						+"<a href='RawPages4Test\163\test.html'>快照</a>"
+            						+"</div>");
+    								$(".others"+index ).hide();	
+        	    					
+        	    				}
+    							$(".hide"+index).click(function(){
+   								  $(".others"+index ).hide();
+   								  });
+							  	$(".show"+index).click(function(){
+ 								  $(".others"+index ).show();
+ 								  });
+    							/*$(".hide"+1).click(function(){
+     								  $(".others"+1 ).hide();
+     								  });
+  							  	$(".show"+1).click(function(){
+   								  $(".others"+1 ).show();
+   								  });*/
+    							
+    						}
+    						else{
+    							
+    							$("#Searchresult").append("<div class=first"+index+"> "
+               						+"<h2><a href="+page.url+">"+page.title+"</a></h2>" 
+            						+"<p>"+page.description+"</p>"
+            						
+            						+"网页来源: "+page.url+"   时间: "+page.pubTime+"    "
+            						+"<a href='RawPages4Test\163\test.html'>快照</a>"
+
+            						+"</div>");
+    							
+    						}
+    							
+    						/*if (j==0){
+    							$("#Searchresult").append("<div class=index>"
+    							+" <button class=\"show\" type=\"button\">显示相同新闻</button>    "
+    	    					+"<button class=\"hide\" type=\"button\">隐藏相同新闻</button>"
+    	    					+"</div>");
+    	    					
+    	    				}*/
+    						
+    						/*$("#Searchresult").append(
+    								"<h2><a href="+page.url+">"+page.title+"</a></h2>"
+    								);//<h2>的作用是换行
+    						$("#Searchresult").append("<p>"+page.description+"</p>");
+    						
+    						$("#Searchresult").append("网页来源: "+page.url+"   时间: "+page.pubTime+"    ");
+    						$("#Searchresult").append("<a href='RawPages4Test\163\test.html'>快照</a>");//这里要修改
+    						*/
+    						});
+    						
     						
     					});// 事件注册完毕
     					if(data.recommend_words.length){
@@ -112,12 +189,20 @@ $(function(){
     						});
     					
     					}
-//    				}
+    				}
     			}
     		});    		
     	}    	
     }
 	//ajax加载
+	
+	//相同新闻链接
+	/*function js_method()
+	{
+		alert("imshow sth in js_method");
+		//$("#Searchresult").append("网页来源: "+page.url+"   时间: "+page.pubTime+"    ");
+	}*/
+	
 });
 </script>
 </head>
@@ -134,6 +219,7 @@ $(function(){
 	</form>
 
 	<div id="recommend_words"><p>推荐词：</p></div>
+	<h3>This is a header</h3>
 	
 	<div id="Searchresult"></div>
 	<div id="Pagination" class="pagination"><!-- 这里显示分页 --></div>

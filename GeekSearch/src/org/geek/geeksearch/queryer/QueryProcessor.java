@@ -174,7 +174,7 @@ public class QueryProcessor {
 //		List<String> qTerms = tokenizer.doQueryTokenise(query);
 		List<String> qTerms = new ArrayList<>();// just for test
 //		qTerms.add("中");
-		qTerms.add("詹姆斯");
+		qTerms.add("克比");
 		if (qTerms == null || qTerms.isEmpty()) {
 			return null;
 		}

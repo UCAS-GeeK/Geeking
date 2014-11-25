@@ -32,8 +32,8 @@ public class Response {
 	public String getResponse(String query)
 	{
 		List<List<PageInfo>> resultList = processor.doQuery(query);
-		//若返回结果数少于10类，则执行搜索词推荐
-		if (resultList == null || resultList.size() < 10) {
+		//若无返回结果，则执行搜索词推荐
+		if (resultList == null || resultList.isEmpty()) {
 			need_to_recommend = true;
 			return null;
 		}
