@@ -1,5 +1,6 @@
 package org.geek.geeksearch.queryer;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import net.sf.json.JSONArray;
@@ -10,22 +11,30 @@ import org.geek.geeksearch.recommender.CheckSpell;
 
 public class Response {
 	
-	private static QueryProcessor processor = new QueryProcessor();//初始化在此完成
+	private static QueryProcessor processor = new QueryProcessor();//所有response对象共有
+	private boolean need_to_recommend = false;// 对象独有
 	
 	public Response(){
 		//do nothing
 	}
-	
+		
+	/* 获取推荐词 */
 	public String get_recommend_query(String query){
-		return processor.get_recommend_query(query);
+		if(need_to_recommend){
+			ArrayList<String> sug = CheckSpell.suggestSimilar(query,3);
+			return JSONArray.fromObject(sug).toString();
+		} else {
+			return null;
+		}
 	}
 	
 	/*服务器端入口*/
 	public String getResponse(String query)
 	{
-		List<List<PageInfo>> resultList = processor.doQuery(query); 
+		List<List<PageInfo>> resultList = processor.doQuery(query);
+		//若无返回结果，则执行搜索词推荐
 		if (resultList == null || resultList.isEmpty()) {
-			processor.setNeed_to_recommend(true);
+			need_to_recommend = true;
 			return null;
 		}
 		//有结果才将query存入热词库
@@ -59,8 +68,8 @@ public class Response {
 	 */
 	public static void main(String[] args) {
 		Response response = new Response();
-		String jString = response.getResponse("");
-		System.out.println(jString);
+		response.getResponse("");
+		System.out.println(response.get_recommend_query("詹姆"));
 	}
 
 }

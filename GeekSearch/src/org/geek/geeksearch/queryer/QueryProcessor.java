@@ -26,13 +26,13 @@ import org.geek.geeksearch.util.DBOperator;
 public class QueryProcessor {
 	private Map<String, Long> termIDsMap = new HashMap<>(); //词项-词项ID 映射表
 	private Map<Long,InvertedIndex> invIdxMap = new HashMap<>(); //倒排索引表
-	private int topK = 100; //设置胜者表的topK
+	private int topK = 80; //设置胜者表的topK，默认80
 	private final Configuration config;
 	private final Tokenizer tokenizer;
 	private final DBOperator dbOperator; 
 	
-	private boolean need_to_recommend = false;
-	private List<String> queryTerms = new ArrayList<>(); //查询词 
+	// 不支持多线程
+	private List<String> queryTerms = new ArrayList<>(); //查询词  
 	
 	public QueryProcessor() {
 		this.config = new Configuration();
@@ -52,7 +52,6 @@ public class QueryProcessor {
 	public List<List<PageInfo>> doQuery(String query) {
 		//初始化查询
 		queryTerms.clear();
-		need_to_recommend = false;
 		
 		// 分词 
 		long start = System.currentTimeMillis();		
@@ -175,7 +174,7 @@ public class QueryProcessor {
 //		List<String> qTerms = tokenizer.doQueryTokenise(query);
 		List<String> qTerms = new ArrayList<>();// just for test
 //		qTerms.add("中");
-		qTerms.add("詹姆斯");
+		qTerms.add("克比");
 		if (qTerms == null || qTerms.isEmpty()) {
 			return null;
 		}
@@ -282,24 +281,6 @@ public class QueryProcessor {
 			return;
 		}
 		topK = tmp;		
-	}
-
-	/* 获取推荐词 */
-	public String get_recommend_query(String query){
-		if(need_to_recommend){
-			ArrayList<String> sug = CheckSpell.suggestSimilar(query,3);
-			return JSONArray.fromObject(sug).toString();
-		}
-		else
-			return null;
-	}
-	
-	public boolean isNeed_to_recommend() {
-		return need_to_recommend;
-	}
-
-	public void setNeed_to_recommend(boolean need_to_recommend) {
-		this.need_to_recommend = need_to_recommend;
 	}
 
 	/* just for test */
