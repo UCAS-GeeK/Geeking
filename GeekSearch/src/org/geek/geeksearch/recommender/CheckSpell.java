@@ -11,7 +11,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.geek.geeksearch.configure.Configuration;
-import org.geek.geeksearch.queryer.Response;
+import org.geek.geeksearch.model.PageInfo;
 import org.geek.geeksearch.util.DBOperator;
 
 public class CheckSpell {
@@ -26,7 +26,7 @@ public class CheckSpell {
 	static NGramDistance ngram_dis = new NGramDistance();
 	static float min = (float) 0.5;
 	static float goalFreq = 0;
-	static DBOperator dbOperator = new DBOperator(new Configuration());
+	static DBOperator dbOperator = new DBOperator();
 	static Map<String,Integer> hot_words = create_ngram_index(); //检索历史，到一定size写入数据库
 	
 	/* 将查询词存入hot_words */
@@ -48,26 +48,23 @@ public class CheckSpell {
 			System.err.println("load nothing from table PagesIndex!");
 			return null;
 		}
-		String keywords;
-		String[] words;
+		String[] keywords;
 		try {
 			while (rSet.next()) {
-				keywords = rSet.getString("keywords");
-				if (keywords == null || keywords.isEmpty()) {
+				keywords = PageInfo.parseKeyWords(rSet.getString("keywords"));
+				if (keywords == null) {
 					continue;
 				}
-				words = keywords.split("[、，。；？！,.;?! ]");
-				for (String word : words) {
-					if (word == null || word.isEmpty()) {
+				for (String word : keywords) {
+					if (word == null || (word=word.trim()).isEmpty()) {
 						continue;
 					}
-					word = word.trim();
-					if (!wordsMap.containsKey(word))
+					if (!wordsMap.containsKey(word)) {
 						wordsMap.put(word, 1);
-					else
+					} else {
 						wordsMap.put(word, wordsMap.get(word)+1);
+					}
 				}
-//				System.out.println(id+" = "+term);
 			}
 		} catch (SQLException e) {
 			System.err.println("error occurs while loading keywords");
@@ -158,16 +155,15 @@ public class CheckSpell {
 			}
 			BooleanQuery query = new BooleanQuery();
 			String[] grams;
-			String key;
 			int ng = 2;
-			key = "gram" + ng; 
+			String key = "gram" + ng; 
 			grams = formGrams(word, ng);
-			if (grams.length != 0) {			
-			
-			query.start2 = grams[0];
-			for (int i = 0; i < grams.length; i++)
-				query.gram_2.add(grams[i]);
-			query.end2 = grams[grams.length - 1];
+			if (grams.length != 0) {
+				query.start2 = grams[0];
+				for (int i = 0; i < grams.length; i++) {
+					query.gram_2.add(grams[i]);
+				}
+				query.end2 = grams[grams.length - 1];
 			}
 			ng = 3;
 			grams = formGrams(word, ng); 
@@ -279,8 +275,11 @@ public class CheckSpell {
 	}
 
 	public static void main(String[] args) {
+		new Configuration("configure.properties");
+		
 //		create_ngram_index();
-		Iterator iter = gram_2_index.entrySet().iterator();
+		new CheckSpell();
+//		Iterator iter = gram_2_index.entrySet().iterator();
 /*		while (iter.hasNext()) {
 			Map.Entry entry = (Map.Entry) iter.next();
 			String key = (String) entry.getKey();

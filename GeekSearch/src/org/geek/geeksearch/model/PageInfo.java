@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.geek.geeksearch.indexer.Tokenizer;
 import org.geek.geeksearch.util.DBOperator;
 
 /**
@@ -20,18 +21,19 @@ public class PageInfo implements Cloneable{
 	private String title = "";
 	private String description = "";
 	private String pubTime = ""; //网页发布时间
-	private String keyWords = "";
+	private String keyWords;
 	private String type = ""; // 考虑枚举常量enum
 	private Map<String, List<Integer>> titleHlightPos = new HashMap<String, List<Integer>>();// 标题高亮位置
 	private Map<String, List<Integer>> descHlightPos = new HashMap<String, List<Integer>>();// 摘要高亮位置
 	
+	/* for IndexGenerator */
 	public PageInfo(long docID, String url, String type, String title, String pubTime, String keywords, String descrip) {
 		this.docID = docID;
 		this.url = url;
 		this.type = type;
 		this.title = title;
 		this.pubTime = pubTime;
-		this.keyWords = keywords;
+		this.keyWords = Tokenizer.doNLpTokenise(keywords).toString();
 		this.description = descrip;
 	}
 	
@@ -144,11 +146,14 @@ public class PageInfo implements Cloneable{
 	}
 	
 	public String[] getKeyWords() {
-		return keyWords.split(",");
+		return parseKeyWords(keyWords);
 	}
 	
-	public void setKeyWords(String keyWords) {
-		this.keyWords = keyWords;
+	public static String[] parseKeyWords(String keywords) {
+		if (keywords == null || keywords.isEmpty()) {
+			return null;
+		}
+		return keywords.replaceAll("[\\[\\]]", "").split(",");
 	}
 	
 	public String getType() {

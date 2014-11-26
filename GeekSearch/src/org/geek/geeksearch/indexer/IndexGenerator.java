@@ -35,20 +35,14 @@ public class IndexGenerator {
 	private Map<Long,InvertedIndex> invIdxMap = new HashMap<>(); //倒排索引表 
 	
 	private final Configuration config;
-	private final Tokenizer tokenizer;
 	private final DBOperator dbOperator;
 	
 	public IndexGenerator() {
-		this.config = new Configuration();
+		this.config = new Configuration("configure.properties");
 		this.rawPagesDir = config.getValue("RawPagesPath");
-		this.tokenizer = new Tokenizer(config);
 		this.dbOperator = new DBOperator(config);
-//		dbOperator.cleanAllTables();//重建索引，清空所有table		
-	}
-	
-	public static void main(String[] args) {
-		IndexGenerator generator = new IndexGenerator();
-		generator.createIndexes();
+		new Tokenizer(config);
+		dbOperator.cleanAllTables();//重建索引，清空所有table		
 	}
 	
 	/* 构建索引入口 */
@@ -73,7 +67,7 @@ public class IndexGenerator {
 		// 建立倒排索引
 		createInvertedIndex();
 		System.err.println("===Time cost for creating InvertedIndex "
-				+ ": "+(start-System.currentTimeMillis())/1000+" ===");
+				+ ": "+(System.currentTimeMillis()-start)/1000+" ===");
 	}
 
 	/* 生成各种索引 */
@@ -94,7 +88,7 @@ public class IndexGenerator {
 			return;
 		}
 		// 使用第三方分词工具ansj实现分词
-		List<String> parsedTerms = tokenizer.doTextTokenise(plainText);
+		List<String> parsedTerms = Tokenizer.doTokenise(plainText);
 		if (parsedTerms == null || parsedTerms.isEmpty()) {
 			return;
 		}
@@ -231,6 +225,11 @@ public class IndexGenerator {
 		    return null;
 		}
 		return typeDir.list();
+	}
+
+	public static void main(String[] args) {
+		IndexGenerator generator = new IndexGenerator();
+		generator.createIndexes();
 	}
 
 }

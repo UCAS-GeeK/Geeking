@@ -96,7 +96,7 @@ $(function(){
     			'type' : 'POST', // 请求类型
     			'success' : function(data) {
     				
-    				if (data.length) {
+//    				if (data.length) {
     					// 遍历data，添加到自动完成区					
     					$.each(data.results, function(index, term) {
     						//$("#Searchresult").append("<div class=\"first\"> </div>");
@@ -182,6 +182,7 @@ $(function(){
     						
     						
     					});// 事件注册完毕
+    					
     					if(data.recommend_words.length){
     						$.each(data.recommend_words,function(index,term){
     							var html="<a href='search.jsp?search-text="+term+"'>"+term+"</a>";
@@ -189,7 +190,7 @@ $(function(){
     						});
     					
     					}
-    				}
+//    				}
     			}
     		});    		
     	}    	

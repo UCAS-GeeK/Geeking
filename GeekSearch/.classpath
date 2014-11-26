@@ -9,7 +9,6 @@
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="libs/ansj_seg-2.0.7.jar"/>
 	<classpathentry kind="lib" path="libs/htmllexer.jar"/>
 	<classpathentry kind="lib" path="libs/htmlparser.jar"/>
 	<classpathentry kind="lib" path="libs/mysql-connector-java-5.1.7-bin.jar"/>
@@ -30,5 +29,6 @@
 	<classpathentry kind="lib" path="libs/log4j-1.2.17.jar"/>
 	<classpathentry kind="lib" path="libs/paranamer-2.3.jar"/>
 	<classpathentry kind="lib" path="libs/WebCollector-1.31.jar"/>
+	<classpathentry kind="lib" path="libs/ansj_seg-2.0.7.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

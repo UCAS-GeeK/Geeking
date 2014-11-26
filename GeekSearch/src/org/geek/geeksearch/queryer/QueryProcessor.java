@@ -11,15 +11,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import net.sf.json.JSONArray;
-
 import org.geek.geeksearch.configure.Configuration;
-import org.geek.geeksearch.indexer.IndexGenerator;
 import org.geek.geeksearch.indexer.Tokenizer;
 import org.geek.geeksearch.model.InvertedIndex;
 import org.geek.geeksearch.model.PageInfo;
 import org.geek.geeksearch.model.TermStat;
-import org.geek.geeksearch.recommender.CheckSpell;
 import org.geek.geeksearch.util.DBOperator;
 
 
@@ -27,17 +23,14 @@ public class QueryProcessor {
 	private Map<String, Long> termIDsMap = new HashMap<>(); //词项-词项ID 映射表
 	private Map<Long,InvertedIndex> invIdxMap = new HashMap<>(); //倒排索引表
 	private int topK = 80; //设置胜者表的topK，默认80
-	private final Configuration config;
-	private final Tokenizer tokenizer;
-	private final DBOperator dbOperator; 
+	
+	private final Configuration config = new Configuration();
+	private final DBOperator dbOperator = new DBOperator();
 	
 	// 不支持多线程
 	private List<String> queryTerms = new ArrayList<>(); //查询词  
 	
 	public QueryProcessor() {
-		this.config = new Configuration();
-		this.dbOperator = new DBOperator(config);
-		this.tokenizer = new Tokenizer();
 		setTopK(config);
 		loadInvertedIndex();
 		loadTermsIndex();
@@ -53,15 +46,12 @@ public class QueryProcessor {
 		//初始化查询
 		queryTerms.clear();
 		
-		// 分词 
-		long start = System.currentTimeMillis();		
+		// 分词 		
 		List<Long> queryIDs = parseQuery(query);
 		if (queryIDs == null || queryIDs.isEmpty()) {
 			System.out.println("nothing to search!");
 			return null;
 		}
-		System.err.println("===Time cost for parsing query: "
-				+(System.currentTimeMillis()-start)/1000+" ===");
 		
 		// 获取已排序的相关网页及信息
 		List<PageInfo> resultPages = getResultPages(queryIDs);
@@ -171,10 +161,10 @@ public class QueryProcessor {
 	/* query解析 */
 	private List<Long> parseQuery(String query) {
 		// 分词
-//		List<String> qTerms = tokenizer.doQueryTokenise(query);
-		List<String> qTerms = new ArrayList<>();// just for test
+		List<String> qTerms = Tokenizer.doTokenise(query);
+//		List<String> qTerms = new ArrayList<>();// just for test
 //		qTerms.add("中");
-		qTerms.add("克比");
+//		qTerms.add("克比");
 		if (qTerms == null || qTerms.isEmpty()) {
 			return null;
 		}
@@ -285,13 +275,12 @@ public class QueryProcessor {
 
 	/* just for test */
 	public static void main(String[] args) {
-		//重新建立索引
-//		IndexGenerator generator = new IndexGenerator();
-//		generator.createIndexes();
+		//初始化configuration
+		new Configuration("configure.properties");
 		QueryProcessor queryProc = new QueryProcessor();
 		
 		long start = System.currentTimeMillis();
-		List<List<PageInfo>> result = queryProc.doQuery("中");//中 詹姆斯
+		List<List<PageInfo>> result = queryProc.doQuery("科比");//中 詹姆斯
 		System.err.println("===Time cost for doing query: "
 				+(System.currentTimeMillis()-start)/1000+" ===");
 		
