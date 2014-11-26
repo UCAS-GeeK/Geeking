@@ -99,12 +99,9 @@ $(function(){
 //    				if (data.length) {
     					// 遍历data，添加到自动完成区					
     					$.each(data.results, function(index, term) {
-    						//$("#Searchresult").append("<div class=\"first\"> </div>");
-    						//$("#Searchresult").append("<div class=\"other\"> </div>");
     						$.each(term, function(j,page){
     						// 创建li标签,添加到下拉列表中,
-    						//每个类判断j是不是第一个,//$("#Searchresult").append("    "+"<a href= js_method()>相同新闻</a>");//这里要修改
-    						//alert("imshow sth");
+    						//判断该类别个数大于1时分组显示，给出按钮
     						if (term.length>1){
     							if (j==0){
     							//	alert(j);
@@ -135,20 +132,16 @@ $(function(){
     								$(".others"+index ).hide();	
         	    					
         	    				}
+    							//按钮的出发事件
     							$(".hide"+index).click(function(){
    								  $(".others"+index ).hide();
    								  });
 							  	$(".show"+index).click(function(){
  								  $(".others"+index ).show();
  								  });
-    							/*$(".hide"+1).click(function(){
-     								  $(".others"+1 ).hide();
-     								  });
-  							  	$(".show"+1).click(function(){
-   								  $(".others"+1 ).show();
-   								  });*/
-    							
+   							
     						}
+    						//判断该类别个数只等于1时不分组显示，不给出按钮
     						else{
     							
     							$("#Searchresult").append("<div class=first"+index+"> "
@@ -162,22 +155,7 @@ $(function(){
     							
     						}
     							
-    						/*if (j==0){
-    							$("#Searchresult").append("<div class=index>"
-    							+" <button class=\"show\" type=\"button\">显示相同新闻</button>    "
-    	    					+"<button class=\"hide\" type=\"button\">隐藏相同新闻</button>"
-    	    					+"</div>");
-    	    					
-    	    				}*/
-    						
-    						/*$("#Searchresult").append(
-    								"<h2><a href="+page.url+">"+page.title+"</a></h2>"
-    								);//<h2>的作用是换行
-    						$("#Searchresult").append("<p>"+page.description+"</p>");
-    						
-    						$("#Searchresult").append("网页来源: "+page.url+"   时间: "+page.pubTime+"    ");
-    						$("#Searchresult").append("<a href='RawPages4Test\163\test.html'>快照</a>");//这里要修改
-    						*/
+ 
     						});
     						
     						
@@ -196,13 +174,7 @@ $(function(){
     	}    	
     }
 	//ajax加载
-	
-	//相同新闻链接
-	/*function js_method()
-	{
-		alert("imshow sth in js_method");
-		//$("#Searchresult").append("网页来源: "+page.url+"   时间: "+page.pubTime+"    ");
-	}*/
+
 	
 });
 </script>
@@ -220,7 +192,7 @@ $(function(){
 	</form>
 
 	<div id="recommend_words"><p>推荐词：</p></div>
-	<h3>This is a header</h3>
+
 	
 	<div id="Searchresult"></div>
 	<div id="Pagination" class="pagination"><!-- 这里显示分页 --></div>

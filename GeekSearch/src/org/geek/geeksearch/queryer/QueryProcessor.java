@@ -20,6 +20,11 @@ import org.geek.geeksearch.util.DBOperator;
 
 
 public class QueryProcessor {
+	static {
+		//配置文件初始化，临时在此初始化，便于调试，工程完工后会在BootLoader里初始化
+		Configuration config = new Configuration("configure.properties");//初始化
+		new DBOperator(config);
+	}
 	private Map<String, Long> termIDsMap = new HashMap<>(); //词项-词项ID 映射表
 	private Map<Long,InvertedIndex> invIdxMap = new HashMap<>(); //倒排索引表
 	private int topK = 80; //设置胜者表的topK，默认80
@@ -161,10 +166,10 @@ public class QueryProcessor {
 	/* query解析 */
 	private List<Long> parseQuery(String query) {
 		// 分词
-		List<String> qTerms = Tokenizer.doTokenise(query);
-//		List<String> qTerms = new ArrayList<>();// just for test
+//		List<String> qTerms = Tokenizer.doTokenise(query);
+		List<String> qTerms = new ArrayList<>();// just for test
 //		qTerms.add("中");
-//		qTerms.add("克比");
+		qTerms.add("詹姆斯");
 		if (qTerms == null || qTerms.isEmpty()) {
 			return null;
 		}
@@ -275,8 +280,6 @@ public class QueryProcessor {
 
 	/* just for test */
 	public static void main(String[] args) {
-		//初始化configuration
-		new Configuration("configure.properties");
 		QueryProcessor queryProc = new QueryProcessor();
 		
 		long start = System.currentTimeMillis();
