@@ -27,7 +27,7 @@ public class PageCluster {
 					tmp = (PageInfo)pageList.get(i).clone();
 					if (isSimilarPage(page, tmp)) {
 						cluster.add(tmp);
-						pageList.remove(i);
+						pageList.remove(i--);
 					}				
 				}
 				result.add(cluster);
@@ -95,4 +95,4 @@ public class PageCluster {
 		System.out.println(isSimilarPage(pg1, pg2));
 	}
 	
-}
+} 

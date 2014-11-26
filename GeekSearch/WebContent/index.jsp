@@ -1,30 +1,26 @@
-<%@ page language="java" import="java.util.*" pageEncoding="gb2312"%>
+<%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"
 	+request.getServerName()+":"
 	+request.getServerPort()+path+"/";
 %>
-
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
-    <base href="<%=basePath%>">
-    
+    <base href="<%=basePath%>">    
     <title>dySE</title>
-      
-
  <style type="text/css"> 
  	#submit{
 	width:78px;
 	height:28px;
-	font:14px "ËÎÌå"
+	font:14px "å®‹ä½“"
 	}
 	
 	#search-text{
 	width:300px;
 	height:30px;
-	font:14px "ËÎÌå"
+	font:14px "å®‹ä½“"
 	}
  #search{ 
  	text-align: center; 
@@ -52,9 +48,8 @@ background-color: #9ACCFB;
 	<p align="center"><img src="dySE-logo.jpg" /></p>
 	<form id="search" action="search.jsp" method="get" enctype="application/x-www-form-urlencoded">	
 		<input align="center" type="text" maxlength="100" id="search-text" name="search-text"/>
-		<input type="submit" value="ËÑË÷Ò»ÏÂ"  id ="submit">		
+		<input type="submit" value="æœç´¢ä¸€ä¸‹"  id ="submit">		
 	</form>
-</div> 
   </body>
 
 </html>

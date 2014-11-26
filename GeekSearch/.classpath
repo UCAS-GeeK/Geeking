@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.jst.server.core.container/org.eclipse.jst.server.tomcat.runtimeTarget/Apache Tomcat v7.0">
 		<attributes>
 			<attribute name="owner.project.facets" value="jst.web"/>
@@ -9,10 +8,27 @@
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
-	<classpathentry kind="lib" path="libs/ansj_seg-2.0.7.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="libs/htmllexer.jar"/>
 	<classpathentry kind="lib" path="libs/htmlparser.jar"/>
 	<classpathentry kind="lib" path="libs/mysql-connector-java-5.1.7-bin.jar"/>
+	<classpathentry kind="lib" path="libs/json-lib-2.4-jdk15.jar"/>
+	<classpathentry kind="lib" path="libs/ezmorph-1.0.6.jar"/>
 	<classpathentry kind="lib" path="libs/nlp-lang-0.3.jar"/>
-	<classpathentry kind="output" path="WebContent/WEB-INF/classes"/>
+	<classpathentry kind="lib" path="libs/commons-beanutils-1.8.0.jar"/>
+	<classpathentry kind="lib" path="libs/commons-collections-3.1.jar"/>
+	<classpathentry kind="lib" path="libs/commons-lang-2.5.jar"/>
+	<classpathentry kind="lib" path="libs/json-lib-2.4-jdk15-javadoc.jar"/>
+	<classpathentry kind="lib" path="libs/json-lib-2.4-jdk15-sources.jar"/>
+	<classpathentry kind="lib" path="libs/commons-logging-1.1.1.jar"/>
+	<classpathentry kind="lib" path="libs/avro-1.7.6.jar"/>
+	<classpathentry kind="lib" path="libs/jackson-core-asl-1.9.13.jar"/>
+	<classpathentry kind="lib" path="libs/jackson-mapper-asl-1.9.13.jar"/>
+	<classpathentry kind="lib" path="libs/jsoup-1.7.3.jar"/>
+	<classpathentry kind="lib" path="libs/juniversalchardet-1.0.3.jar"/>
+	<classpathentry kind="lib" path="libs/log4j-1.2.17.jar"/>
+	<classpathentry kind="lib" path="libs/paranamer-2.3.jar"/>
+	<classpathentry kind="lib" path="libs/WebCollector-1.31.jar"/>
+	<classpathentry kind="lib" path="libs/ansj_seg-2.0.7.jar"/>
+	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -10,35 +10,27 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
-import java.util.Map.Entry;
 
-import org.ansj.domain.Term;
-import org.apache.catalina.tribes.group.interceptors.TwoPhaseCommitInterceptor.MapEntry;
 import org.geek.geeksearch.configure.Configuration;
-import org.geek.geeksearch.indexer.IndexGenerator;
 import org.geek.geeksearch.indexer.Tokenizer;
 import org.geek.geeksearch.model.InvertedIndex;
 import org.geek.geeksearch.model.PageInfo;
 import org.geek.geeksearch.model.TermStat;
 import org.geek.geeksearch.util.DBOperator;
 
-import sun.launcher.resources.launcher;
 
 public class QueryProcessor {
 	private Map<String, Long> termIDsMap = new HashMap<>(); //词项-词项ID 映射表
 	private Map<Long,InvertedIndex> invIdxMap = new HashMap<>(); //倒排索引表
-	private Map<String,Integer> queryHistory = new HashMap<>(); //检索历史，到一定size写入数据库
-	private int topK = 100; //设置胜者表的topK
-	private List<String> queryTerms = new ArrayList<>(); //查询词 
+	private int topK = 80; //设置胜者表的topK，默认80
 	
-	private final Configuration config;
-	private final Tokenizer tokenizer;
-	private final DBOperator dbOperator; 
+	private final Configuration config = new Configuration();
+	private final DBOperator dbOperator = new DBOperator();
+	
+	// 不支持多线程
+	private List<String> queryTerms = new ArrayList<>(); //查询词  
 	
 	public QueryProcessor() {
-		this.config = new Configuration();
-		this.dbOperator = new DBOperator(config);
-		this.tokenizer = new Tokenizer();
 		setTopK(config);
 		loadInvertedIndex();
 		loadTermsIndex();
@@ -51,7 +43,10 @@ public class QueryProcessor {
 	 * 
 	 */
 	public List<List<PageInfo>> doQuery(String query) {
-		// 分词 
+		//初始化查询
+		queryTerms.clear();
+		
+		// 分词 		
 		List<Long> queryIDs = parseQuery(query);
 		if (queryIDs == null || queryIDs.isEmpty()) {
 			System.out.println("nothing to search!");
@@ -66,8 +61,7 @@ public class QueryProcessor {
 		}
 		
 		// 聚类
-		return PageCluster.doCluster(resultPages); 
-		// snippet和快照在PageInfo.java中实现
+		return PageCluster.doCluster(resultPages);
 	}
 	
 	/* 获取相关网页，并从数据库PagesIndex获取网页信息 */
@@ -167,10 +161,10 @@ public class QueryProcessor {
 	/* query解析 */
 	private List<Long> parseQuery(String query) {
 		// 分词
-		List<String> qTerms = tokenizer.doQueryTokenise(query);
+		List<String> qTerms = Tokenizer.doTokenise(query);
 //		List<String> qTerms = new ArrayList<>();// just for test
 //		qTerms.add("中");
-//		qTerms.add("詹姆斯");
+//		qTerms.add("克比");
 		if (qTerms == null || qTerms.isEmpty()) {
 			return null;
 		}
@@ -248,7 +242,7 @@ public class QueryProcessor {
 		if (rSet == null) {
 			System.err.println("load nothing from table TermsIndex!");
 			return;
-		}		
+		}
 		String term = "";
 		long id = -1;
 		try {
@@ -278,24 +272,26 @@ public class QueryProcessor {
 		}
 		topK = tmp;		
 	}
-	
+
 	/* just for test */
 	public static void main(String[] args) {
-		//重新建立索引
-//		IndexGenerator generator = new IndexGenerator();
-//		generator.createIndexes();
+		//初始化configuration
+		new Configuration("configure.properties");
 		QueryProcessor queryProc = new QueryProcessor();
 		
-		List<List<PageInfo>> result = queryProc.doQuery("中");//中 詹姆斯
+		long start = System.currentTimeMillis();
+		List<List<PageInfo>> result = queryProc.doQuery("科比");//中 詹姆斯
+		System.err.println("===Time cost for doing query: "
+				+(System.currentTimeMillis()-start)/1000+" ===");
 		
 		if (result == null) {
 			System.out.println("sorry, 找不到相关页面");
 			return;
 		}
 		for (List<PageInfo> set : result) {
-			System.out.println("以下新闻为一类：");
+			System.out.println("\n以下新闻为一类：");
 			for (PageInfo page : set) {
-				System.out.println(page.getUrl()+"\n标题："+page.getTitle());
+				System.out.println("URL："+page.getUrl()+"\n标题："+page.getTitle());
 			}
 		}
 	}
