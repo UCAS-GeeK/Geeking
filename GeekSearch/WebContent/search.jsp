@@ -104,7 +104,7 @@ $(function(){
     						//判断该类别个数大于1时分组显示，给出按钮
     						if (term.length>1){
     							if (j==0){
-    							//	alert(j);
+    								alert(j);
     								$("#Searchresult").append("<div class=first"+index+"> "
                						+"<h2><a href="+page.url+">"+page.title+"</a></h2>" 
         							+" <button class=show"+index+" type=button>显示相同新闻</button>    "
@@ -115,13 +115,10 @@ $(function(){
             						+"<a href='RawPages4Test\163\test.html'>快照</a>"
 
             						+"</div>");
-        	    						
-        	    					
-        	    				}
-    							
+        	 					}
     						
     							else {
-    								//alert("+ index +");
+    								alert(j);
     								$("#Searchresult").append("<div class =others"+index+">" 
                						+"<h2><a href="+page.url+">"+page.title+"</a></h2>"
             						+"<p>"+page.description+"</p>"
@@ -132,11 +129,13 @@ $(function(){
     								$(".others"+index ).hide();	
         	    					
         	    				}
-    							//按钮的出发事件
+    							//按钮的触发事件
     							$(".hide"+index).click(function(){
+    								alert(".hide"+index);
    								  $(".others"+index ).hide();
    								  });
 							  	$(".show"+index).click(function(){
+							  		alert(".show"+index);
  								  $(".others"+index ).show();
  								  });
    							
