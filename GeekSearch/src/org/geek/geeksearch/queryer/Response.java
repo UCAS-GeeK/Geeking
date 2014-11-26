@@ -8,10 +8,15 @@ import net.sf.json.JSONArray;
 import org.geek.geeksearch.configure.Configuration;
 import org.geek.geeksearch.model.PageInfo;
 import org.geek.geeksearch.recommender.CheckSpell;
+import org.geek.geeksearch.util.DBOperator;
 
 
 public class Response {
-	
+	static {
+		//配置文件初始化，临时在此初始化，便于调试，工程完工后会在BootLoader里初始化
+		Configuration config = new Configuration("configure.properties");//初始化
+		new DBOperator(config);
+	}
 	private static QueryProcessor processor = new QueryProcessor();//所有response对象共有
 	private boolean need_to_recommend = true;// 对象独有
 	
@@ -21,12 +26,14 @@ public class Response {
 		
 	/* 获取推荐词 */
 	public String get_recommend_query(String query){
-		if(need_to_recommend){
+		/*if(need_to_recommend){
 			ArrayList<String> sug = CheckSpell.suggestSimilar(query,3);
 			return JSONArray.fromObject(sug).toString();
 		} else {
 			return null;
-		}
+		}*/
+		String sug = null;
+		return sug;
 	}
 	
 	/*服务器端入口*/
@@ -68,11 +75,10 @@ public class Response {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		new Configuration("configure.properties");//初始化
 		Response response = new Response();
 		
 		System.out.println(response.getResponse("科比"));
-		System.out.println(response.get_recommend_query("科"));
+		System.out.println(response.get_recommend_query("詹姆"));
 	}
 
 }
