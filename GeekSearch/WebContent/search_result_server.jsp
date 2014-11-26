@@ -25,28 +25,30 @@
 		int size=Integer.parseInt(request.getParameter("pageSize"));
 		System.out.println("index:"+index+" size"+size);
 		if (new_key.equals(key)){
+			/*
 			for (int i = 0; i < size; i++){
 				return_results.add(i,results.getJSONArray(i+size*index));
 			}
-			/*
+			*/
 			return_results.add(0,results.getJSONArray(0));
 			return_results.add(1,results.getJSONArray(1));
-			*/
+			
 				
 		}else{
 			key = new_key;
 			resp = new Response();
 			results = JSONArray.fromObject(resp.getResponse(key));// 得到新闻信息
 			recommend_words = JSONArray.fromObject(resp.get_recommend_query(key));
+			/*
 			for (int i = 0; i < size; i++){
 				return_results.add(i,results.getJSONArray(i+size*index));
 			}
-			/*
+			*/
 			return_results.add(0,results.getJSONArray(0));
 
 			
 			return_results.add(1,results.getJSONArray(1));
-			*/
+			
 		}
 		
 		

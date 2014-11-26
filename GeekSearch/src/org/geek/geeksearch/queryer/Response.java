@@ -5,6 +5,7 @@ import java.util.List;
 
 import net.sf.json.JSONArray;
 
+import org.geek.geeksearch.configure.Configuration;
 import org.geek.geeksearch.model.PageInfo;
 import org.geek.geeksearch.recommender.CheckSpell;
 
@@ -12,7 +13,7 @@ import org.geek.geeksearch.recommender.CheckSpell;
 public class Response {
 	
 	private static QueryProcessor processor = new QueryProcessor();//所有response对象共有
-	private boolean need_to_recommend = false;// 对象独有
+	private boolean need_to_recommend = true;// 对象独有
 	
 	public Response(){
 		//do nothing
@@ -59,7 +60,7 @@ public class Response {
 		member2.put("sign_date", "2008-07-16");
 		jsonMembers.add(member2);
 		json.put("users", jsonMembers);*/	
-
+		System.out.println("results:\n"+json_result.toString());
 		return json_result.toString();
 	}
 	
@@ -67,9 +68,11 @@ public class Response {
 	 * @param args
 	 */
 	public static void main(String[] args) {
+		new Configuration("configure.properties");//初始化
 		Response response = new Response();
-		response.getResponse("");
-		System.out.println(response.get_recommend_query("詹姆"));
+		
+		System.out.println(response.getResponse("科比"));
+		System.out.println(response.get_recommend_query("科"));
 	}
 
 }
