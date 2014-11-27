@@ -26,14 +26,17 @@ public class Response {
 		
 	/* 获取推荐词 */
 	public String get_recommend_query(String query){
-		/*if(need_to_recommend){
-			ArrayList<String> sug = CheckSpell.suggestSimilar(query,3);
-			return JSONArray.fromObject(sug).toString();
-		} else {
-			return null;
-		}*/
-		String sug = null;
-		return sug;
+//		if(need_to_recommend){
+//			ArrayList<String> sug = CheckSpell.suggestSimilar(query,3);
+//			return JSONArray.fromObject(sug).toString();
+//		} else {
+//			return null;
+//		}
+		List<String> sug = new ArrayList<String>();
+		sug.add("科比");
+		sug.add("科技");
+		sug.add("科学");
+		return JSONArray.fromObject(sug).toString();
 	}
 	
 	/*服务器端入口*/
@@ -77,7 +80,7 @@ public class Response {
 	public static void main(String[] args) {
 		Response response = new Response();
 		
-		System.out.println(response.getResponse("科比"));
+		System.out.println(response.getResponse("詹姆斯"));
 		System.out.println(response.get_recommend_query("詹姆"));
 	}
 
