@@ -34,10 +34,10 @@ public class BootLoaderListener implements ServletContextListener {
 
 	@Override
 	public void contextDestroyed(ServletContextEvent arg0) {
+		System.out.println("===== 正在退出Geeking =====");
 		//关闭数据库连接
 		DBOperator.close();
-		
-		System.out.println("===== 退出Geeking =====");
+		System.out.println("===== 退出Geeking了啊啊啊啊 =====");
 		
 	}
 }
