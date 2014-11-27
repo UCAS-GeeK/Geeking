@@ -3,6 +3,7 @@
 
 
 <%
+	
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
 			+ request.getServerName() + ":" + request.getServerPort()
@@ -69,12 +70,6 @@ $(function(){
 			prev_text: "前一页",
 			next_text: "后一页"
 		});
-
-	 
-	function js_method(){
-			alert("hello");
-	}
-	
 	function pageselectCallback(page_index, jq){
 		$("#Searchresult").empty();//清空Searchresult，否则上一页的内容还会存留
 		
@@ -95,96 +90,109 @@ $(function(){
     			'dataType' : 'json', // 返回数据类型
     			'type' : 'POST', // 请求类型
     			'success' : function(data) {
-    				
-//    				if (data.length) {
+    				var tag = new Array();//用于判断显示相同新闻点击奇偶次数
+    				if (data.results!=null) {
+    					//alert("data不为空");
     					// 遍历data，添加到自动完成区					
     					$.each(data.results, function(index, term) {
+    					//	alert("results"+index);
     						$.each(term, function(j,page){
+    						//	alert("term"+j);
     						// 创建li标签,添加到下拉列表中,
-    						//判断该类别个数大于1时分组显示，给出按钮
+    						//判断该类别个数大于1时分组显示
     						if (term.length>1){
     							if (j==0){
-    							//	alert(j);
+    							//	alert("first"+j);
     								$("#Searchresult").append("<div class=first"+index+"> "
                						+"<h2><a href="+page.url+">"+page.title+"</a></h2>" 
-        							+" <button class=show"+index+" type=button>显示相同新闻</button>    "
-        	    					+" <button class=hide"+index+" type=button>隐藏相同新闻</button>"
+        							
             						+"<p>"+page.description+"</p>"
             						
             						+"网页来源: "+page.url+"   时间: "+page.pubTime+"    "
-            						+"<a href='RawPages4Test\163\test.html'>快照</a>"
-
-            						+"</div>");
-        	    						
-        	    					
-        	    				}
-    							
-    						
-    							else {
-    								//alert("+ index +");
+            						+"<a href='RawPages4Test\163\test.html'>快照</a>     "
+            						+"<a  href='javascript:void(0)' class=samenews"+index+"    >显示相同新闻</a>  "
+        	    					+"</div>");
+        	 					}
+     							else {
+    							//	alert("others"+j);
     								$("#Searchresult").append("<div class =others"+index+">" 
-               						+"<h2><a href="+page.url+">"+page.title+"</a></h2>"
-            						+"<p>"+page.description+"</p>"
-            						
+               						+"<h4><a href="+page.url+">"+page.title+"</a></h2>"
             						+"网页来源: "+page.url+"   时间: "+page.pubTime+"    "
             						+"<a href='RawPages4Test\163\test.html'>快照</a>"
             						+"</div>");
-    								$(".others"+index ).hide();	
+    								$(".others"+index ).hide();	//默认隐藏
         	    					
         	    				}
-    							//按钮的出发事件
-    							$(".hide"+index).click(function(){
-   								  $(".others"+index ).hide();
-   								  });
-							  	$(".show"+index).click(function(){
- 								  $(".others"+index ).show();
- 								  });
-   							
-    						}
-    						//判断该类别个数只等于1时不分组显示，不给出按钮
+     						}
+    						//判断该类别个数只等于1时不分组显示
     						else{
-    							
     							$("#Searchresult").append("<div class=first"+index+"> "
-               						+"<h2><a href="+page.url+">"+page.title+"</a></h2>" 
+               						+"<h4><a href="+page.url+">"+page.title+"</a></h2>" 
             						+"<p>"+page.description+"</p>"
-            						
             						+"网页来源: "+page.url+"   时间: "+page.pubTime+"    "
             						+"<a href='RawPages4Test\163\test.html'>快照</a>"
-
             						+"</div>");
-    							
-    						}
-    							
- 
+     						}
     						});
+    						//判断显示相同新闻点击奇偶次数
+    						//必须放在$.each(term,外面，否则执行term.length次
+    						tag[index] = 0;
+    						$(".samenews"+index).click(function(){
+    							if(tag[index]==0){
+ 								//alert(".hide"+index);
+								  $(".others"+index ).show();
+								  tag[index]= 1;
+								  $(".samenews"+index).text("隐藏相同新闻");
+    							}
+    							else 
+    							{
+     								//alert(".hide"+index);
+    								  $(".others"+index ).hide();
+    								  tag[index]= 0;
+    								  $(".samenews"+index).text("显示相同新闻");
+        							}
+							 });
+
     						
-    						
-    					});// 事件注册完毕
-    					
-    					if(data.recommend_words.length){
+    					});// $.each(data.results,事件注册完毕
+    					//判断有没有推荐词
+    				/*	if(data.recommend_words.length){
     						$.each(data.recommend_words,function(index,term){
     							var html="<a href='search.jsp?search-text="+term+"'>"+term+"</a>";
     							$("#recommend_words").append(html);
     						});
     					
+    					}*/
+    				}//if (data.results!=null) 到此结束
+    				//如果data.results==null
+    				else 
+    					{
+    					alert("data.results为空");
+    					$("#Searchresult").append("<h2>抱歉！没有相关新闻</h2>");
+	    					if(data.recommend_words.length){
+	    						$.each(data.recommend_words,function(index,term){
+	    							var html="<a href='search.jsp?search-text="+term+"'>"+term+"</a>";
+	    							$("#recommend_words").append(html);
+	    						});
+	    					
+	    					}
     					}
-//    				}
-    			}
-    		});    		
-    	}    	
-    }
-	//ajax加载
-
-	
-});
+    			}//'success' : function(data)到此结束，$.ajax还未添加error的function
+    		});// $.ajax到此结束  		
+    	} //判断(keyword!="") 到此结束  	
+    }//InitTable(pageIndex)到此结束
+});//$(function()到此结束
 </script>
 </head>
 
 <body>
 
 	<%
-		String keyword = new String(request.getParameter("search-text")
+		String keyword="";
+		if(request.getParameter("search-text")!=null)
+			keyword = new String(request.getParameter("search-text")
 				.getBytes("ISO-8859-1"), "utf-8");
+
 	%>
 	<form id="search" action="search.jsp" method="get">
 		<input name="search-text" type="text" maxlength="100" id="search-text" value=<%=keyword%>> 

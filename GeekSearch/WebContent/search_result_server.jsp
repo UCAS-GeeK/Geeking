@@ -47,9 +47,13 @@
 		
 		
 		JSONObject final_results = new JSONObject();
+		//return_results = null;//调试search.jsp对无搜到新闻的反应
 		final_results.put("results",return_results);
+		
 		final_results.put("recommend_words",recommend_words);
+		
 		System.out.println(final_results.toString());
+		//final_results = null;//调试search.jsp对无搜到新闻的反应
 		out.println(final_results.toString());
 		
 	}
