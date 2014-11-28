@@ -18,7 +18,7 @@ public class Response {
 		new DBOperator(config);
 	}
 	private static QueryProcessor processor = new QueryProcessor();//所有response对象共有
-	private boolean need_to_recommend = true;// 对象独有
+	private boolean need_to_recommend = false;// 对象独有
 	
 	public Response(){
 		//do nothing
@@ -26,17 +26,18 @@ public class Response {
 		
 	/* 获取推荐词 */
 	public String get_recommend_query(String query){
-//		if(need_to_recommend){
-//			ArrayList<String> sug = CheckSpell.suggestSimilar(query,3);
-//			return JSONArray.fromObject(sug).toString();
-//		} else {
-//			return null;
-//		}
-		List<String> sug = new ArrayList<String>();
-		sug.add("科比");
-		sug.add("科技");
-		sug.add("科学");
-		return JSONArray.fromObject(sug).toString();
+		if(need_to_recommend){
+			ArrayList<String> sug = CheckSpell.suggestSimilar(query,3);
+			System.out.println("==="+sug.toString());
+			return JSONArray.fromObject(sug).toString();
+		} else {
+			return null;
+		}
+//		List<String> sug = new ArrayList<String>();
+//		sug.add("科比");
+//		sug.add("科技");
+//		sug.add("科学");
+//		return JSONArray.fromObject(sug).toString();
 	}
 	
 	/*服务器端入口*/
@@ -81,7 +82,7 @@ public class Response {
 		Response response = new Response();
 		
 		System.out.println(response.getResponse("詹姆斯"));
-		System.out.println(response.get_recommend_query("詹姆"));
+		System.out.println(response.get_recommend_query("詹姆"));//单字推荐报错
 	}
 
 }

@@ -2,10 +2,7 @@ package org.geek.geeksearch.configure;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
-import javax.servlet.http.HttpSessionEvent;
-import javax.servlet.http.HttpSessionListener;
 
-import org.geek.geeksearch.indexer.Tokenizer;
 import org.geek.geeksearch.queryer.Response;
 import org.geek.geeksearch.recommender.CheckSpell;
 import org.geek.geeksearch.util.DBOperator;
@@ -37,7 +34,6 @@ public class BootLoaderListener implements ServletContextListener {
 		System.out.println("===== 正在退出Geeking =====");
 		//关闭数据库连接
 		DBOperator.close();
-		System.out.println("===== 退出Geeking了啊啊啊啊 =====");
 		
 	}
 }
