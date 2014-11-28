@@ -23,6 +23,8 @@ public class PageInfo implements Cloneable{
 	private String pubTime = ""; //网页发布时间
 	private String keyWords;
 	private String type = ""; // 考虑枚举常量enum
+	private String source = "";//将网页来源
+
 	private Map<String, List<Integer>> titleHlightPos = new HashMap<String, List<Integer>>();// 标题高亮位置
 	private Map<String, List<Integer>> descHlightPos = new HashMap<String, List<Integer>>();// 摘要高亮位置
 	
@@ -54,15 +56,33 @@ public class PageInfo implements Cloneable{
 				title = rSet.getString("Title");
 				description = rSet.getString("Description");
 				title = rSet.getString("Title");
-				pubTime = rSet.getString("Date");
 				type = rSet.getString("Type");
-				keyWords = rSet.getString("keywords");				
+				keyWords = rSet.getString("keywords");
+				source = typeToSource();
+				pubTime = rSet.getString("Date");
+				if (pubTime.equals("null") || pubTime.isEmpty()) {
+					pubTime = "\\(╯-╰)/";
+				}
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return false;
 		}
 		return true;
+	}
+	
+	private String typeToSource() {
+		if (type.equals("qq")) {
+			return "腾讯体育";
+		} else if (type.equals("163")){
+			return "网易体育";
+		} else if (type.equals("msn")){
+			return "MSN体育";
+		} else if (type.equals("sohu")){
+			return "搜狐体育";
+		} else {
+			return "~自己看~";
+		}
 	}
 	
 	public void add2DB(DBOperator dbOp) {
@@ -179,6 +199,14 @@ public class PageInfo implements Cloneable{
 
 	public void setDescHlightPos(Map<String, List<Integer>> descHlightPos) {
 		this.descHlightPos = descHlightPos;
+	}
+	
+	public String getSource() {
+		return source;
+	}
+
+	public void setSource(String source) {
+		this.source = source;
 	}
 
 	//just for test

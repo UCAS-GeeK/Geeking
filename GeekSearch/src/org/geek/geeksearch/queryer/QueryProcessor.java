@@ -10,9 +10,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.Map.Entry;
 
+import org.codehaus.jackson.map.util.Comparators;
 import org.geek.geeksearch.configure.Configuration;
-import org.geek.geeksearch.indexer.Tokenizer;
 import org.geek.geeksearch.model.InvertedIndex;
 import org.geek.geeksearch.model.PageInfo;
 import org.geek.geeksearch.model.TermStat;
@@ -120,13 +121,14 @@ public class QueryProcessor {
 	/* 获取各个词项的TopK篇文档，求并集,此处尚未考虑只包含部分检索词的文档,返回的文档都包含所有检索词*/
 	private List<Map.Entry<Long, TermStat>> getRelevantDocs(List<Long> queryIDs) {
 		Map<Long, TermStat> mergedResult = new TreeMap<>();
-		Map<Long, TermStat> tmpDocs = new TreeMap<>();		
-//		List<Long> sortedQIDs = sortQueryIDs(queryIDs);
+		Map<Long, TermStat> tmpDocs = new TreeMap<>();
+		
+		List<Long> sortedQIDs = sortQueryIDs(queryIDs);
 		
 		//对每个词项id获取topK文档
-		mergedResult = invIdxMap.get(queryIDs.get(0)).getTopKDocs();
-		for (int k = 1; k < queryIDs.size(); k++) {
-			tmpDocs = invIdxMap.get(queryIDs.get(k)).getTopKDocs();
+		mergedResult = invIdxMap.get(sortedQIDs.get(0)).getTopKDocs();
+		for (int k = 1; k < sortedQIDs.size(); k++) {
+			tmpDocs = invIdxMap.get(sortedQIDs.get(k)).getTopKDocs();
 			//将该词项id的topK文档与上一次merge结果进行merge
 			Iterator<Map.Entry<Long, TermStat>> iter = mergedResult.entrySet().iterator();
 			while (iter.hasNext()) {
@@ -144,24 +146,29 @@ public class QueryProcessor {
 	}
 	
 	/*按照检索词项的相关文档规模排序，便于merge*/
-//	private List<Long> sortQueryIDs(List<Long> queryIDs) {
-//		List<Long> sortedQIDs = new ArrayList<>();
-//		List<Integer> docsSize = new ArrayList<>();
-//		for (long id : queryIDs) {
-//			docsSize.add(invIdxMap.get(id).getTopKDocs().size());
-//		}
-//		long min = -1;
-//		for (int i = 0; i < docsSize.size(); i++) {
-//			min = docsSize.get(i);
-//			for (int j = i+1; j < docsSize.size(); j++) {
-//				if (docs) {
-//					
-//				}
-//			}
-//		}
-//
-//		return sortedQIDs;
-//	}
+	private List<Long> sortQueryIDs(List<Long> queryIDs) {
+		List<Long> sortedQIDs = new ArrayList<>();
+		Map<Long, Integer> indexSizes = new HashMap<Long, Integer>();
+		for (long id : queryIDs) {
+			indexSizes.put(id, invIdxMap.get(id).getTopKDocs().size());
+//			System.out.println("key:"+id+"  value:"+indexSizes.get(id));
+		}
+		List<Map.Entry<Long, Integer>> indexSizesList = new ArrayList<>(indexSizes.entrySet());
+		Collections.sort(indexSizesList, new Comparator<Map.Entry<Long, Integer>>() {
+			public int compare(Entry<Long, Integer> o1, Entry<Long, Integer> o2) {
+				return o2.getValue() < o1.getValue() ? 1 : -1;
+			}
+		});
+//		System.out.println("after sort:");
+		for (Map.Entry<Long, Integer> entry : indexSizesList) {
+			if (entry == null) {
+				continue;
+			}
+			sortedQIDs.add(entry.getKey());
+//			System.out.print(entry.getKey()+" ");
+		}
+		return sortedQIDs;
+	}
 	
 	/* query解析 */
 	private List<Long> parseQuery(String query) {
@@ -169,6 +176,7 @@ public class QueryProcessor {
 //		List<String> qTerms = Tokenizer.doTokenise(query);
 		List<String> qTerms = new ArrayList<>();// just for test
 //		qTerms.add("中");
+//		qTerms.add("林书豪");
 		qTerms.add("詹姆斯");
 		if (qTerms == null || qTerms.isEmpty()) {
 			return null;
