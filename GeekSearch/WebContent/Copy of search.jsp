@@ -89,7 +89,6 @@ $(function(){
     			'data' : {'search-text':encodeURI(keyword),'pageIndex':pageIndex, 'pageSize':pageSize}, // 参数
     			'dataType' : 'json', // 返回数据类型
     			'type' : 'POST', // 请求类型
-    			'error': function(data){alert("请求数据失败"+data);},
     			'success' : function(data) {
     				var tag = new Array();//用于判断显示相同新闻点击奇偶次数
     				if (data.results!=null) {
@@ -168,7 +167,7 @@ $(function(){
     				//如果data.results==null
     				else 
     					{
-    				//	alert("data.results为空");
+    					alert("data.results为空");
     					$("#Searchresult").append("<h2>抱歉！没有相关新闻</h2>");
 	    					if(data.recommend_words.length){
 	    						$.each(data.recommend_words,function(index,term){

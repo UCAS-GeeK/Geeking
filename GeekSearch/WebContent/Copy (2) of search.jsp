@@ -3,7 +3,6 @@
 
 
 <%
-	
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
 			+ request.getServerName() + ":" + request.getServerPort()
@@ -58,21 +57,30 @@
 $(function(){
 	var pageSize = 3;
 	var pageIndex = 0;
+	alert("hello");
 //	InitTable(0)
 	//此demo通过Ajax加载分页元素		
 		var num_entries = 10;
 		// 创建分页
 		$("#Pagination").pagination(num_entries, {
+			
 			num_edge_entries: 1, //边缘页数
 			num_display_entries: 4, //主体页数
 			callback: pageselectCallback,
 			items_per_page: 3, //每页显示1项
 			prev_text: "前一页",
 			next_text: "后一页"
+			
 		});
+		
+	 
+	function js_method(){
+			alert("hello");
+	}
+	
 	function pageselectCallback(page_index, jq){
 		$("#Searchresult").empty();//清空Searchresult，否则上一页的内容还会存留
-		
+		alert("pageselectCallback");//林裕杰调试
 		InitTable(page_index);
 		return false;
 	}
@@ -89,111 +97,103 @@ $(function(){
     			'data' : {'search-text':encodeURI(keyword),'pageIndex':pageIndex, 'pageSize':pageSize}, // 参数
     			'dataType' : 'json', // 返回数据类型
     			'type' : 'POST', // 请求类型
-    			'error': function(data){alert("请求数据失败"+data);},
+    			//添加失败的函数
     			'success' : function(data) {
-    				var tag = new Array();//用于判断显示相同新闻点击奇偶次数
-    				if (data.results!=null) {
-    					//alert("data不为空");
+    				
+//    				if (data.length) {
     					// 遍历data，添加到自动完成区					
     					$.each(data.results, function(index, term) {
-    					//	alert("results"+index);
+    						alert("results"+index);
+    						$("#Searchresult").append("<div class=first"+index+"> </div>");
+    						$("#Searchresult").append("<div class =others"+index+"></div>");
     						$.each(term, function(j,page){
-    						//	alert("term"+j);
+    						alert("term"+j);
+    						
     						// 创建li标签,添加到下拉列表中,
-    						//判断该类别个数大于1时分组显示
+    						//判断该类别个数大于1时分组显示，给出按钮
+    						// search.jsp加载后的执行顺序，search_result的返回结果？
     						if (term.length>1){
     							if (j==0){
-    							//	alert("first"+j);
-    								$("#Searchresult").append("<div class=first"+index+"> "
+    								//alert(j);
+    								$(".first"+index).append(
                						+"<h2><a href="+page.url+">"+page.title+"</a></h2>" 
-        							
+        							+" <button class=show"+index+" type=button>显示相同新闻</button>    "
+        	    					+" <button class=hide"+index+" type=button>隐藏相同新闻</button>"
             						+"<p>"+page.description+"</p>"
             						
             						+"网页来源: "+page.url+"   时间: "+page.pubTime+"    "
-            						+"<a href='RawPages4Test\163\test.html'>快照</a>     "
-            						+"<a  href='javascript:void(0)' class=samenews"+index+"    >显示相同新闻</a>  "
-        	    					+"</div>");
+            						+"<a href='RawPages4Test\163\test.html'>快照</a>"
+
+            						);
         	 					}
-     							else {
-    							//	alert("others"+j);
-    								$("#Searchresult").append("<div class =others"+index+">" 
-               						+"<h4><a href="+page.url+">"+page.title+"</a></h2>"
+    						
+    							else {
+    								//alert(j);
+    								$(".others"+index).append( 
+               						+"<h2><a href="+page.url+">"+page.title+"</a></h2>"
+            						+"<p>"+page.description+"</p>"
+            						
             						+"网页来源: "+page.url+"   时间: "+page.pubTime+"    "
             						+"<a href='RawPages4Test\163\test.html'>快照</a>"
-            						+"</div>");
-    								$(".others"+index ).hide();	//默认隐藏
+            						);
+    								//$(".others"+index ).hide();	
         	    					
         	    				}
-     						}
-    						//判断该类别个数只等于1时不分组显示
-    						else{
-    							$("#Searchresult").append("<div class=first"+index+"> "
-               						+"<h4><a href="+page.url+">"+page.title+"</a></h2>" 
+    							//按钮的触发事件
+    							/*$(".hide"+index).click(function(){
+    								alert(".hide"+index);
+   								  $(".others"+index ).hide();
+   								  });
+							  	$(".show"+index).click(function(){
+							  		alert(".show"+index);
+ 								  $(".others"+index ).show();
+ 								  });*/
+   							
+    						}
+    						//判断该类别个数只等于1时不分组显示，不给出按钮
+    						else if (term.length==1){
+    							
+    							$(".first"+index).append(
+               						+"<h2><a href="+page.url+">"+page.title+"</a></h2>" 
             						+"<p>"+page.description+"</p>"
+            						
             						+"网页来源: "+page.url+"   时间: "+page.pubTime+"    "
             						+"<a href='RawPages4Test\163\test.html'>快照</a>"
-            						+"</div>");
-     						}
-    						});
-    						//判断显示相同新闻点击奇偶次数
-    						//必须放在$.each(term,外面，否则执行term.length次
-    						tag[index] = 0;
-    						$(".samenews"+index).click(function(){
-    							if(tag[index]==0){
- 								//alert(".hide"+index);
-								  $(".others"+index ).show();
-								  tag[index]= 1;
-								  $(".samenews"+index).text("隐藏相同新闻");
-    							}
-    							else 
-    							{
-     								//alert(".hide"+index);
-    								  $(".others"+index ).hide();
-    								  tag[index]= 0;
-    								  $(".samenews"+index).text("显示相同新闻");
-        							}
-							 });
 
+            						);
+    							
+    						}
+    							
+ 
+    						});
     						
-    					});// $.each(data.results,事件注册完毕
-    					//判断有没有推荐词
-    				/*	if(data.recommend_words.length){
+    						
+    					});// 事件注册完毕
+    					
+    					if(data.recommend_words.length){
     						$.each(data.recommend_words,function(index,term){
     							var html="<a href='search.jsp?search-text="+term+"'>"+term+"</a>";
     							$("#recommend_words").append(html);
     						});
     					
-    					}*/
-    				}//if (data.results!=null) 到此结束
-    				//如果data.results==null
-    				else 
-    					{
-    				//	alert("data.results为空");
-    					$("#Searchresult").append("<h2>抱歉！没有相关新闻</h2>");
-	    					if(data.recommend_words.length){
-	    						$.each(data.recommend_words,function(index,term){
-	    							var html="<a href='search.jsp?search-text="+term+"'>"+term+"</a>";
-	    							$("#recommend_words").append(html);
-	    						});
-	    					
-	    					}
     					}
-    			}//'success' : function(data)到此结束，$.ajax还未添加error的function
-    		});// $.ajax到此结束  		
-    	} //判断(keyword!="") 到此结束  	
-    }//InitTable(pageIndex)到此结束
-});//$(function()到此结束
+//    				}
+    			}//success调用函数
+    		});    		
+    	}    	
+    }
+	//ajax加载
+
+	
+});
 </script>
 </head>
 
 <body>
 
 	<%
-		String keyword="";
-		if(request.getParameter("search-text")!=null)
-			keyword = new String(request.getParameter("search-text")
+		String keyword = new String(request.getParameter("search-text")
 				.getBytes("ISO-8859-1"), "utf-8");
-
 	%>
 	<form id="search" action="search.jsp" method="get">
 		<input name="search-text" type="text" maxlength="100" id="search-text" value=<%=keyword%>> 
