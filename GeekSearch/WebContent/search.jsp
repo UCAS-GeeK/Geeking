@@ -25,25 +25,20 @@
 	height: 28px;
 	font: 14px "宋体"
 }
-
 .autocomplete {
 	border: 1px solid #9ACCFB;
 	background-color: white;
 	text-align: left;
 }
-
 .autocomplete li {
 	list-style-type: none;
 }
-
 .clickable {
 	cursor: default;
 }
-
 .highlight {
 	background-color: #9ACCFB;
 }
-
 #textArea {
 	width: 300px;
 	height: 30px;
@@ -89,7 +84,7 @@ $(function(){
     			'data' : {'search-text':encodeURI(keyword),'pageIndex':pageIndex, 'pageSize':pageSize}, // 参数
     			'dataType' : 'json', // 返回数据类型
     			'type' : 'POST', // 请求类型
-    			'error': function(data){alert("请求数据失败"+data);},
+    			'error': function(data){alert("请求数据失败"+"+data+");alert(data);},
     			'success' : function(data) {
     				var tag = new Array();//用于判断显示相同新闻点击奇偶次数
     				if (data.results!=null) {
@@ -109,7 +104,7 @@ $(function(){
         							
             						+"<p>"+page.description+"</p>"
             						
-            						+"网页来源: "+page.url+"   时间: "+page.pubTime+"    "
+            						+"网页来源: "+page.source+"   时间: "+page.pubTime+"    "
             						+"<a href='RawPages4Test\163\test.html'>快照</a>     "
             						+"<a  href='javascript:void(0)' class=samenews"+index+"    >显示相同新闻</a>  "
         	    					+"</div>");
@@ -118,7 +113,7 @@ $(function(){
     							//	alert("others"+j);
     								$("#Searchresult").append("<div class =others"+index+">" 
                						+"<h4><a href="+page.url+">"+page.title+"</a></h2>"
-            						+"网页来源: "+page.url+"   时间: "+page.pubTime+"    "
+            						+"网页来源: "+page.source+"   时间: "+page.pubTime+"    "
             						+"<a href='RawPages4Test\163\test.html'>快照</a>"
             						+"</div>");
     								$(".others"+index ).hide();	//默认隐藏
@@ -130,7 +125,7 @@ $(function(){
     							$("#Searchresult").append("<div class=first"+index+"> "
                						+"<h4><a href="+page.url+">"+page.title+"</a></h2>" 
             						+"<p>"+page.description+"</p>"
-            						+"网页来源: "+page.url+"   时间: "+page.pubTime+"    "
+            						+"网页来源: "+page.source+"   时间: "+page.pubTime+"    "
             						+"<a href='RawPages4Test\163\test.html'>快照</a>"
             						+"</div>");
      						}
@@ -153,7 +148,6 @@ $(function(){
     								  $(".samenews"+index).text("显示相同新闻");
         							}
 							 });
-
     						
     					});// $.each(data.results,事件注册完毕
     					//判断有没有推荐词
@@ -168,7 +162,6 @@ $(function(){
     				//如果data.results==null
     				else 
     					{
-    				//	alert("data.results为空");
     					$("#Searchresult").append("<h2>抱歉！没有相关新闻</h2>");
 	    					if(data.recommend_words.length){
 	    						$.each(data.recommend_words,function(index,term){
@@ -193,7 +186,6 @@ $(function(){
 		if(request.getParameter("search-text")!=null)
 			keyword = new String(request.getParameter("search-text")
 				.getBytes("ISO-8859-1"), "utf-8");
-
 	%>
 	<form id="search" action="search.jsp" method="get">
 		<input name="search-text" type="text" maxlength="100" id="search-text" value=<%=keyword%>> 
