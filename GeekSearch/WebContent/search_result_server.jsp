@@ -25,24 +25,32 @@
 		int size=Integer.parseInt(request.getParameter("pageSize"));
 		System.out.println("index:"+index+" size"+size);
 		//这里修改了return_results.add内容，添加的是每个JSONArray
+		
 		if (new_key.equals(key)){
 			
-			for (int i = 0; i < size; i++){
-				return_results.add(i,results.getJSONArray(i+size*index));
-			}
-
+				for (int i = 0; i < size; i++){
+					return_results.add(i,results.getJSONArray(i+size*index));
+				}
+			
 				
 		}else{
 			key = new_key;
 			resp = new Response();
-			results = JSONArray.fromObject(resp.getResponse(key));// 得到新闻信息
 			recommend_words = JSONArray.fromObject(resp.get_recommend_query(key));
+			if(resp.getResponse(key)!=null){
+			results = JSONArray.fromObject(resp.getResponse(key));// 得到新闻信息
+			
 			
 			//这里修改了return_results.add内容，添加的是每个JSONArray
-			for (int i = 0; i < size; i++){
-				return_results.add(i,results.getJSONArray(i+size*index));
+			
+				for (int i = 0; i < size; i++){
+					return_results.add(i,results.getJSONArray(i+size*index));
+				}
 			}
-
+			else
+			{
+				return_results = null;
+			}
 		}
 		
 		
