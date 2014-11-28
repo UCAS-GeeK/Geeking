@@ -83,7 +83,6 @@ $(function(){
     		alert("请输入query");
     	else
     	{
-    		alert("ajax");
  //   		contentType: “application/x-www-form-urlencoded; charset=UTF-8″    		
     		$.ajax({
     			'url' : '/GeekSearch/search_result_server.jsp', // 服务器的地址
@@ -110,7 +109,7 @@ $(function(){
         							
             						+"<p>"+page.description+"</p>"
             						
-            						+"网页来源: "+page.url+"   时间: "+page.pubTime+"    "
+            						+"网页来源: "+page.source+"   时间: "+page.pubTime+"    "
             						+"<a href='RawPages4Test\163\test.html'>快照</a>     "
             						+"<a  href='javascript:void(0)' class=samenews"+index+"    >显示相同新闻</a>  "
         	    					+"</div>");
@@ -119,7 +118,7 @@ $(function(){
     							//	alert("others"+j);
     								$("#Searchresult").append("<div class =others"+index+">" 
                						+"<h4><a href="+page.url+">"+page.title+"</a></h2>"
-            						+"网页来源: "+page.url+"   时间: "+page.pubTime+"    "
+            						+"网页来源: "+page.source+"   时间: "+page.pubTime+"    "
             						+"<a href='RawPages4Test\163\test.html'>快照</a>"
             						+"</div>");
     								$(".others"+index ).hide();	//默认隐藏
@@ -131,7 +130,7 @@ $(function(){
     							$("#Searchresult").append("<div class=first"+index+"> "
                						+"<h4><a href="+page.url+">"+page.title+"</a></h2>" 
             						+"<p>"+page.description+"</p>"
-            						+"网页来源: "+page.url+"   时间: "+page.pubTime+"    "
+            						+"网页来源: "+page.source+"   时间: "+page.pubTime+"    "
             						+"<a href='RawPages4Test\163\test.html'>快照</a>"
             						+"</div>");
      						}
@@ -169,7 +168,6 @@ $(function(){
     				//如果data.results==null
     				else 
     					{
-    					alert("data.results为空");
     					$("#Searchresult").append("<h2>抱歉！没有相关新闻</h2>");
 	    					if(data.recommend_words.length){
 	    						$.each(data.recommend_words,function(index,term){
