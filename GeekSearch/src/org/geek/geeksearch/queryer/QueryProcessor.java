@@ -115,6 +115,8 @@ public class QueryProcessor {
 			resultPages.add(page);
 			System.out.println("\nretrived page: "+ doc.getKey());
 		}
+		//获得相关网页数目
+		Response.setResultCnt(resultPages.size());
 		return resultPages;
 	}
 	
