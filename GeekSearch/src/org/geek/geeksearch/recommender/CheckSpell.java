@@ -3,11 +3,15 @@ package org.geek.geeksearch.recommender;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import org.geek.geeksearch.configure.Configuration;
@@ -76,7 +80,9 @@ public class CheckSpell {
 	/* 初始化hot_words, 只需一次初始化*/
 	private static Map<String, Integer> create_ngram_index() {
 		Map<String, Integer> wordsMap = loadHotWords();//从数据库加载
-
+//		Map<String, Integer> wordsMap = new HashMap<String, Integer>();
+//		wordsMap.put("科比", 2);
+//		wordsMap.put("科学", 3);
 		//addGram
 		Iterator<Map.Entry<String, Integer>> iter = wordsMap.entrySet().iterator();
 //		System.out.println("hot_words:");
@@ -139,6 +145,7 @@ public class CheckSpell {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	public static ArrayList<String> suggestSimilar(String word, int numSug) {
 
 			final int freq;
@@ -152,6 +159,51 @@ public class CheckSpell {
 			if (freq > 0) {
 //				return new String[] { word };
 				return new ArrayList<String>();
+			}
+			if(lengthWord==1){
+				ArrayList<String> res = new ArrayList<String>();
+				HashMap<String, Integer> temp_res = new HashMap<String, Integer>();
+				Iterator<Map.Entry<String,Integer>> iter = hot_words.entrySet().iterator();
+
+				while (iter.hasNext()) {
+					Map.Entry<String,Integer> entry = iter.next();
+					String hot_word = (String) entry.getKey();
+					int fre = (Integer)entry.getValue();
+					if (hot_word.contains(word)){
+						temp_res.put(hot_word, fre);
+					}
+				}
+			
+				  List list = new LinkedList();
+				  list.addAll(temp_res.entrySet());
+
+				  Collections.sort(list, new Comparator() {
+				       public int compare(Map.Entry obj1, Map.Entry obj2) {//从高往低排序          
+				    	   if(Integer.parseInt(obj1.getValue().toString())>Integer.parseInt(obj2.getValue().toString()))
+				        		   return 1;
+				           if(Integer.parseInt(obj1.getValue().toString())==Integer.parseInt(obj2.getValue().toString()))
+				                    return 0;
+				           else
+				                   return -1;
+				       }
+
+					@Override
+					public int compare(Object o1, Object o2) {
+						// TODO Auto-generated method stub
+						return 0;
+					}
+				  });
+				  int i = 0;
+				    for(Iterator ite = list.iterator(); ite.hasNext();) {
+				         Map.Entry map = (Entry) ite.next();
+//				        System.out.println("key-value: " + map.getKey() + "," + map.getValue());
+				         res.add(map.getKey().toString());
+				         i++;
+				         if (i==numSug)
+				        	 break;
+				         
+				    }
+				    return res;
 			}
 			BooleanQuery query = new BooleanQuery();
 			String[] grams;

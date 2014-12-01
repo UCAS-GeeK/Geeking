@@ -178,7 +178,7 @@ $(function(){
     					$("#num_Searchresult").append("找到相关新闻"+numberSearchresult+"篇");
     					//判断有没有推荐词
     					if(data.recommend_words!=null){
-    						$("#recommend_words").append("<p></p>推荐词：");
+    						$("#recommend_words").append("<p></p>您是不是要找：");
     						$.each(data.recommend_words,function(index,term){
     							var html="<a href='search.jsp?search-text="+term+"'>"+term+"</a>";
     							$("#recommend_words").append(html+"   ");
@@ -194,7 +194,7 @@ $(function(){
 	    					if(data.recommend_words!=null){
 	    						$.each(data.recommend_words,function(index,term){
 	    							var html="<a href='search.jsp?search-text="+term+"'>"+term+"</a>";
-	    							$("#recommend_words").append("<p>推荐词："+html+"</p>");
+	    							$("#recommend_words").append("<p>您是不是要找："+html+"</p>");
 	    						});
 	    					
 	    					}
