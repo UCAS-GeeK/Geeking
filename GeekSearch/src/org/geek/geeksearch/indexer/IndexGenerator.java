@@ -35,35 +35,39 @@ public class IndexGenerator {
 	private Map<Long,InvertedIndex> invIdxMap = new HashMap<>(); //倒排索引表 
 	
 	private final Configuration config;
-	private final Tokenizer tokenizer;
 	private final DBOperator dbOperator;
 	
 	public IndexGenerator() {
-		this.config = new Configuration();
+		this.config = new Configuration("configure.properties");
 		this.rawPagesDir = config.getValue("RawPagesPath");
-		this.tokenizer = new Tokenizer(config);
 		this.dbOperator = new DBOperator(config);
+		new Tokenizer(config);
 		dbOperator.cleanAllTables();//重建索引，清空所有table		
-	}
-	
-	public static void main(String[] args) {
-		IndexGenerator generator = new IndexGenerator();
-		generator.createIndexes();
 	}
 	
 	/* 构建索引入口 */
 	public void createIndexes() {
 		String[] typeArr = getTypes();
+		long start = System.currentTimeMillis();
 		for (String type : typeArr) {
 			String[] htmlArr = getHTMLs(type);
 			for (String html : htmlArr) {
 				createIndexes(type, html);
 			}
 		}
+		long end = System.currentTimeMillis();
+		System.err.println("===Time cost for parsing html + "
+				+ "creating pageIndex&docsIndex: "+(end-start)/1000+" ===");
 		//建立 词项ID-词项 索引表
-		createTermIdIndex();		
+		createTermIdIndex();
+		start = System.currentTimeMillis();
+		
+		System.err.println("===Time cost for creating TermIdIndex "
+				+ ": "+(start-end)/1000+" ===");
 		// 建立倒排索引
-		createInvertedIndex();		
+		createInvertedIndex();
+		System.err.println("===Time cost for creating InvertedIndex "
+				+ ": "+(System.currentTimeMillis()-start)/1000+" ===");
 	}
 
 	/* 生成各种索引 */
@@ -84,7 +88,7 @@ public class IndexGenerator {
 			return;
 		}
 		// 使用第三方分词工具ansj实现分词
-		List<String> parsedTerms = tokenizer.doTextTokenise(plainText);
+		List<String> parsedTerms = Tokenizer.doTokenise(plainText);
 		if (parsedTerms == null || parsedTerms.isEmpty()) {
 			return;
 		}
@@ -203,15 +207,6 @@ public class IndexGenerator {
 //				+pubTime+"\ndescrip="+kwAndDesc[1]+"\n");
 	}
 	
-//	public String getURL(String fileName) {
-//		int idx = fileName.lastIndexOf(".");
-//		if (idx <= 0) {
-//			System.err.printf("wrong type of file name!", fileName);
-//			return "";
-//		}
-//		return fileName.substring(0, idx); 
-//	}
-	
 	/* 从网页库目录获取类型目录 的列表*/
 	public String[] getTypes() {
 		File rootDir = new File(rawPagesDir);
@@ -230,6 +225,11 @@ public class IndexGenerator {
 		    return null;
 		}
 		return typeDir.list();
+	}
+
+	public static void main(String[] args) {
+		IndexGenerator generator = new IndexGenerator();
+		generator.createIndexes();
 	}
 
 }

@@ -1,4 +1,4 @@
-<%@ page language="java" import="java.util.*" pageEncoding="gb2312"%>
+<%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"
@@ -9,18 +9,18 @@ String basePath = request.getScheme()+"://"
 <html>
   <head>
     <base href="<%=basePath%>">    
-    <title>dySE</title>
+    <title>Geeking</title>
  <style type="text/css"> 
  	#submit{
 	width:78px;
 	height:28px;
-	font:14px "ËÎÌå"
+	font:14px "å®‹ä½“"
 	}
 	
 	#search-text{
 	width:300px;
 	height:30px;
-	font:14px "ËÎÌå"
+	font:14px "å®‹ä½“"
 	}
  #search{ 
  	text-align: center; 
@@ -45,10 +45,10 @@ background-color: #9ACCFB;
 <script type="text/javascript" src="auto_complete.js"></script> 
   </head>
   <body>
-	<p align="center"><img src="dySE-logo.jpg" /></p>
+	<p align="center"><img src="Geeking.jpg" /></p>
 	<form id="search" action="search.jsp" method="get" enctype="application/x-www-form-urlencoded">	
 		<input align="center" type="text" maxlength="100" id="search-text" name="search-text"/>
-		<input type="submit" value="ËÑË÷Ò»ÏÂ"  id ="submit">		
+		<input type="submit" value="æœç´¢ä¸€ä¸‹"  id ="submit">		
 	</form>
   </body>
 

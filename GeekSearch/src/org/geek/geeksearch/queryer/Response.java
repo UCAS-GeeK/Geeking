@@ -1,61 +1,55 @@
 package org.geek.geeksearch.queryer;
 
-import java.net.URLDecoder;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
+import java.util.List;
 
 import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
 
-import org.geek.geeksearch.indexer.Tokenizer;
+import org.geek.geeksearch.configure.Configuration;
+import org.geek.geeksearch.model.PageInfo;
+import org.geek.geeksearch.recommender.CheckSpell;
+import org.geek.geeksearch.util.DBOperator;
 
 
 public class Response {
+	static {
+		//配置文件初始化，临时在此初始化，便于调试，工程完工后会在BootLoader里初始化
+		Configuration config = new Configuration("configure.properties");//初始化
+		new DBOperator(config);
+	}
+	private VarInteger resultCnt = new VarInteger();//相关新闻数目
+	private static QueryProcessor processor = new QueryProcessor();//所有response对象共有
 
+	public Response(){
+		//do nothing
+	}
 
-	private HashMap<String, ArrayList<String>> invertedIndexMap;
-	private ArrayList<Result> results;	
-//	public static HashMap<String,Integer> hot_words = new HashMap<String,Integer>();
-	public static HashMap<String,Integer> hot_words = new HashMap<String,Integer>(){
-		{put("姚明", 3);
-		put("足球新闻", 4);
-		put("篮球新闻", 5);}
-	};
-	boolean need_to_recommend = true;
+	/* 获取推荐词 */
+	public String get_recommend_query(String query){
+		ArrayList<String> sug = CheckSpell.suggestSimilar(query,3);
+		return JSONArray.fromObject(sug).toString();
+//		List<String> sug = new ArrayList<String>();
+//		sug.add("科比");
+//		sug.add("科技");
+//		sug.add("科学");
+//		return JSONArray.fromObject(sug).toString();
+	}
 	
-	public Response()
+	/*服务器端入口*/
+	public String getResponse(String query)
 	{
-//		dictSeg = new Tokenizer();
-	}
-	public void query_store(String request)
-	{
-		if (!hot_words.containsKey(request))
-			hot_words.put(request, 1);
-		else
-			hot_words.put(request, hot_words.get(request)+1);
-	}
-	public void hot_query_get_from_mysql()
-	{
-	}
-	public String get_recommend_query(String requert){
-		if(need_to_recommend){
-			CheckSpell checkspell = new CheckSpell();
-			checkspell.create_ngram_index();
-			ArrayList<String> sug = checkspell.suggestSimilar(requert,3);			
-			return new JSONArray().fromObject(sug).toString();
-//			return sug.toString();
-		}
-		else
+		List<List<PageInfo>> resultList = processor.doQuery(query, resultCnt);
+		
+		if (resultList == null || resultList.isEmpty()) {
 			return null;
-	
-	}
-	public String getResponse(String request)
-	{
-		System.out.println("搜索词是： "+request);
-		doQuery(request);
-		//construct json and output it	
-		JSONArray json_result = JSONArray.fromObject(results);
+		}
+		
+		//有结果才将query存入热词库
+		CheckSpell.store_query(query);
+		
+		/*construct json and output it*/
+		JSONArray json_result = JSONArray.fromObject(resultList);
+		
 /*		JSONObject json = new JSONObject();
 		JSONArray jsonMembers = new JSONArray();
 		JSONObject member1 = new JSONObject();
@@ -72,26 +66,32 @@ public class Response {
 		member2.put("sign_date", "2008-07-16");
 		jsonMembers.add(member2);
 		json.put("users", jsonMembers);*/	
-
+		System.out.println("results:\n"+json_result.toString());
 		return json_result.toString();
 	}
 	
-
-	private void doQuery(String request) {
-		
-
-		results = new ArrayList<Result>();
-		System.out.println("开始分词");
-		System.out.println("分词结束 \n");
-		for(int i = 0; i < 10; i++)
-			results.add(new Result("姚明","姚明的篮球队","www.baidu.com","2013"));		
+	public int getResultCnt() {
+		return resultCnt.getVar();
 	}
-
+	
+	static class VarInteger {
+		private int varInteger = 0;
+		public void setVar(int var) {
+			this.varInteger = var;
+		}
+		public int getVar() {
+			return varInteger;
+		}
+	}
+	
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
-	
+		Response response = new Response();
+		System.out.println(response.getResponse("詹姆"));
+		System.out.println(response.get_recommend_query("詹姆四"));//单字推荐报错
+//		System.out.println("相关数："+resultCnt);
 	}
 
 }

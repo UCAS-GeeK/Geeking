@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.ansj.domain.Term;
-import org.ansj.splitWord.analysis.BaseAnalysis;
 import org.ansj.splitWord.analysis.NlpAnalysis;
 import org.ansj.splitWord.analysis.ToAnalysis;
 import org.ansj.util.FilterModifWord;
@@ -19,37 +18,38 @@ import org.geek.geeksearch.configure.Configuration;
  */
 public class Tokenizer {
 	
-	public Tokenizer() {
-		/* for query process, not deal with stop words */
-	}
-	
+	/* for index generating */
 	public Tokenizer(Configuration config) {
 		loadStopWordsLib(config.getValue("StopLibPath"));
+		ToAnalysis.parse("");
 	}
-	
-	/* 正文词条化
-	 * 使用第三方分词工具ansj实现分词  
-	 */
-	public List<String> doTextTokenise(String plainText) {
-		// NlpAnalysis
-		List<Term> splitedTerms = NlpAnalysis.parse(plainText);
 		
+	/* 正文词条化
+	 * 使用第三方分词工具ansj实现分词 
+	 * 使用toAnalysis进行细粒度分词 ，用于构建索引
+	 */
+	public static List<String> doTokenise(String plainText) {
+		// ToAnalysis
+		List<Term> splitedTerms = ToAnalysis.parse(plainText);
 		// 去除停用词
 		splitedTerms = deleStopWords(splitedTerms);
-
 		// 去除词性
 		return cleanTerms(splitedTerms);
 	}
 	
-	public List<String> doQueryTokenise(String query) {
+	/*
+	 * 使用NLP分词，粗粒度，用于对keywords分词，便于搜索词推荐
+	 */
+	public static List<String> doNLpTokenise(String query) {
 		// 使用第三方分词工具ansj实现分词
 		List<Term> splitedTerms = NlpAnalysis.parse(query);
-		// 不过滤停用词
+		// 去除停用词
+		splitedTerms = deleStopWords(splitedTerms);
 		// 去除词性
 		return cleanTerms(splitedTerms);
 	}
 	
-	private List<Term> deleStopWords(List<Term> splitedTerms) {
+	private static List<Term> deleStopWords(List<Term> splitedTerms) {
 		// 过滤停用词（需要自定义停用词词典）
 //		System.out.println(splitedTerms.toString());
 		splitedTerms = FilterModifWord.modifResult(splitedTerms);
@@ -57,7 +57,7 @@ public class Tokenizer {
 		return splitedTerms;
 	}
 	
-	private void loadStopWordsLib(String path) {
+	private static void loadStopWordsLib(String path) {
 		File file = new File(path);
 		if (file.isDirectory() || !file.exists()) {
 			System.err.println("can not find stopwords library: "+path);
@@ -78,7 +78,7 @@ public class Tokenizer {
 		}
 	}
 	
-	public List<String> cleanTerms(List<Term> splitedTerms) {
+	public static List<String> cleanTerms(List<Term> splitedTerms) {
 		List<String> parsedTerms = new ArrayList<>();
 		String tmp = null;
 		int idx = 0;
@@ -86,9 +86,9 @@ public class Tokenizer {
 			tmp = term.toString();
 			if (tmp != null && (idx = tmp.indexOf("/")) > 0) {
 				parsedTerms.add(tmp.substring(0, idx));
-			}			
+			}
 		}
-		return parsedTerms;		
+		return parsedTerms;
 	}
 	
 }

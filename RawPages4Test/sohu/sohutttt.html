@@ -1,0 +1,1629 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0048)http://sports.sohu.com/20141124/n406333364.shtml -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=GBK"><script async="" src="./科比27分篮板超越乔丹 书豪17+5湖人加时负掘金-搜狐体育_files/arrive"></script><script type="text/javascript" charset="utf-8" src="./科比27分篮板超越乔丹 书豪17+5湖人加时负掘金-搜狐体育_files/html"></script><script async="" charset="gbk" src="http://images.sohu.com/bill/s2012/gates/all/map.2013040302.js"></script><script type="text/javascript" charset="gbk" id="tanx-s-mm_17187609_2273741_14706573" async="" src="http://p.tanx.com/ex?i=mm_17187609_2273741_14706573"></script><script type="text/javascript">
+  var pvinsight_page_ancestors = '204181089;204253299;204253325;267837215;406333364';
+</script>
+
+
+
+<title>科比27分篮板超越乔丹 书豪17+5湖人加时负掘金-搜狐体育</title>
+<meta name="keywords" content="乔丹 掘金">
+<meta name="description" content="组图：湖人负掘金科比进攻数据投篮点实录调查评论--&gt;北京时间2014年11月24日，NBA常规赛继续进行。湖人主场94-101加时不敌掘金，遭遇两连败，同时也是">
+<link rel="canonical" href="./科比27分篮板超越乔丹 书豪17+5湖人加时负掘金-搜狐体育_files/科比27分篮板超越乔丹 书豪17+5湖人加时负掘金-搜狐体育.html">
+<meta name="robots" content="all">
+<!-- 购买url变量获取 -->
+<script type="text/javascript">
+ var shoppingCnf = {url:''};
+</script>
+<!-- 购买url变量获取end -->
+<script type="text/javascript">
+  var category =  '204181089;204253299;204253325;267837215;406333364';  var videoNum = 0;  var relate_from_sohu = false;
+</script>
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
+<script src="./科比27分篮板超越乔丹 书豪17+5湖人加时负掘金-搜狐体育_files/sohuflash_1.js" type="text/javascript"></script>
+<script type="text/javascript" src="./科比27分篮板超越乔丹 书豪17+5湖人加时负掘金-搜狐体育_files/jquery-1.7.1.min.js"></script>
+<script type="text/javascript" src="./科比27分篮板超越乔丹 书豪17+5湖人加时负掘金-搜狐体育_files/tongji_v2013110101.js"></script><style type="text/css"></style>
+
+<script type="text/javascript">
+jQuery(function(jq){
+	//标签
+	function changeTab(lis, divs, nums, nowCls){
+		lis.each(function(i){
+			var els = jq(this);
+			els.mouseenter(function(){
+				lis.removeClass(nowCls);
+				divs.stop().hide();
+				jq(this).addClass(nowCls);
+				divs.eq(i).show();
+			});
+		}).eq(nums).mouseenter();
+	}
+	
+	var divA = jq("#kind-video"); //视频菜单
+	changeTab(divA.find(".video-menu li"), divA.find(".video-cont"), videoNum, "video-menu-now");
+	
+	jq(".fontsize").hover(function(){
+		jq(".fontsize-layer").show();
+		},function(){
+		jq(".fontsize-layer").hide();
+	});
+	
+        jq(".print").hover(function(){
+                   jq(".print-layer").show();
+                   },function(){
+                   jq(".print-layer").hide();
+         });
+
+	var phoneNumInput = jq(".rightbar-wrapper .phoneNews .rssArea .Ftxt"),
+		phoneNumBtn = jq(".rightbar-wrapper .phoneNews .rssArea .Fbtn");
+	phoneNumInput.hover(function(){  // xlx
+		jq(this).parent().addClass("current");
+	},function(){
+		jq(this).parent().removeClass("current");
+	});
+	phoneNumInput.focus(function(){
+		var _this = $(this);
+		var val = _this.val();
+		if(val == '输入手机号码'||val == '手机号码输入错误！'||val == '此号码发送次数过多！'||val == '失败！'){
+			_this.val("");
+			_this.parent().removeClass("error");
+		}
+	}).blur(function(){
+		var _this = $(this);
+		if(_this.val() == ''){
+			_this.val('输入手机号码');
+			_this.parent().removeClass("error");
+		}
+	});
+	
+	jq(".rightbar-wrapper .phoneNews .Fbtn").click(function(){// 订阅按钮点击
+		var _mobile = phoneNumInput.val();	
+		if(!(/^1[3458]\d{9}$/.test(_mobile))){
+			phoneNumInput.val("手机号码输入错误！");
+			phoneNumInput.parent().addClass("current error");
+		}else{
+			var formData = {
+					"number" : _mobile
+					};
+			var submitUrl = "http://api.k.sohu.com/api/client/sendmsg.go?callback=?";
+			$.ajax({
+				url: submitUrl,
+				data: formData,
+				dataType:"jsonp",
+				success: function(data){
+					var _code = data.data;				
+					var _msg = "";
+					switch(_code){
+						case "1":
+							phoneNumInput.parent().addClass("current error succeed");
+							phoneNumInput.add(phoneNumBtn).hide();
+							break;
+						case "0":
+							_msg = "失败！";
+							break;
+						case "12001":
+							_msg = "手机号码输入错误！";	
+							break;
+						case "12003":
+							_msg = "此号码发送次数过多！";
+							break;			
+					};
+					phoneNumInput.val(_msg);
+					phoneNumInput.parent().addClass("current error");
+				},
+				error: function(XMLHttpRequest, textStatus, errorThrown){
+					alert("error");
+				}
+			});			
+		}
+	});
+});
+//去搜狐首页的检测
+function toHomePage(){
+                   var serverUrl = "http://www.n-s.cn/news.png";
+                   $.ajax({
+                type: "GET",
+                url: serverUrl,
+                dataType: "jsonp",
+                success:function(){}
+            });             
+}
+//转换字号
+function doZoom(size){	
+	jQuery("#contentText").css("fontSize",size);
+}
+var printArticle = function(){
+	jQuery.getScript("http://news.sohu.com/upload/article/2012/js/print_roll.js",function(){printer.print()},true)
+}
+var topicId = 334087882;
+var grobal_arg={};
+grobal_arg['topicId']=topicId;
+var jumpUrl=function(x){
+	var url = '', e = encodeURIComponent, s = screen, d = document, wd = 0, hg = 0, u = d.location , y = x,topicId =grobal_arg.topicId;
+	//缺个我的搜狐的分享的跳转URL
+	//topicId的确认方式
+	switch (y)
+	{
+	case 't':	url ="http://t.sohu.com/third/post.jsp?link="+e(u.href)+"&title="+e(d.title);wd = 660;hg = 470;break;
+	case 'bai':	url ="http://bai.sohu.com/share/blank/addbutton.do?link="+e(u.href)+"&title="+e(d.title);wd = 480;hg = 340;break;
+	case 'douban':	url ="http://www.douban.com/recommend/?url="+e(u.href)+"&title="+e(d.title);wd = 460;hg = 340;break;
+	case 'renren':	url ="http://share.renren.com/share/buttonshare?link="+e(u.href)+"&title="+e(d.title);wd = 590;hg = 430;break;
+	case 'kaixin':	url ="http://www.kaixin001.com/repaste/share.php?rurl="+e(u.href)+"&rtitle="+e(d.title);wd = 540;hg = 360;break;
+	case 'itb':     var ctxt = $('#contentText').length>0?$('#contentText').text().replace(/<[^>].*?>/g,'').substr(0,120):'';
+			url ="http://tieba.baidu.com/i/sys/share?link="+e(u.href)+"&type=text&title="+e(d.title)+"&content="+e(ctxt);wd = 626;hg = 436;
+			break;
+	case 'go139':	url ="http://go.139.com/ishare.do?shareUrl="+e(u.href)+"&title="+e(d.title)+"&sid=20dd04a99380c2e8d56cf187f6658169";wd = 630;hg = 500;break;
+	case 'qq':	url ="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url="+e(u.href);wd = 900;hg = 500;break;
+           case 'sohukan': url ="http://kan.sohu.com/share/?href="+e(u.href)+"&title="+e(d.title)+"&appkey=1550c1b2513a1461a4ea4914af8aa8fe";wd = 760;hg = 477;break;
+	default :	return false;
+	}
+	var a=function(){
+		if (!window.open(url, 'sohushare', ['toolbar=0,status=0,resizable=1,width='+ wd +',height='+ hg +',left='+ (s.width - wd) / 2+ ',top='+ (s.height - hg) / 2]))
+			u.href = [url].join('');
+	}
+	if (/Firefox/.test(navigator.userAgent)){
+		setTimeout(a, 0);
+	}else{
+		a();
+	}
+
+	var stat = (new Image);
+	try{stat.src = "http://219.234.82.222/zhuanfa/index.php?newsId=" + /http:\/\/(.*)(\.sohu.com\/.*\/n)(.{9})/g.exec(document.location)[3] + "&newsName=" + e(d.title) + "&newsUrl=" + d.location.href + "&postId=" + x;
+	}catch(e){}
+}
+//媒体来源
+function media_span_url(id_media_span_url) {
+    if(id_media_span_url) {
+        id_media_span = jQuery('#media_span');
+        if(!id_media_span.find('a').length) {
+            id_media_span.html('<a href=\'' + id_media_span_url + '\' target=\'_blank\'>' + id_media_span.html() + '</a>');			
+        }
+    }
+}
+ 
+</script>
+<script src="./科比27分篮板超越乔丹 书豪17+5湖人加时负掘金-搜狐体育_files/fid.js"></script>
+<script>
+    var fid;
+    Sogou_FID.get(function(sid){
+        fid = sid;       
+    });
+</script>
+<link type="text/css" rel="stylesheet" href="./科比27分篮板超越乔丹 书豪17+5湖人加时负掘金-搜狐体育_files/global1.4.1.css">
+<link type="text/css" rel="stylesheet" href="./科比27分篮板超越乔丹 书豪17+5湖人加时负掘金-搜狐体育_files/style.v20140606.css">
+
+<script type="text/javascript">
+var sogou_is_brand = new Object();
+sogou_is_brand["pid"]  = 'sohu__brand';
+sogou_is_brand["charset"]   = 'gb2312';
+sogou_is_brand["sohuurl"] = document.location.href;
+</script>
+
+<script charset="utf-8" src="./科比27分篮板超越乔丹 书豪17+5湖人加时负掘金-搜狐体育_files/itoolbar.cms.20140930.js"></script><script type="text/javascript" charset="UTF-8" src="./科比27分篮板超越乔丹 书豪17+5湖人加时负掘金-搜狐体育_files/cyqemw6s1"></script><script type="text/javascript" charset="UTF-8" src="./科比27分篮板超越乔丹 书豪17+5湖人加时负掘金-搜狐体育_files/changyan.v2.0.js"></script><script src="./科比27分篮板超越乔丹 书豪17+5湖人加时负掘金-搜狐体育_files/logger.js"></script><link href="./科比27分篮板超越乔丹 书豪17+5湖人加时负掘金-搜狐体育_files/bdsstyle.css" rel="stylesheet" type="text/css"><style type="text/css">#yddContainer{display:block;font-family:Microsoft YaHei;position:relative;width:100%;height:100%;top:-4px;left:-4px;font-size:12px;border:1px solid}#yddTop{display:block;height:22px}#yddTopBorderlr{display:block;position:static;height:17px;padding:2px 28px;line-height:17px;font-size:12px;color:#5079bb;font-weight:bold;border-style:none solid;border-width:1px}#yddTopBorderlr .ydd-sp{position:absolute;top:2px;height:0;overflow:hidden}.ydd-icon{left:5px;width:17px;padding:0px 0px 0px 0px;padding-top:17px;background-position:-16px -44px}.ydd-close{right:5px;width:16px;padding-top:16px;background-position:left -44px}#yddKeyTitle{float:left;text-decoration:none}#yddMiddle{display:block;margin-bottom:10px}.ydd-tabs{display:block;margin:5px 0;padding:0 5px;height:18px;border-bottom:1px solid}.ydd-tab{display:block;float:left;height:18px;margin:0 5px -1px 0;padding:0 4px;line-height:18px;border:1px solid;border-bottom:none}.ydd-trans-container{display:block;line-height:160%}.ydd-trans-container a{text-decoration:none;}#yddBottom{position:absolute;bottom:0;left:0;width:100%;height:22px;line-height:22px;overflow:hidden;background-position:left -22px}.ydd-padding010{padding:0 10px}#yddWrapper{color:#252525;z-index:10001;background:url(chrome-extension://eopjamdnofihpioajgfdikhhbobonhbb/ab20.png);}#yddContainer{background:#fff;border-color:#4b7598}#yddTopBorderlr{border-color:#f0f8fc}#yddWrapper .ydd-sp{background-image:url(chrome-extension://eopjamdnofihpioajgfdikhhbobonhbb/ydd-sprite.png)}#yddWrapper a,#yddWrapper a:hover,#yddWrapper a:visited{color:#50799b}#yddWrapper .ydd-tabs{color:#959595}.ydd-tabs,.ydd-tab{background:#fff;border-color:#d5e7f3}#yddBottom{color:#363636}#yddWrapper{min-width:250px;max-width:400px;}</style><style id="changyanCss">#SOHUCS{clear:both;min-height:320;_height:320px;overflow:visible;}#SOHUCS iframe{width:100%;min-height:320px;_height:320px;}</style></head>
+
+<body><iframe frameborder="0" style="display: none;"></iframe><div id="bdshare_s" style="display: block;"><iframe id="bdsIfr" style="position:absolute;display:none;z-index:9999;" frameborder="0"></iframe><div id="bdshare_l" style="display: none;"><div id="bdshare_l_c"><h6>分享到</h6><ul><li><a href="http://sports.sohu.com/20141124/n406333364.shtml#" class="bds_mshare mshare">一键分享</a></li><li><a href="http://sports.sohu.com/20141124/n406333364.shtml#" class="bds_qzone qqkj">QQ空间</a></li><li><a href="http://sports.sohu.com/20141124/n406333364.shtml#" class="bds_tsina xlwb">新浪微博</a></li><li><a href="http://sports.sohu.com/20141124/n406333364.shtml#" class="bds_bdysc bdysc">百度云收藏</a></li><li><a href="http://sports.sohu.com/20141124/n406333364.shtml#" class="bds_renren rrw">人人网</a></li><li><a href="http://sports.sohu.com/20141124/n406333364.shtml#" class="bds_tqq txwb">腾讯微博</a></li><li><a href="http://sports.sohu.com/20141124/n406333364.shtml#" class="bds_bdxc bdxc">百度相册</a></li><li><a href="http://sports.sohu.com/20141124/n406333364.shtml#" class="bds_kaixin001 kxw">开心网</a></li><li><a href="http://sports.sohu.com/20141124/n406333364.shtml#" class="bds_tqf txpy">腾讯朋友</a></li><li><a href="http://sports.sohu.com/20141124/n406333364.shtml#" class="bds_tieba bdtb">百度贴吧</a></li><li><a href="http://sports.sohu.com/20141124/n406333364.shtml#" class="bds_douban db">豆瓣网</a></li><li><a href="http://sports.sohu.com/20141124/n406333364.shtml#" class="bds_tsohu shwb">搜狐微博</a></li><li><a href="http://sports.sohu.com/20141124/n406333364.shtml#" class="bds_bdhome bdhome">百度新首页</a></li><li><a href="http://sports.sohu.com/20141124/n406333364.shtml#" class="bds_sqq sqq">QQ好友</a></li><li><a href="http://sports.sohu.com/20141124/n406333364.shtml#" class="bds_thx thx">和讯微博</a></li><li><a href="http://sports.sohu.com/20141124/n406333364.shtml#" class="bds_more">更多...</a></li></ul><p><a href="http://sports.sohu.com/20141124/n406333364.shtml#" class="goWebsite">百度分享</a></p></div></div></div>
+<div data-type="roll" data-appid="1079" id="isohu-topbar"><div class="isohu-topbar-wrapper"><div id="innerToolBar" class="innerToolBar"><div class="tb-nav tb-nav-myhome-title"><ul class="page-nav"><li class="logo"><span><a href="http://www.sohu.com/" title="搜狐首页" target="_blank"><img src="./科比27分篮板超越乔丹 书豪17+5湖人加时负掘金-搜狐体育_files/sohu_channel_logo_0507.gif" title="搜狐首页"></a><a class="dropdown-toggle" data-toggle="dropdown" href="http://sports.sohu.com/20141124/n406333364.shtml#"><i class="icon-chevron-down"></i></a></span><ul class="dropdown-menu"><li>其他帐号登录：</li><li><a href="http://plus.sohu.com/spassport/bind/40000001/qq?ru=http://i.sohu.com/login/passport/redirect.do" target="_blank" data-action="crosslogin" data-width="486" data-height="330" data-type="tencent"><i class="img-qq"></i>腾讯QQ</a></li><li><a href="http://plus.sohu.com/spassport/bind/40000001/weibo?ru=http://i.sohu.com/login/passport/redirect.do" target="_blank" data-action="crosslogin" data-width="600" data-height="400" data-type="sina"><i class="img-sina"></i>新浪</a></li><li><a href="http://plus.sohu.com/spassport/bind/40000001/renren?ru=http://i.sohu.com/login/passport/redirect.do" target="_blank" data-action="crosslogin" data-width="420" data-height="322" data-type="renren"><i class="img-ren"></i>人人网</a></li></ul></li></ul></div><div class="loading" style="display: none;">loading...</div><div id="tb_user" class="tb-user-unlogin" style="display: block;"><div id="tb_user_login" class="tb-user-login"><div class="error" style="display: none;"></div><div id="simple_card" class="login-card"><div class="ppselecter" style="position: absolute; display: none;"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td style="" class="ppseltit" id="ppseltitId">请选择您的用户帐号类型</td></tr><tr><td height="2"></td></tr><tr><td></td></tr></tbody></table></div><div style="display: none;"></div><div class="passportc"><form method="post" onsubmit="return PassportCardList[1].doLogin();" name="loginformsim" id="loginformsim"><div class="simple-email-wrapper"><input name="email" type="text" class="simple-email" value="用户名/邮箱/手机号" title="用户名" autocomplete="off" disableautocomplete=""></div><div class="simple-pwd-wrapper"><input name="password" type="password" class="simple-pwd" title="密码" autocomplete="off" disableautocomplete="" value=""></div><input type="submit" class="simple-btn" value="登录" onfocus="this.blur()" alt="登录"><input type="hidden" value=""><a href="http://i.sohu.com/login/reg.do?bru=http%3A%2F%2Fwww.sohu.com" target="_blank" title="注册">注册</a></form></div></div></div></div><div id="tb_addon"></div><div class="tb-nav tb-nav-inform"><ul class="page-nav"><li id="home_wrapper" class=""><a href="http://i.sohu.com/" target="_blank" class="itoolbar-title" title="我的搜狐">我的搜狐</a></li><li id="notice_wrapper" style="display:none"><a href="http://i.sohu.com/request/home/message.htm" class="itoolbar-title">消息</a><span id="notice_num" class="notice-num"></span><div id="inform_cont_wrapper"><div class="inform-link"><span>你暂时没有新消息</span>，<a href="http://i.sohu.com/request/home/message.htm">查看消息</a></div><ul class="inform-list"></ul><div id="view_inform" class="view-inform-link"><a id="view_inform_dologin" href="javascript:void(0)">登录并查看</a></div></div></li><li id="mail_wrapper"><a href="http://mail.sohu.com/" class="itoolbar-title" title="邮件">邮件</a><span id="mail_num" class="notice-num" "=""></span></li></ul></div><div class="tb-nav tb-nav-app"><ul class="page-nav"><li id="album_wrapper" class=""><a href="http://pp.sohu.com/temp_photos" target="_blank" class="itoolbar-title" title="相册">相册</a><span id="photo_num" class="notice-num" "=""></span><span class="plus_one" style="display:none;">+1</span><div style="display: none;" class="tb-prompt photolayer"><em class="trangle-ico"></em><div class="photoContainer"></div><div class="tb-prompt-info"><span class="max_limit">未登录只能保存14天</span><a href="http://pp.sohu.com/temp_photos" target="_blank" class="more">查看更多<i>&gt;&gt;</i></a></div></div></li><li id="comment_wrapper" class=""><a title="说两句" class="itoolbar-title" href="http://pinglun.sohu.com/">说两句</a></li></ul></div><div class="tb-nav tb-nav-map"><ul class="page-nav"><li><a class="btn-map" href="javascript:;" id="tb-btn-mapsite"><i class="icons-tabs"></i>网站地图</a></li></ul></div><div id="loginCard" class="login-card" style="display: none;"><div class="ppselecter" style="position: absolute; display: none;"><table width="100%" cellspacing="0" cellpadding="0"><tbody><tr><td style="" class="ppseltit" id="ppseltitId">请选择您的用户帐号类型</td></tr><tr><td height="2"></td></tr><tr><td></td></tr></tbody></table></div><div style="display: none;"></div><div class="passportc"><form method="post" onsubmit="return PassportCardList[0].doLogin();" name="loginform"><div class="ppcontent" id="ppcontid"><ul class="card"><div class="error" id="pperrmsg" style="display:none;"></div><li>用户名 <input name="email" type="text" class="ppinput" value="用户名/邮箱/手机号" style="color:gray" autocomplete="off" disableautocomplete=""></li><li>密　码 <input name="password" type="password" class="ppinput" autocomplete="off" disableautocomplete=""></li><dt><span><input name="persistentcookie" type="checkbox" value="1" checked="checked">记住登录状态</span><input type="submit" class="sign" value="登录" onfocus="this.blur()" src="http://news.sohu.com/upload/itoolbar/default/spacer.gif" alt="登录"></dt><dl><a href="http://i.sohu.com/login/reg.do?bru=http%3A%2F%2Fwww.sohu.com" target="_blank">注册新用户</a><a href="http://passport.sohu.com/web/recover.jsp" target="_blank">忘记密码</a><a href="http://passport.sohu.com/help/" target="_blank">帮助中心</a></dl></ul></div></form></div></div></div></div></div>
+<link type="text/css" rel="stylesheet" href="./科比27分篮板超越乔丹 书豪17+5湖人加时负掘金-搜狐体育_files/itoolbar.201312061628.css" charset="UTF-8">
+<style type="text/css">
+#innerToolBar{width:980px;}
+.tb-nav-map{margin-right:-6px;}
+</style>
+<script src="./科比27分篮板超越乔丹 书豪17+5湖人加时负掘金-搜狐体育_files/itoolbar.cms.loader.20140930.js" charset="UTF-8"></script>
+
+<!-- 导航 st -->
+<div id="nav" class="area"><a class="first" href="http://www.sohu.com/">首页</a>-<a href="http://news.sohu.com/">新闻</a>-<a class="n3" href="http://mil.sohu.com/">军事</a>-<a href="http://cul.sohu.com/">文化</a>-<a href="http://history.sohu.com/">历史</a>-<a class="n3" href="http://sports.sohu.com/">体育</a>-<a href="http://sports.sohu.com/nba.shtml">NBA</a>-<a href="http://tv.sohu.com/">视频</a>-<a class="n3" href="http://yule.sohu.com/">娱乐</a>-<a href="http://business.sohu.com/">财经</a>-<a href="http://stock.sohu.com/">股票</a>-<a class="n3" href="http://it.sohu.com/">IT</a>-<a href="http://auto.sohu.com/">汽车</a>-<a href="http://www.focus.cn/">房产</a>-<a class="n3" href="http://fashion.sohu.com/">时尚</a>-<a href="http://women.sohu.com/">女人</a>-<a href="http://men.sohu.com/">男人</a>-<a class="n3" href="http://baobao.sohu.com/">母婴</a>-<a href="http://learning.sohu.com/">教育</a>-<a href="http://health.sohu.com/">健康</a>-<a href="http://travel.sohu.com/">旅游</a>-<a class="last" href="http://club.sohu.com/" target="_blank">BBS</a></div>
+<!-- 导航 end -->
+
+
+<!-- 翻牌广告 st -->
+<div id="turn-ad" class="area">
+	<div class="left">
+		<sohuadcode><script type="text/javascript" src="http://images.sohu.com/bill/s2012/gates/all/sohuad2012v15.js"></script>
+<script type="text/javascript" src="http://images.sohu.com/bill/tongyong/js/top/Topnewsthird950100V20140925.js"></script>
+<script src="./科比27分篮板超越乔丹 书豪17+5湖人加时负掘金-搜狐体育_files/1000030.shtml"></script><div>
+<div id="05c6511ea5625ea75"><a href="http://clk.optaim.com/event.ng/Type=click&FlightID=201411&TargetID=sohu&Values=11ed7251,131320c6,90145ad6,88bea437&AdID=12534998" target="_blank"><img src="http://images.sohu.com/bill/s2014/focus/dyh142-80-1119.jpg" border="0" width="0" height="0" style="display: none !important; visibility: hidden !important; opacity: 0 !important; background-position: 142px 80px;"></a></div>
+
+<script type="text/javascript" src="./科比27分篮板超越乔丹 书豪17+5湖人加时负掘金-搜狐体育_files/soip"></script>
+<script language="javascript">
+if(window.location.href.getQueryString("ip")==null)
+AdLoc=sohu_IP_Loc.substr(0,4);
+else
+AdLoc=window.location.href.getQueryString("ip");
+</script>
+<script type="text/javascript">
+if (typeof has_topAd == "undefined" || has_topAd==0) {
+//topnews代码，请勿删除
+
+     switch (AdLoc) {
+         case "CN44"://广东
+document.getElementById('05c6511ea5625ea75').innerHTML ='<a href="http://house.focus.cn/zhuanti14/house_2014beijingkanfangtuan/" target=_blank><img src="http://images.sohu.com/bill/s2014/focus/mxlp142-80-201411.jpg" border=0 width=142 height=80></img></a>';
+             break;
+         case "CN31"://上海
+document.getElementById('05c6511ea5625ea75').innerHTML ='<a href="http://house.focus.cn/zhuanti14/house_2014beijingkanfangtuan/" target=_blank><img src="http://images.sohu.com/bill/s2014/focus/mxlp142-80-201411.jpg" border=0 width=142 height=80></img></a>';
+             break;
+         case "CN12"://天津
+document.getElementById('05c6511ea5625ea75').innerHTML ='<a href="http://house.focus.cn/zhuanti14/house_2014beijingkanfangtuan/" target=_blank><img src="http://images.sohu.com/bill/s2014/focus/mxlp142-80-201411.jpg" border=0 width=142 height=80></img></a>';
+             break;
+         case "CN32"://江苏（南京）
+document.getElementById('05c6511ea5625ea75').innerHTML ='<a href="http://house.focus.cn/zhuanti14/house_2014beijingkanfangtuan/" target=_blank><img src="http://images.sohu.com/bill/s2014/focus/mxlp142-80-201411.jpg" border=0 width=142 height=80></img></a>';
+             break;
+         case "CN42"://湖北
+document.getElementById('05c6511ea5625ea75').innerHTML ='<a href="http://house.focus.cn/zhuanti14/house_2014beijingkanfangtuan/" target=_blank><img src="http://images.sohu.com/bill/s2014/focus/mxlp142-80-201411.jpg" border=0 width=142 height=80></img></a>';
+             break;
+         case "CN33"://浙江（杭州）
+document.getElementById('05c6511ea5625ea75').innerHTML ='<a href="http://house.focus.cn/zhuanti14/house_2014beijingkanfangtuan/" target=_blank><img src="http://images.sohu.com/bill/s2014/focus/mxlp142-80-201411.jpg" border=0 width=142 height=80></img></a>';
+             break;
+         case "CN37"://山东（济南）
+document.getElementById('05c6511ea5625ea75').innerHTML ='<a href="http://house.focus.cn/zhuanti14/house_2014beijingkanfangtuan/" target=_blank><img src="http://images.sohu.com/bill/s2014/focus/mxlp142-80-201411.jpg" border=0 width=142 height=80></img></a>';
+             break;
+         case "CN21"://辽宁（沈阳）
+document.getElementById('05c6511ea5625ea75').innerHTML ='<a href="http://house.focus.cn/zhuanti14/house_2014beijingkanfangtuan/" target=_blank><img src="http://images.sohu.com/bill/s2014/focus/mxlp142-80-201411.jpg" border=0 width=142 height=80></img></a>';
+             break;
+         case "CN50"://重庆
+document.getElementById('05c6511ea5625ea75').innerHTML ='<a href="http://house.focus.cn/zhuanti14/house_2014beijingkanfangtuan/" target=_blank><img src="http://images.sohu.com/bill/s2014/focus/mxlp142-80-201411.jpg" border=0 width=142 height=80></img></a>';
+             break;
+         case "CN51"://四川（成都）
+document.getElementById('05c6511ea5625ea75').innerHTML ='<a href="http://house.focus.cn/zhuanti14/house_2014beijingkanfangtuan/" target=_blank><img src="http://images.sohu.com/bill/s2014/focus/mxlp142-80-201411.jpg" border=0 width=142 height=80></img></a>';
+             break;
+         case "CN61"://陕西（西安）
+document.getElementById('05c6511ea5625ea75').innerHTML ='<a href="http://house.focus.cn/zhuanti14/house_2014beijingkanfangtuan/" target=_blank><img src="http://images.sohu.com/bill/s2014/focus/mxlp142-80-201411.jpg" border=0 width=142 height=80></img></a>';
+             break;
+         default://其他（北京等）
+document.getElementById('05c6511ea5625ea75').innerHTML ='<a href="http://clk.optaim.com/event.ng/Type=click&FlightID=201411&TargetID=sohu&Values=11ed7251,131320c6,90145ad6,88bea437&AdID=12534998" target=_blank><img src="http://images.sohu.com/bill/s2014/focus/dyh142-80-1119.jpg" border=0 width=142 height=80></img></a>';
+     }
+}
+
+ </script></div>
+</sohuadcode>
+	</div>
+	<div class="center">
+		<sohuadcode><script>
+    var passion_config = {
+       PAGEID : "sports_news1376892350025"
+    };
+var TurnAD511=new Cookie(document,"TurnAD511",24);
+TurnAD511.load();
+TurnAD511.visit=(TurnAD511.visit==null)?parseInt(Math.random()*2+1):TurnAD511.visit;
+TurnAD511.store();
+
+var TurnAD512=new Cookie(document,"TurnAD512",24);
+TurnAD512.load();
+TurnAD512.visit=TurnAD511.visit;
+TurnAD512.store();
+
+</script>
+<script src="http://images.sohu.com/bill/s2013/gates/js/Sohu-0.3.8.min.js" type="text/javascript"></script>
+<script src="http://images.sohu.com/bill/s2014/jscript/require-sohu.js"></script><div class="TurnAD511"> 
+<div id="TurnAD511" width="590" height="95">
+ <script language="javascript">
+try{
+var TurnAD511=new Cookie(document,"TurnAD511",24);
+TurnAD511.load();
+TurnAD511.visit=(TurnAD511.visit==null)?parseInt(Math.random()*2+1):TurnAD511.visit;
+if(TurnAD511.visit!=0)var intTurnAD511=TurnAD511.visit;
+TurnAD511.visit++;
+TurnAD511.visit=(TurnAD511.visit>2)?1:TurnAD511.visit;
+TurnAD511.store();
+function showTurnAD511(basenum){
+if (basenum==1){
+if (typeof has_topAd == "undefined" || has_topAd==0) {
+//topnews代码，投放时请带上，轮换代码从下面开始替换
+document.getElementById('TurnAD511').innerHTML ='<iframe width=590 height=95 marginwidth=0 marginheight=0 hspace=0 frameborder=0 scrolling=no bordercolor=#000000 src=http://images.sohu.com/bill/jingzhun/2014/jingdong/590950516page.htm></iframe>';
+//轮换代码结束
+}}
+else{
+if(typeof(document.pv)=='undefined')document.pv = new Array();var _a=new Image();
+_a.src='http://imp.optaim.com/201411/622605537d635959947e372f2a76f180.php?a=99';document.pv.push(_a);
+document.write('<a href="http://clk.optaim.com/event.ng/Type=click&FlightID=201411&TargetID=sohu&Values=62260553,7d635959,947e372f,2a76f180&AdID=7836193" target=_blank><img src="http://images.sohu.com/bill/s2014/yanlu/audi/A8L/590951121.jpg" border=0 width="590" height="95"></img></a>');}
+}
+showTurnAD511(intTurnAD511);
+}catch(e){}
+</script><a href="http://clk.optaim.com/event.ng/Type=click&FlightID=201411&TargetID=sohu&Values=62260553,7d635959,947e372f,2a76f180&AdID=7836193" target="_blank"><img src="http://images.sohu.com/bill/s2014/yanlu/audi/A8L/590951121.jpg" border="0" width="0" height="0" style="display: none !important; visibility: hidden !important; opacity: 0 !important; background-position: 590px 95px;"></a>
+</div>
+</div>
+</sohuadcode>
+	</div>
+	<div class="right">
+		<sohuadcode><div id="11ea5625eaa"><a href="http://clk.optaim.com/event.ng/Type=click&FlightID=201411&TargetID=sohu&Values=baa8a01c,67bbdbf4,5a681956,2f64ef36&AdID=6655956" target="_blank"><img src="http://images.sohu.com/bill/s2014/focus/bssj142-80-1118.jpg" border="0" width="0" height="0" style="display: none !important; visibility: hidden !important; opacity: 0 !important; background-position: 142px 80px;"></a></div>
+
+<script type="text/javascript" src="./科比27分篮板超越乔丹 书豪17+5湖人加时负掘金-搜狐体育_files/soip"></script>
+<script language="javascript">
+if(window.location.href.getQueryString("ip")==null)
+AdLoc=sohu_IP_Loc.substr(0,4);
+else
+AdLoc=window.location.href.getQueryString("ip");
+</script>
+<script type="text/javascript">
+if (typeof has_topAd == "undefined" || has_topAd==0) {
+//topnews代码，请勿删除
+
+     switch (AdLoc) {
+         case "CN44"://广东
+document.getElementById('11ea5625eaa').innerHTML ='<a href="http://zhuanti.focus.cn/2014/house_beijingzuixinkaipan/" target=_blank><img src="http://images.sohu.com/bill/s2014/focus/xpkp142-80-201411.jpg" border=0 width=142 height=80></img></a>';
+             break;
+         case "CN31"://上海
+document.getElementById('11ea5625eaa').innerHTML ='<a href="http://zhuanti.focus.cn/2014/house_beijingzuixinkaipan/" target=_blank><img src="http://images.sohu.com/bill/s2014/focus/xpkp142-80-201411.jpg" border=0 width=142 height=80></img></a>';
+             break;
+         case "CN12"://天津
+document.getElementById('11ea5625eaa').innerHTML ='<a href="http://zhuanti.focus.cn/2014/house_beijingzuixinkaipan/" target=_blank><img src="http://images.sohu.com/bill/s2014/focus/xpkp142-80-201411.jpg" border=0 width=142 height=80></img></a>';
+             break;
+         case "CN32"://江苏（南京）
+document.getElementById('11ea5625eaa').innerHTML ='<a href="http://zhuanti.focus.cn/2014/house_beijingzuixinkaipan/" target=_blank><img src="http://images.sohu.com/bill/s2014/focus/xpkp142-80-201411.jpg" border=0 width=142 height=80></img></a>';
+             break;
+         case "CN42"://湖北
+document.getElementById('11ea5625eaa').innerHTML ='<a href="http://zhuanti.focus.cn/2014/house_beijingzuixinkaipan/" target=_blank><img src="http://images.sohu.com/bill/s2014/focus/xpkp142-80-201411.jpg" border=0 width=142 height=80></img></a>';
+             break;
+         case "CN33"://浙江（杭州）
+document.getElementById('11ea5625eaa').innerHTML ='<a href="http://zhuanti.focus.cn/2014/house_beijingzuixinkaipan/" target=_blank><img src="http://images.sohu.com/bill/s2014/focus/xpkp142-80-201411.jpg" border=0 width=142 height=80></img></a>';
+             break;
+         case "CN37"://山东（济南）
+document.getElementById('11ea5625eaa').innerHTML ='<a href="http://zhuanti.focus.cn/2014/house_beijingzuixinkaipan/" target=_blank><img src="http://images.sohu.com/bill/s2014/focus/xpkp142-80-201411.jpg" border=0 width=142 height=80></img></a>';
+             break;
+         case "CN21"://辽宁（沈阳）
+document.getElementById('11ea5625eaa').innerHTML ='<a href="http://zhuanti.focus.cn/2014/house_beijingzuixinkaipan/" target=_blank><img src="http://images.sohu.com/bill/s2014/focus/xpkp142-80-201411.jpg" border=0 width=142 height=80></img></a>';
+             break;
+         case "CN50"://重庆
+document.getElementById('11ea5625eaa').innerHTML ='<a href="http://zhuanti.focus.cn/2014/house_beijingzuixinkaipan/" target=_blank><img src="http://images.sohu.com/bill/s2014/focus/xpkp142-80-201411.jpg" border=0 width=142 height=80></img></a>';
+             break;
+         case "CN51"://四川（成都）
+document.getElementById('11ea5625eaa').innerHTML ='<a href="http://zhuanti.focus.cn/2014/house_beijingzuixinkaipan/" target=_blank><img src="http://images.sohu.com/bill/s2014/focus/xpkp142-80-201411.jpg" border=0 width=142 height=80></img></a>';
+             break;
+         case "CN61"://陕西（西安）
+document.getElementById('11ea5625eaa').innerHTML ='<a href="http://zhuanti.focus.cn/2014/house_beijingzuixinkaipan/" target=_blank><img src="http://images.sohu.com/bill/s2014/focus/xpkp142-80-201411.jpg" border=0 width=142 height=80></img></a>';
+             break;
+         default://其他（北京等）
+document.getElementById('11ea5625eaa').innerHTML ='<a href="http://clk.optaim.com/event.ng/Type=click&FlightID=201411&TargetID=sohu&Values=baa8a01c,67bbdbf4,5a681956,2f64ef36&AdID=6655956" target=_blank><img src="http://images.sohu.com/bill/s2014/focus/bssj142-80-1118.jpg" border=0 width=142 height=80></img></a>';
+     }
+}
+
+ </script></sohuadcode>
+	</div>
+</div>
+<!-- 翻牌广告 end -->
+
+
+<!-- 频道导航 st -->
+<div id="channel-nav" class="area">
+	<div id="mypos" class="left" itemprop="mypos"><a href="http://sports.sohu.com/" target="_blank"><img src="./科比27分篮板超越乔丹 书豪17+5湖人加时负掘金-搜狐体育_files/sports_logo3.gif" alt=""></a><span>&gt; <a href="http://sports.sohu.com/nba.shtml">NBA</a> &gt; <a href="http://sports.sohu.com/kobenews/">科比动态</a></span></div>
+	<div class="navigation" style="display:none"><a href="http://sports.sohu.com/">搜狐体育</a> &gt; <a href="http://sports.sohu.com/lanqiu.shtml">篮球</a> &gt; <a href="http://sports.sohu.com/nba.shtml">NBA</a> &gt; <a href="http://sports.sohu.com/kobenews/">科比动态</a></div>
+	<div class="right"><a href="http://sports.sohu.com/nba.shtml" target="_blank">NBA</a> | <a href="http://cbachina.sports.sohu.com/" target="_blank">CBA</a> | <a href="http://sports.sohu.com/zhongchao.shtml" target="_blank">中超</a> | <a href="http://sports.sohu.com/s2014/2014afc-cl/" target="_blank">亚冠</a> | <a href="http://sports.sohu.com/guojizuqiu.shtml" target="_blank">足球</a> | <a href="http://sports.sohu.com/zonghe.shtml" target="_blank">综合</a></div>
+</div>
+<!-- 频道导航 end -->
+<div id="container" class="area" itemscope="" itemtype="http://schema.org/NewsArticle" itemref="mypos">
+	<div class="content-wrapper grid-675">
+		<!-- 广告 -->
+		<div class="ad675">
+			<sohuadcode>
+</sohuadcode>
+		</div>		
+		<div class="content-box clear">
+			<!-- 文章标题 -->
+			<h1 itemprop="headline">科比27分篮板超越乔丹 书豪17+5湖人加时负掘金</h1>
+			<!-- 正文标签 -->
+			<div class="label-ad clear" id="commentTab">
+				<div class="label">
+					<ul>
+						<li class="text-label" itemprop="isHot" content="true"><em>正文</em></li>
+						<li class="com-label"><em><a href="http://pinglun.sohu.com/s406333364.html" itemprop="discussionUrl">我来说两句<span class="f12">(<span class="red" id="changyan_parti_unit"><img src="./科比27分篮板超越乔丹 书豪17+5湖人加时负掘金-搜狐体育_files/loading_blue.gif" width="16px" height="16px"></span>人参与)</span></a></em></li>
+					</ul>
+				</div>
+				<div class="ad">
+					<div class="adFrag"><sohuadcode><div>
+<div style="margin-top:6px;"><a href="http://clk.optaim.com/event.ng/Type=click&FlightID=201409&TargetID=sohu&Values=cc4a5dd4,4acd7db1,3b4bd8dd,e5c11bad&AdID=12696436" target="_blank">试驾豪车赢万元大奖！</a></div>
+<script type="text/javascript">
+	(function (doc) {
+                var _b=new Image();
+                _b.src='http://imp.optaim.com/201409/cc4a5dd44acd7db13b4bd8dde5c11bad.php?a=0';document.pv.push(_b);
+	})(document);
+</script></div>
+</sohuadcode></div>
+					<div class="scan-handset" id="scan-handset"><a class="scan-icon" href="javascript:void(0)">扫描到手机</a></div>
+				</div>
+				<div class="scan-layer" id="scan-layer-id">
+					<div class="scan-pic"><img width="99" height="99" alt="" src="./科比27分篮板超越乔丹 书豪17+5湖人加时负掘金-搜狐体育_files/406333364.png"></div>
+					<div class="scan-layer-close"><a href="javascript:void(0)">关闭</a></div>
+				</div>
+				<script type="text/javascript">
+					jQuery(function(jq){
+					    if(jq("#scan-layer-id .scan-pic img").length > 0){
+	                           var theU = "http://s1.rr.itc.cn/qrcode/m/n/"+406333364+".png";
+	                           jq("#scan-layer-id .scan-pic img").attr("src",theU);
+	                    }
+						jq("#scan-handset").click(function(){
+							jq("#scan-layer-id").show();
+						});
+						jq("#scan-layer-id .scan-layer-close a").click(function(){
+							jq("#scan-layer-id").hide();
+						});
+					});
+				</script>
+			</div>				
+			<!-- 时间 来源 -->
+		    <div class="time-fun clear">
+				<div class="time-source">
+					<div class="time" id="pubtime_baidu" itemprop="datePublished" content="2014-11-24T13:26:10+08:00">2014-11-24 13:26:10</div>						
+					<div class="source">
+						
+						<span class="sc" id="source_baidu">来源：<span id="media_span" itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization"><span itemprop="name">搜狐体育</span></span></span>
+						 <span id="author_baidu">作者：少东</span> 
+						
+					</div>				
+				</div>
+				<style>
+				#container .time-fun .time-source{width:420px}
+				#container .time-fun .time-source .source{width:293px}
+				#container .time-fun .function .phone-ctcp a{padding-left:16px;background:url(http://news.sohu.com/upload/article/2012/images20140613/down.gif) no-repeat 0 1px}
+				</style>
+                <div class="function">
+					<ul>
+						<li class="phone-ctcp"><a href="http://k.sohu.com/" target="_blank">手机看新闻</a></li>
+						<li class="transmit_txt"><a href="javascript:void(0)">保存到博客</a></li>
+						<li class="fontsize"><a href="javascript:void(0)"></a>
+							<div class="fontsize-layer"><a href="javascript:doZoom(16)">大</a>|<a href="javascript:doZoom(14)">中</a>|<a href="javascript:doZoom(12)">小</a></div>
+						</li>
+						<li class="print"><a href="javascript:printArticle()"></a>
+							<div class="print-layer"><a href="javascript:printArticle()">打印</a></div>
+						</li>                                      
+					</ul>
+				</div>
+			</div>
+			<sohuadcode>
+</sohuadcode>
+                        
+                        			
+			<!-- 正文 -->
+			<div class="text clear" id="contentText">
+				<div itemprop="articleBody"><table style="margin-right: 20px;" border="1" cellspacing="0" cellpadding="0" align="left">
+<tbody>
+<tr>
+<td align="center">
+<table border="0" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td><a href="http://pic.sports.sohu.com/group-621252.shtml#0" target="_blank"><img class="CImgs" src="./科比27分篮板超越乔丹 书豪17+5湖人加时负掘金-搜狐体育_files/2f7b_8768d51f_9b35_d00e_af63_144732f3cec8_1.jpg" alt="" align="middle"></a></td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr>
+<td class="CTexts" style="text-align: center;" align="center"><a href="http://pic.sports.sohu.com/group-621252.shtml#0" target="_blank">组图：湖人负掘金 科比进攻</a></td>
+</tr>
+<tr>
+<td class="CTexts" style="text-align: center; border-top: #fff 1px solid;" align="center"><a id="urlPath" href="http://data.sports.sohu.com/nba/nba_boxscore.php?gamecode=2014112313" target="_blank">数据</a> <a id="urlPath" href="http://data.sports.sohu.com/nba/nba_shot_chart.php?gamecode=2014112313" target="_blank">投篮点</a> <a class="articleLink" href="http://data.sports.sohu.com/nba/nba_live.php?gamecode=2014112313" target="_blank">实录</a> <a class="articleLink" href="http://sports.sohu.com/20141124/n406333383.shtml" target="_blank">调查</a> <a class="articleLink" href="http://quan.sohu.com/pinglun/cyqemw6s1/406333364" target="_blank">评论</a></td>
+</tr>
+</tbody>
+</table>
+<!-- <div class="video">&nbsp;</div> -->
+<p>　　北京时间2014年11月24日，NBA常规赛继续进行。湖人主场94-101加时不敌掘金，遭遇两连败，同时也是对阵掘金的7连败。科比27分6个篮板球，生涯篮板球总数达到6673个，超越乔丹升至历史第118位。林书豪17分5次助攻，其中第三节11分。</p>
+<p>　　全场的具体比分是：21-19、20-20、31-36、14-11、15-8（掘金在前）。掘金劳森18分16次助攻，钱德勒19分8个篮板球。湖人希尔11分14个篮板球，戴维斯4分5篮板，6犯离场，替补席萨克雷13分3次抢断，埃灵顿8分。</p>
+<p>　　科比9分妙传美如画</p>
+<p>　　科比上篮得手，随后助攻希尔暴扣，湖人4-2领先。掘金连得4分，科比和林书豪联手轰出7-0的小高潮，11-6领先。钱德勒抢断暴扣并造戴维斯犯规，打出精彩的2+1，掘金追至11平。科比跳投，劳森2罚全中回应，双方轮流得分。科比突破吸引三人包夹，妙传给萨克雷中投命中，湖人17-15领先进入暂停。掘金连得4分，科比和萨克雷分别2罚1中，劳森上篮得手，掘金21-19结束首节。</p>
+<p>　　尼克杨领8-0攻击波</p>
+<p>　　尼克杨连得5分，埃灵顿命中三分球，湖人打出8-0高潮。亚瑟2罚全中，随后三分得手，掘金回敬9-2攻击波，30-29重新领先。科比和林书豪重新出场，飞侠背身单打命中打板跳投。阿弗拉罗命中三分球，掘金一口气再得8分，38-31领先湖人。湖人连追4分，加里纳利也找到手感命中三分球。科比背传戴维斯，但被钱德勒犯规破坏。埃灵顿三分命中，湖人追至39-41。之后双方均未得分，比赛进入中场休息。</p>
+<p>　　林书豪单节狂砍11分</p>
+<p>　　双方展开对攻。林书豪先是连得4分，随后上篮打成2+1，约翰逊抢断，书豪上篮得手，湖人56-51领先。钱德勒三分命中，萨克雷先是前场篮板补扣，随后投篮得手，林书豪则投篮拿下本节第11分。钱德勒命中本节第3个三分，希克森2罚1中，掘金67-66反超湖人。科比2罚1中，比赛变成罚球大战。萨克雷连续罚球得手，湖人75-72进入最后一节。萨克雷13分，其中第三节10分。</p>
+<p>　　科比五连铁比赛进加时</p>
+<p>　　湖人迟迟无法得分，掘金追至75平。科比重新出场，很快就投篮命中打破得分荒，接着制造罗宾逊犯规并2罚1中。劳森送出第16次助攻，掘金82-80反超，科比拿下末节第7分，约翰逊暴扣2+1，湖人夺回优势。莫兹戈夫和希尔分别2罚1中，阿弗拉罗跳投得手，掘金85-86进入最后一分钟。加里纳利在还有16.3秒时制造林书豪犯规，2罚1中将比分追平。科比连续第五次投篮不中。加里纳利发界外球时走步，球权交给湖人，尼克杨三分不中，比赛进入加时。</p>
+<p>　　湖人遭对掘金7连败</p>
+<p>　　书豪跳投得手，但随后2罚不中，掘金90-88领先。科比2罚全中追平。加里纳利2罚1中，但莫兹戈夫抢下前场篮板，加里纳利飙中三分球，掘金94-90领先。科比跳投，劳森回应，希尔2罚全中，湖人在还有21.7秒时以94-96落后。湖人犯规，阿弗拉罗2罚全中，科比三分不中，湖人连续犯规。最终湖人94-101输掉比赛。</p>
+<p>　　掘金首发阵容：莫兹戈夫、法瑞德、威尔森-钱德勒、阿弗拉罗、劳森；</p>
+<p>　　湖人首发阵容：乔丹-希尔、埃德-戴维斯、韦斯利-约翰逊、科比、林书豪。</p>
+<p>　　（少东）</p>
+<!-- <div class="video">&nbsp;</div> --><iframe height="420" src="./科比27分篮板超越乔丹 书豪17+5湖人加时负掘金-搜狐体育_files/saved_resource.html" frameborder="0" width="620" scrolling="no"></iframe></div>
+                                
+				<!-- seo标签描述 -->
+				<div style="display:none;">
+					<span id="url" itemprop="url">http://sports.sohu.com/20141124/n406333364.shtml</span>
+					<span id="indexUrl" itemprop="indexUrl">sports.sohu.com</span>
+					<span id="isOriginal" itemprop="isOriginal">true</span>
+					<span id="sourceOrganization" itemprop="sourceOrganization" itemscope="" itemtype="http://schema.org/Organization"><span itemprop="name">搜狐体育</span></span>
+					<span id="author" itemprop="author" itemscope="" itemtype="http://schema.org/Organization"><span itemprop="name">少东</span></span>
+					<span id="isBasedOnUrl" itemprop="isBasedOnUrl">http://sports.sohu.com/20141124/n406333364.shtml</span>
+					<span id="genre" itemprop="genre">report</span>
+					<span id="wordCount" itemprop="wordCount">2966</span>
+					<span id="description" itemprop="description">组图：湖人负掘金科比进攻数据投篮点实录调查评论--&gt;北京时间2014年11月24日，NBA常规赛继续进行。湖人主场94-101加时不敌掘金，遭遇两连败，同时也是</span>
+				</div>
+			</div>	
+           <div class="original-title"><span class="editer" id="editor_baidu">(责任编辑：大仙)</span>
+					
+			</div>					
+			<!-- 分享 -->
+			<div class="share clear" id="share">
+				
+				
+				
+                         <!-- 分享 -->
+                            <style>
+                            #container .share li a{padding:0}
+                            #container .share .bds_tsina{margin-right:4px}
+                            #container .share .bds_more{background-position:0 5px !important}
+                            #container .share .editer{line-height:16px}
+                            #container .share #bdshare a:hover{color:#c00}
+                            </style>
+                                     <ul id="bdshare" class="bdshare_t bds_tools get-codes-bdshare">
+                                               <span class="bds_more"></span>
+                                               <a class="bds_tsohu" title="分享到搜狐微博" href="http://sports.sohu.com/20141124/n406333364.shtml#"></a>
+                                               <a class="bds_qzone" title="分享到QQ空间" href="http://sports.sohu.com/20141124/n406333364.shtml#"></a>
+                                               <a class="bds_tsina" title="分享到新浪微博" href="http://sports.sohu.com/20141124/n406333364.shtml#"></a>
+                                               <li class="sohukan"><a href="javascript:void(0)" onclick="jumpUrl(&#39;sohukan&#39;)" title="收藏到搜狐随身看"></a><em></em></li>
+                    <li class="transmit_txt"><a href="javascript:void(0)">[保存到博客]</a></li>
+                                     </ul>
+                                     <script type="text/javascript" id="bdshare_js" data="type=tools&amp;uid=0" src="./科比27分篮板超越乔丹 书豪17+5湖人加时负掘金-搜狐体育_files/bds_s_v2.js"></script>
+                                     
+                                     <script type="text/javascript">
+                                     /**
+                                     * 在这里定义bds_config
+                                      */
+                                     var bds_config = {'bdMiniWindow':1};
+                                     document.getElementById("bdshell_js").src = "http://bdimg.share.baidu.com/static/js/shell_v2.js?cdnversion=" + Math.ceil(new Date()/3600000)
+                                     </script>
+                                     <div class="go_sohu_home"><a href="http://www.sohu.com/" target="_blank" onclick="toHomePage();"></a></div>
+				
+				
+            </div>			
+			<!-- 相关 -->
+			<!-- 本文相关推荐-->
+            <!-- 其它频道 -->
+<style>
+#container .tagHotg .tagIntg li a{color:#000}
+#container .tagHotg .tagIntg li a:hover{color:#c00}
+</style>
+			<style>
+/* 相关热点 2010-09-09 */
+#contentA .tagHotg{clear:both;margin:10px auto 0;text-align:left}
+#contentA .tagHotg h3{height:24px;font:600 14px/24px "宋体";color:#333}
+#contentA .tagHotg .tagIntg{display: block;overflow:hidden;zoom:1;clear:both;width:100%;margin:3px auto 0}
+#contentA .tagHotg .tagIntg li{float:left;width:205px;font:14px/24px "宋体"}
+#contentA .tagHotg .tagIntg li a{ text-decoration:none !important;}
+#contentA .tagHotg .tagIntg li a:hover{text-decoration:underline !important;}
+#contentA .text .line{width:100%}
+</style>
+<div class="tagHotg">
+  <h3><a href="http://www.sogou.com/" target="_blank">本文相关推荐</a></h3>
+  <div class="tagIntg">
+    <ul>
+                        <li><a class="hot-icon" href="http://www.sogou.com/web?query=%BF%C6%B1%C8%B2%BB%B3%AC%D4%BD%C7%C7%B5%A4%B2%BB%CD%CB%D2%DB&p=02210102&fhintidx=0" onclick="return sogouRelateWeb(this);" target="_blank" len="12" ind="1">科比不超越乔丹不退役</a></li>
+                                <li><a href="http://www.sogou.com/web?query=%C7%C7%B5%A4%B6%D4%BF%C6%B1%C881%B7%D6%B5%C4%C6%C0%BC%DB&p=02210102&fhintidx=1" onclick="return sogouRelateWeb(this);" target="_blank" len="12" ind="2">
+乔丹对科比81分的评价</a></li>
+                                <li><a href="http://www.sogou.com/web?query=%BA%FE%C8%CB%BF%C6%B1%C881%B7%D6%B8%DF%C7%E5%CD%EA%D5%FB%C2%BC%CF%F1&p=02210102&fhintidx=2" onclick="return sogouRelateWeb(this);" target="_blank" len="12" ind="3">
+湖人科比81分高清完整录像</a></li>
+                                <li><a href="http://www.sogou.com/web?query=%BF%C6%B1%C8%D4%E7%D2%D1%B3%AC%D4%BD%C7%C7%B5%A4&p=02210102&fhintidx=3" onclick="return sogouRelateWeb(this);" target="_blank" len="12" ind="4">
+科比早已超越乔丹</a></li>
+                                <li><a href="http://www.sogou.com/web?query=96%C4%EA%BA%FE%C8%CB%BF%C6%B1%C8%C7%C7%B5%A4%B1%C8%C8%FC&p=02210102&fhintidx=4" onclick="return sogouRelateWeb(this);" target="_blank" len="12" ind="5">
+96年湖人科比乔丹比赛</a></li>
+                                <li><a href="http://www.sogou.com/web?query=%BF%C6%B1%C8%CC%B8%C1%D6%CA%E9%BA%C0%B1%BB%BD%BB%D2%D7%B5%BD%BA%FE%C8%CB&p=02210102&fhintidx=5" onclick="return sogouRelateWeb(this);" target="_blank" len="12" ind="6">
+科比谈林书豪被交易到湖人</a></li>
+                                <li><a href="http://www.sogou.com/web?query=%C7%C7%B5%A4%B6%D4%BA%FE%C8%CB%BF%C6%B1%C855%B7%D6&p=02210102&fhintidx=6" onclick="return sogouRelateWeb(this);" target="_blank" len="12" ind="7">
+乔丹对湖人科比55分</a></li>
+                                <li><a href="http://www.sogou.com/web?query=%BA%FE%C8%CBvs%BE%F2%BD%F0%BF%C6%B1%C849%B7%D6&p=02210102&fhintidx=7" onclick="return sogouRelateWeb(this);" target="_blank" len="12" ind="8">
+湖人vs掘金科比49分</a></li>
+                                <li><a href="http://www.sogou.com/web?query=%BA%FE%C8%CB%BF%C6%B1%C881%B7%D6%CA%D3%C6%B5&p=02210102&fhintidx=8" onclick="return sogouRelateWeb(this);" target="_blank" len="12" ind="9">
+湖人科比81分视频</a></li>
+                                <li><a href="http://www.sogou.com/web?query=%BA%FE%C8%CBvs%BB%F0%BC%FD%BF%C6%B1%C853%B7%D6&p=02210102&fhintidx=9" onclick="return sogouRelateWeb(this);" target="_blank" len="12" ind="10">
+湖人vs火箭科比53分</a></li>
+                                <li><a href="http://www.sogou.com/web?query=%BA%FE%C8%CB%C6%E6%B2%C52003%BF%C6%B1%C8%C7%C7%B5%A4&p=02210102&fhintidx=10" onclick="return sogouRelateWeb(this);" target="_blank" len="12" ind="11">
+湖人奇才2003科比乔丹</a></li>
+                                <li><a href="http://www.sogou.com/web?query=%BA%FE%C8%CBvs%D0%A1%C5%A3%BF%C6%B1%C862%B7%D6&p=02210102&fhintidx=11" onclick="return sogouRelateWeb(this);" target="_blank" len="12" ind="12">
+湖人vs小牛科比62分</a></li>
+                                </ul>
+  </div>
+</div>
+			<script type="text/javascript">var entityId = 406333364;</script>	
+			
+				<div id="changyanface"></div>
+<div id="SOHUCS" sid="406333364" style="width: 100%; min-height: 320px; overflow: visible; background: url(http://changyan.itc.cn/v2/asset/scs/imgs/loading-page.v130423.gif) 50% 50% no-repeat;"></div>
+<script>
+document.domain = "sohu.com";
+if(typeof entityId != 'undefined'){
+    document.getElementById('SOHUCS').setAttribute('sid',entityId); 
+    var category = typeof category != 'undefined' ? category :'';                 
+    var _config = {
+                    jumpUrl: 'http://pinglun.sohu.com/s[topicId].html',
+                    varName: entityId, 
+                    customSohu: true,
+                    //listStyle: 'indent',
+                    //listModule: 'scs.listIndent',
+                    //listType: 'hot',
+                    cyanTitle : '我来说两句',
+                    commentHide : true ,
+                    pageSize: 10,
+                    categoryId: category
+                }
+    }
+    window.SCS_NO_IFRAME = true;
+</script>
+
+<script src="./科比27分篮板超越乔丹 书豪17+5湖人加时负掘金-搜狐体育_files/changyan.js" charset="utf-8"></script>
+<script type="text/javascript" src="./科比27分篮板超越乔丹 书豪17+5湖人加时负掘金-搜狐体育_files/plugins.count.js"></script>
+
+<link type="text/css" rel="stylesheet" href="./科比27分篮板超越乔丹 书豪17+5湖人加时负掘金-搜狐体育_files/chagnyan.face.v2013091220.css">
+<script type="text/javascript" src="./科比27分篮板超越乔丹 书豪17+5湖人加时负掘金-搜狐体育_files/changyan.freeaccount.v2013112016.js" charset="gbk"></script>
+<script type="text/javascript" src="./科比27分篮板超越乔丹 书豪17+5湖人加时负掘金-搜狐体育_files/changyan.face.v2013102411.js" charset="gbk"></script>
+
+<script type="text/javascript">
+function createFace(){
+if(!window.SOHUCS || !SOHUCS.nodeData)
+{
+setTimeout(createFace,1000);
+return;
+}
+		var afterVoteCallback=function(desc,voteId,topicId, changYanId){
+			var saymore=new window.changYanSayMore({el:"#changyanface",voteId:voteId,changYanId:changYanId,topicId:newsId,defaultText:desc,afterSubmitCallback:function(){saymore.destory();}});
+			saymore.render();
+		};
+		
+		var face=new window.changYanFace({el:"#changyanface",topicId:newsId,afterVoteCallback:afterVoteCallback,changYanId:SOHUCS.nodeData.listData.topic_id});
+		face.render();
+	}
+
+ $(function(){createFace();});
+
+</script>
+<script>
+if(!window.PassportSC)
+{
+document.write("<script"+" src=\"http://comment.news.sohu.com/upload/comment4_1/javascript/core/passport.js\">"+"</script"+">");
+}
+</script><script src="./科比27分篮板超越乔丹 书豪17+5湖人加时负掘金-搜狐体育_files/passport.js"></script>
+<link type="text/css" rel="stylesheet" href="./科比27分篮板超越乔丹 书豪17+5湖人加时负掘金-搜狐体育_files/comment2.v2013032608.css">
+<script type="text/javascript" src="./科比27分篮板超越乔丹 书豪17+5湖人加时负掘金-搜狐体育_files/sohu.comment.v2013040210.js"></script>
+<script type="text/javascript" src="./科比27分篮板超越乔丹 书豪17+5湖人加时负掘金-搜狐体育_files/comm.login.v2013040210.js"></script>
+
+				<script src="./科比27分篮板超越乔丹 书豪17+5湖人加时负掘金-搜狐体育_files/news_scrolltop.js"></script>
+				<script src="./科比27分篮板超越乔丹 书豪17+5湖人加时负掘金-搜狐体育_files/news_commentbar.js"></script>
+				<script>
+					evtDispatcher.addEvent('public.jsonData', function(evt){
+					    var data = evt.json;
+					    var url = $('#commentTab .com-label a').attr('href');
+					     newsCommentBar(data.partiCount||0,url)
+					         $.scrollTop(".scroll-top");
+					});
+				</script>
+				
+			<!--图文转载-->
+			<script type="text/javascript" src="./科比27分篮板超越乔丹 书豪17+5湖人加时负掘金-搜狐体育_files/pubPicTextV6_20130926.js"></script>
+			<script type="text/javascript">
+				var newsId = 406333364;
+				jQuery.picText.init();
+			</script>
+			<!--图文转载 end-->
+			<!-- 广告 -->
+			<div class="ad590">
+				<div><sohuadcode><div>
+<script charset="gbk" src="http://p.tanx.com/ex?i=mm_17187609_2273741_13022651"></script>
+    <script language="javascript">
+        require(["sjs/matrix/ad/passion"], function(passion){
+         passion.report("pv", {adsrc:6,adid:'20q1E0q2h0000000q73000qyx',monitorkey:'20q1E0q2h0000000q73000qyx',cont_id :'beans_12022'}); 
+});
+</script></div>
+</sohuadcode></div>
+			</div>
+			<!-- 20130121 st -->
+			<div class="lottery-box clear"><a href="http://cp.sogou.com/goucai/#fr=Cf26004" target="_blank" rel="nofollow">大乐透爆2注1千万</a>&nbsp;&nbsp;<a href="http://cp.sogou.com/jczqspfp/#fr=Cf26004" target="_blank" rel="nofollow">竞彩意甲米兰德比大战</a>&nbsp;&nbsp;<a class="bg-lot" href="http://cp.sogou.com/promotion/activity/#fr=Cf26004" target="_blank" rel="nofollow">重磅:充40得120元
+</a>&nbsp;&nbsp;<a href="http://cp.sogou.com/promotion/activity/d11nov2014.html#fr=Cf26004" target="_blank" rel="nofollow">11选5加奖全网最高</a></div>	
+			<!-- 20130121 end -->
+			<div class="mutu clear">
+				<div class="mutu-title">
+					<div class="mutu-news-tt">
+                   <h2><span>相关新闻</span></h2>
+                    </div>
+					<div class="mutu-keyWord-tt">
+                   <h2><span>相关推荐</span></h2>
+                    </div>
+				</div>
+				<div class="mutu-news">
+						<div class="list14">
+							
+
+			  	
+
+							
+								<ul><li class="li-dot" title="科比32000分里程碑书豪两双 湖人擒老鹰取第2胜"><a href="http://comment.news.sohu.com/20141119/n406178800.shtml?recsyssohu=2" aid="406178800" target="_blank">科比32000分里程碑书豪两双 湖人擒老鹰取第2胜</a><span>14-11-19</span></li><li class="li-dot" title="湖人获首胜终结五连败 书豪场上为科比布置战术"><a href="http://sports.sohu.com/20141111/n405930650.shtml?recsyssohu=2" aid="405930650" target="_blank">湖人获首胜终结五连败 书豪场上为科比布置战术</a><span>14-11-11</span></li><li class="li-dot" title="科比一对一能击败乔丹？ 高中教练：我看他可以"><a href="http://sports.sohu.com/20141110/n405913048.shtml?recsyssohu=2" aid="405913048" target="_blank">科比一对一能击败乔丹？ 高中教练：我看他可以</a><span>14-11-10</span></li><li class="li-dot" title="传科比催促湖人追逐朗多 书豪明夏恐难留洛杉矶"><a href="http://sports.sohu.com/20141106/n405829144.shtml?recsyssohu=2" aid="405829144" target="_blank">传科比催促湖人追逐朗多 书豪明夏恐难留洛杉矶</a><span>14-11-06</span></li><li class="li-dot" title="书豪连砍6分险助湖人逆转 一战成科比最佳帮手"><a href="http://sports.sohu.com/20141105/n405800164.shtml?recsyssohu=2" aid="405800164" target="_blank">书豪连砍6分险助湖人逆转 一战成科比最佳帮手</a><span>14-11-05</span></li><li class="li-dot" title="乔丹暗示科比不值2年4850万 影响湖人今夏引援"><a href="http://sports.sohu.com/20141030/n405610825.shtml?recsyssohu=2" aid="405610825" target="_blank">乔丹暗示科比不值2年4850万 影响湖人今夏引援</a><span>14-10-30</span></li></ul><div class="more"><a href="http://news.sogou.com/news?query=%C7%C7%B5%A4%20%BE%F2%BD%F0&pid=31023101&md=listTopics&name=&mode=0&sort=0" rel="nofollow" target="_blank">更多关于 <strong>乔丹 掘金</strong> 的新闻&gt;&gt;</a> </div>
+							
+						</div>
+				</div>
+				<div class="mutu-keyWord">
+						<div class="list14">
+							<ul>
+	<li><a href="http://www.sogou.com/web?query=%C7%C7%B5%A4%B9%AB%C5%A3vs%BA%FE%C8%CB%BF%C6%B1%C8&p=31210100&fhintidx=0" onclick="return sogouRelateWeb(this);" target="_blank" len="6" ind="1">乔丹公牛vs湖人科比</a></li>
+	<li><a href="http://www.sogou.com/web?query=%C2%E5%C9%BC%ED%B6%BA%FE%C8%CB%BF%C6%B1%C881%B7%D6%CA%D3%C6%B5%C8%AB%B2%BF&p=31210100&fhintidx=1" onclick="return sogouRelateWeb(this);" target="_blank" len="6" ind="2">洛杉矶湖人科比81...</a></li>
+	<li><a href="http://www.sogou.com/web?query=nba%BA%FE%C8%CB%BF%C6%B1%C8%C8%FD%BC%AF62%B7%D6%D6%D0%CE%C4%BD%E2%CB%B5&p=31210100&fhintidx=2" onclick="return sogouRelateWeb(this);" target="_blank" len="6" ind="3">nba湖人科比三集6...</a></li>
+	<li><a href="http://www.sogou.com/web?query=%C7%C7%B5%A4%C6%C0%BC%DB%BF%C6%B1%C881%B7%D6%CA%FD%BE%DD&p=31210100&fhintidx=3" onclick="return sogouRelateWeb(this);" target="_blank" len="6" ind="4">乔丹评价科比81分数据</a></li>
+	<li><a href="http://www.sogou.com/web?query=%C7%C7%B5%A4%C6%C0%BC%DB%BF%C6%B1%C881%B7%D6%CA%D3%C6%B5&p=31210100&fhintidx=4" onclick="return sogouRelateWeb(this);" target="_blank" len="6" ind="5">乔丹评价科比81分视频</a></li>
+	<li><a href="http://www.sogou.com/web?query=%C7%C7%B5%A4%C6%C0%BC%DB%BF%C6%B1%C881%B7%D6&p=31210100&fhintidx=5" onclick="return sogouRelateWeb(this);" target="_blank" len="6" ind="6">乔丹评价科比81分</a></li>
+<script>
+try{    
+        var i=new Image();
+        i.src='http://pingback.sogou.com/rltpv.png?surl='+escape(window.location)+'&'+Math.random();
+}catch(err){
+}       
+</script></ul>
+						</div>
+				</div>
+			</div>
+	
+			<!-- 搜狗服务 -->
+			<div class="sogouService clear">
+            	<h2><span><a href="http://www.sogou.com/" target="_blank"><img src="./科比27分篮板超越乔丹 书豪17+5湖人加时负掘金-搜狐体育_files/pic04.gif" width="73" height="21" alt=""></a></span><a href="http://www.sogou.com/fuwu/" rel="nofollow" target="_blank"><strong>我要发布</strong></a></h2>
+                <script type="text/javascript">
+	                var sogou_ad_id=13273;
+	                var sogou_ad_height=90;
+	                var sogou_ad_width=580;
+                </script>
+                <script language="JavaScript" type="text/javascript" src="http://images.sohu.com/cs/jsfile/js/c.js"></script>
+            </div>
+		</div>
+	</div>	
+	<div class="rightbar-wrapper grid-300">
+		<!-- 搜索 热词 -->
+		<div class="search-hotword clear">
+			<div class="search">
+				<form action="http://news.sogou.com/news" method="get" target="_blank" id="searchform" name="searchform" onsubmit="return CheckKeyWord();" autocomplete="off"> 
+					<input type="text" name="query" id="query" class="search-in" value="乔丹 掘金">
+					<input type="hidden" name="t" id="t" value="news">
+					<input type="submit" class="search-btn" value="搜狗搜索" onmouseover="this.className=&#39;search-btn search-btn-over&#39;" onmouseout="this.className=&#39;search-btn&#39;">
+				</form>
+			</div>
+			<div class="hotword">热词：<a href="http://www.sogou.com/web?query=%E4%B8%80%E6%AF%9B%E5%A5%B6%E5%A5%B6&p=02230101" target="_blank" rel="nofollow">一毛奶奶</a>&nbsp;
+<a href="http://www.sogou.com/web?query=%E5%8F%B0%E6%B9%BE%E9%87%91%E9%A9%AC%E5%A5%96&p=02230102" target="_blank" rel="nofollow">台湾金马奖</a>&nbsp;
+<a href="http://www.sogou.com/web?query=%E5%8D%95%E8%BA%AB%E5%9F%BA%E5%9B%A0&p=02230103" target="_blank" rel="nofollow">单身基因</a>&nbsp;
+<a href="http://www.sogou.com/web?query=%E6%95%85%E5%AE%AB%E5%90%89%E7%A5%A5%E7%89%A9&p=02230104" target="_blank" rel="nofollow">故宫吉祥物</a></div>
+		</div>
+        <script type="text/javascript">
+        function CheckKeyWord(){
+                 var sf = document.searchform;
+                 with(sf){
+          //if (query.value == "乔丹 掘金") {
+          //                query.value = "";
+          //                setTimeout("query.value='乔丹 掘金'", 1000);
+          //       }
+        }
+                 return true;
+        }
+        
+        // 改变提交的查询动作
+        function CheckFormAction(v){
+                 var sf = document.searchform;
+                 with(sf){
+          if (v=='web') {
+                          action = "http://www.sogou.com/web";
+            p.value = "02240100";                                 
+                 } else {
+                          p.value = "02240101";
+                          action = "http://news.sogou.com/news";
+                 }
+        }
+                 return true;
+        }
+
+        jQuery(function(jq){
+                 var searchValue = jq(".search-in").val();
+                 jq(".search-in").focus(function(){
+                          jq(this).val("").css("color","#333");
+                          jq(".search").addClass("search-act");
+                 }).blur(function(){
+                          if(jq(this).val() == ""){
+                                    jq(this).val(searchValue).css("color","#666");
+                                    jq(".search").removeClass("search-act");
+                          } 
+                 })
+        });
+        </script>
+		
+		<!-- 广告 -->
+		<sohuadcode><script type="text/javascript">
+if(typeof(document.pv)=="undefined") document.pv = new Array();var _a=new Image();
+_a.src="http://imp.optaim.com/201408/227508674023a85b81418b2fd35d3b5a.php?a=5";
+document.pv.push(_a);
+</script><div class="ad300">
+<table width="300" height="250" border="0" cellpadding="0" cellspacing="0">
+<tbody><tr>
+<td width="300" height="250" align="middle">
+<div id="TurnAD512" width="300" height="250">
+ <script type="text/javascript">
+var TurnAD512=new Cookie(document,"TurnAD512",24);
+TurnAD512.load();
+TurnAD512.visit=(TurnAD512.visit==null)?parseInt(Math.random()*2+1):TurnAD512.visit;
+if(TurnAD512.visit!=0)var intTurnAD512=TurnAD512.visit;
+TurnAD512.visit++;
+TurnAD512.visit=(TurnAD512.visit>2)?1:TurnAD512.visit;
+TurnAD512.store();
+function showTurnAD512(basenum){
+if (basenum==1){
+if (typeof has_topAd == "undefined" || has_topAd==0) {
+//topnews代码，投放时请带上，轮换代码从下面开始替换
+jQuery("#TurnAD512").attr('id','tanx-a-mm_17187609_2273741_13026471');
+document.write('<script charset="gbk" src="http://p.tanx.com/ex?i=mm_17187609_2273741_13026471"></sc'+'ript>');
+require(["sjs/matrix/ad/passion"], function(passion){
+         passion.report("pv", {adsrc:6,adid:'20q1E0q2h0000000q73000qyx',monitorkey:'20q1E0q2h0000000q73000qyx',cont_id :'beans_11953'}); 
+});
+//轮换代码结束
+}}
+else{
+if (typeof has_topAd == "undefined" || has_topAd==0) {
+//topnews代码，投放时请带上，轮换代码从下面开始替换
+require(["sjs/matrix/ad/passion"], function (passion) {
+    var _C = "#TurnAD512",_ID = "12633",_W = 300,_H = 250,_T = 2,_F=201,
+    _A = _W + (_H>1000?'':(_H>=100?"0":(_H>=10?"00":"0")))+_H;
+    if(_C){jQuery(_C).attr('id','beans_'+_ID).css({'width' : _W + 'px', 'height' : _H + 'px','margin' : '0 auto'});}
+    passion.ones({itemspaceid : _ID,adps:_A,adsrc : _F,turn : _T,defbeans : !0});
+    });
+//轮换代码结束
+}}
+}
+showTurnAD512(intTurnAD512);
+</script>
+</div>
+</td>
+</tr>
+</tbody></table>
+</div>
+<script>var divid300500 = 'TurnAD512';</script>
+<script type="text/javascript" src="http://images.sohu.com/bill/tongyong/js/top/Topnewsthird300500V20140925.js"></script></sohuadcode>		
+		<!-- 手机看新闻 -->
+		<script src="http://a1.itc.cn/pv/js/pvcode.1312101227.js"></script>
+<div class="phone_rss">
+   <a href="http://k.sohu.com/" onclick="_pv.send(&#39;5af69b5503b22dd5&#39;)" target="_blank"><img src="./科比27分篮板超越乔丹 书豪17+5湖人加时负掘金-搜狐体育_files/a75_7e320dd7_5485_a766_4e09_18ee4114fcb5_1.jpg" width="300" height="92"></a></div>
+<div class="blank5B"></div>		
+		<!-- 相关微博 -->
+		
+		<div class="news-frag clear">
+		 <h2><span>热点推荐</span><a target="_blank" href="http://sports.sohu.com/">更多&gt;&gt;</a></h2>
+
+<div class="list12">
+
+
+
+<h4><a target="_blank" href="http://cbachina.sports.sohu.com/20141123/n406294159.shtml">CBA-刘宏疆怒追裁判未果 脚踹工作人员</a></h4><ul>
+
+<li><a target="_blank" href="./科比27分篮板超越乔丹 书豪17+5湖人加时负掘金-搜狐体育_files/科比27分篮板超越乔丹 书豪17+5湖人加时负掘金-搜狐体育.html">科比27分篮板超越乔丹 书豪17+5湖人加时负掘金</a></li>
+
+<li><a target="_blank" href="http://sports.sohu.com/20141124/n406321389.shtml">波什20+10命中制胜球 洛尔邓26分热火险胜黄蜂</a></li> 
+
+<li><a target="_blank" href="http://sports.sohu.com/20141124/n406319445.shtml">鲁能高层赴巴西欲买两世界球星 野牛洛维或离队</a></li>
+
+<li><a target="_blank" href="http://sports.sohu.com/20141124/n406301460.shtml">邹市明眉骨缝四针！ 收获70万美元+拳王挑战权</a></li>
+
+
+
+                                                                                                                                                        
+
+                                                                       
+
+                                                                           
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+				</ul>
+			</div>
+		 <div class="clk-today clear">
+  <h3><span>体育策划</span><a target="_blank" href="http://sports.sohu.com/product/">更多&gt;&gt;</a></h3>
+  <div class="pic-text">
+
+    <div><a href="http://sports.sohu.com/s2014/0998/s406271373/" target="_blank"><img width="115" height="75" border="0" alt="国奥小将揭秘留洋生活" src="./科比27分篮板超越乔丹 书豪17+5湖人加时负掘金-搜狐体育_files/325_13c7ebab_4e35_0836_d203_79c2ca12adf7_1.jpg"></a></div>
+    <h4><a href="http://sports.sohu.com/s2014/0998/s406271373/" target="_blank">国奥小将揭秘留洋生活</a></h4>
+    <p>　　在徐新看来，5年留洋带给他最大的变化并不是技战术...[<a href="http://sports.sohu.com/s2014/0998/s406271373/" target="_blank">详细</a>]</p>
+  </div>
+  <div class="list12">
+    <ul>  
+      <li><span><a target="_blank" href="http://sports.sohu.com/s2012/ruitiyu/">锐体育</a>：</span><a target="_blank" href="http://cbachina.sports.sohu.com/s2014/2671/s406199995/">辽宁男篮搅局CBA</a></li>
+     <li><span><a target="_blank" href="http://sports.sohu.com/s2012/the-basketball-point/">最篮点</a>：</span><a target="_blank" href="http://sports.sohu.com/s2014/7265/s406144869/">湖人主帅渐成替罪羊</a></li>
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     
+    </ul>
+  </div>
+</div>
+		</div>
+		
+		<!-- 广告 -->
+		<sohuadcode><div class="ad300">
+<table width="300" height="250" border="0" cellpadding="0" cellspacing="0">
+<tbody><tr>
+<td width="300" height="250" align="middle">
+<div id="TurnAD513" width="300" height="250"><iframe width="0" height="0" marginwidth="0" marginheight="0" hspace="0" frameborder="0" scrolling="no" bordercolor="#000000" src="about:blank" style="display: none !important; visibility: hidden !important; opacity: 0 !important; background-position: 300px 250px;"></iframe>
+</div>
+</td>
+</tr>
+</tbody></table>
+</div>
+</sohuadcode>		
+		<!-- 广告列表 a -->
+		<sohuadcode><div>
+</div>
+</sohuadcode>		
+		<!-- 相关图片 -->
+		<div style="height:auto" id="hotpicnew" class="mutu-pic kind-video clear">
+			<h2><span>热门图片</span></h2>
+			<style>
+			#container .mutu-pic .list12 ul{margin:0 auto 12px;width:272px}
+			</style>
+			<div class="pic-group">
+				<ul>
+					<li><a rel="nofollow" target="_blank" href="http://www.qqwaiguan.com/yulexinwen/2014/1021/702.html"><img width="125" height="85" alt="" src="./科比27分篮板超越乔丹 书豪17+5湖人加时负掘金-搜狐体育_files/325_2649918f_ccce_9ef2_14ca_c5cde39fd816_1.jpg"><span>女郎借美军靶场摄影</span></a></li>
+
+					<li><a rel="nofollow" target="_blank" href="http://www.qqwaiguan.com/yulexinwen/2014/1121/723.html"><img width="125" height="85" alt="" src="./科比27分篮板超越乔丹 书豪17+5湖人加时负掘金-搜狐体育_files/325_d5397d99_66b8_2f38_1794_7ede8c6f2da4_1.jpg"><span>云南母猪产下八名男婴</span></a></li>
+
+					<li><a rel="nofollow" target="_blank" href="http://www.qqwaiguan.com/yulexinwen/2014/1104/715.html"><img width="125" height="85" alt="" src="./科比27分篮板超越乔丹 书豪17+5湖人加时负掘金-搜狐体育_files/325_75789a1b_217d_1eef_8836_d6cb095e4af5_1.jpg"><span>中国十个最邪门的地方</span></a></li>
+
+					<li><a rel="nofollow" target="_blank" href="http://www.qqwaiguan.com/yulexinwen/2014/1121/722.html"><img width="125" height="85" alt="" src="./科比27分篮板超越乔丹 书豪17+5湖人加时负掘金-搜狐体育_files/325_c8e14ef9_e226_4a06_2e78_23657f461238_1.jpg"><span>80后美女导游曝潜规则</span></a></li>
+				</ul>
+			</div>
+			<div class="list12">
+			<ul>
+				<li><a target="_blank" href="http://www.qqwaiguan.com/yulexinwen/2014/1121/721.html">长春现“女体盛宴”引围观</a></li>
+				<li><a target="_blank" href="http://www.qqwaiguan.com/yulexinwen/2014/1119/720.html">江西德兴村民在千年古樟肚内摆桌打麻将</a></li>
+				<li><a target="_blank" href="http://www.qqwaiguan.com/yulexinwen/2014/1119/718.html">彭丽媛抚摸袋鼠 习近平称不让摸头</a></li>
+				<li><a target="_blank" href="http://www.qqwaiguan.com/yulexinwen/2014/1119/717.html">摄影师拍性爱玩偶和她们的主人</a></li>
+			</ul>
+			</div>
+		</div>		
+		<!-- 广告列表 b -->
+		<sohuadcode><div>
+<div class="broken-line"></div>
+<div class="ad-listB clear">
+<h2><span><a href="http://ggtf.3wht.com/yl_admin/getgo.php?idp=1255" target="_blank">商情推荐</a></span></h2>
+<iframe width="0" height="0" marginwidth="0" marginheight="0" hspace="0" vspace="0" frameborder="0" bordercolor="#F4F4F4" scrolling="no" src="about:blank" style="display: none !important; visibility: hidden !important; opacity: 0 !important; background-position: 296px 165px;"></iframe>
+</div></div>
+</sohuadcode>		
+		<div class="rightbar-foot"></div>		
+		<sohuadcode>
+</sohuadcode>		
+		<!-- 影视视频 -->
+		<div class="kind-video clear" id="kind-video">
+			<div class="video-menu">
+				<ul>
+					
+					<li class="video-menu-now">热点视频</li>
+					
+					<li>影视剧</li>
+					<li>综艺</li>
+					<li class="video-menu-end">原创</li>
+				</ul>
+			</div>
+			<div class="video-cont hot-video clear" style="display: block;">
+				<div class="pic-group">
+<ul>                                                               
+                      <li><a href="http://tv.sohu.com/20141124/n406315146.shtml?pvid=6de360dfc764657c" target="_blank"><img src="./科比27分篮板超越乔丹 书豪17+5湖人加时负掘金-搜狐体育_files/3411_cc3c48ab_1ca7_f222_1893_e832fdadccd3_1.jpg" width="130" height="75" alt=""></a><span><a href="http://tv.sohu.com/20141124/n406315146.shtml?pvid=6de360dfc764657c" target="_blank">康定地震致5人遇难</a></span></li>
+
+                      <li><a href="http://tv.sohu.com/20141124/n406318668.shtml?pvid=6de360dfc764657c" target="_blank"><img src="./科比27分篮板超越乔丹 书豪17+5湖人加时负掘金-搜狐体育_files/3411_4ab26b8b_7e0b_270e_255b_60efdffbeb74_1.jpg" width="130" height="75" alt=""></a><span><a href="http://tv.sohu.com/20141124/n406318668.shtml?pvid=6de360dfc764657c" target="_blank">小行星陨落夜如白昼</a></span></li>
+
+                      <li><a href="http://tv.sohu.com/20141123/n406293149.shtml?pvid=6de360dfc764657c" target="_blank"><img src="./科比27分篮板超越乔丹 书豪17+5湖人加时负掘金-搜狐体育_files/3411_3c22d1cd_fad6_3e7c_00ad_b74a43673b87_1.jpg" width="130" height="75" alt=""></a><span><a href="http://tv.sohu.com/20141123/n406293149.shtml?pvid=6de360dfc764657c" target="_blank">女贼逃逸撞塌两层楼</a></span></li>
+
+                      <li><a href="http://tv.sohu.com/20141124/n406317916.shtml?pvid=6de360dfc764657c" target="_blank"><img src="./科比27分篮板超越乔丹 书豪17+5湖人加时负掘金-搜狐体育_files/3411_ef78076b_18af_d091_a921_efca21be1390_1.jpg" width="130" height="75" alt=""></a><span><a href="http://tv.sohu.com/20141124/n406317916.shtml?pvid=6de360dfc764657c" target="_blank">男子取款不成怒砸ATM</a></span></li>
+           
+                      <li><a href="http://tv.sohu.com/20141124/n406318879.shtml?pvid=6de360dfc764657c" target="_blank"><img src="./科比27分篮板超越乔丹 书豪17+5湖人加时负掘金-搜狐体育_files/3411_4e0f4dd6_7783_4489_4e89_bbbba6853692_1.jpg" width="130" height="75" alt=""></a><span><a href="http://tv.sohu.com/20141124/n406318879.shtml?pvid=6de360dfc764657c" target="_blank">日本男子GPS图形求婚</a></span></li>
+
+                      <li><a href="http://tv.sohu.com/20141122/n406271346.shtml?pvid=6de360dfc764657c" target="_blank"><img src="./科比27分篮板超越乔丹 书豪17+5湖人加时负掘金-搜狐体育_files/3411_2d04035c_4208_b883_c259_179bda9cdc6b_1.jpg" width="130" height="75" alt=""></a><span><a href="http://tv.sohu.com/20141122/n406271346.shtml?pvid=6de360dfc764657c" target="_blank">女子遭黑代驾勒索20万</a></span></li>    
+                                                    
+                      <li><a href="http://tv.sohu.com/item/MTE5NTY3Mg==.html?pvid=6de360dfc764657c" target="_blank"><img src="./科比27分篮板超越乔丹 书豪17+5湖人加时负掘金-搜狐体育_files/3411_5847e135_7c36_bbc8_e26f_25c157931b6c_1.jpg" width="130" height="75" alt=""></a><span><a href="http://tv.sohu.com/item/MTE5NTY3Mg==.html?pvid=6de360dfc764657c" target="_blank">热播-因为爱情有奇迹</a></span></li>
+      
+                      <li><a href="http://tv.sohu.com/s2014/madamsecretary1/?spayid=220018&pvid=6e11d18617fc72cb" target="_blank"><img src="./科比27分篮板超越乔丹 书豪17+5湖人加时负掘金-搜狐体育_files/3411_dd468e3e_2015_4270_b354_721e969112a2_1.jpg" width="130" height="75" alt=""></a><span><a href="http://tv.sohu.com/s2014/madamsecretary1/?spayid=220018&pvid=6e11d18617fc72cb" target="_blank">热播美剧-国务卿女士</a></span></li>
+
+                      <li><a href="http://tv.sohu.com/20141123/n406294071.shtml?pvid=6de360dfc764657c" target="_blank"><img src="./科比27分篮板超越乔丹 书豪17+5湖人加时负掘金-搜狐体育_files/3411_a6423d05_3da9_ff6c_2ba7_97a211bb7298_1.jpg" width="130" height="75" alt=""></a><span><a href="http://tv.sohu.com/20141123/n406294071.shtml?pvid=6de360dfc764657c" target="_blank">明星家族上演黑丝诱惑</a></span></li>
+
+                      <li><a href="http://tv.sohu.com/20141122/n406262985.shtml?pvid=6de360dfc764657c" target="_blank"><img src="./科比27分篮板超越乔丹 书豪17+5湖人加时负掘金-搜狐体育_files/3411_9ed7b7f2_1816_6630_97b7_702c80e37c43_1.jpg" width="130" height="75" alt=""></a><span><a href="http://tv.sohu.com/20141122/n406262985.shtml?pvid=6de360dfc764657c" target="_blank">明星溺水受伤险送命</a></span></li>   
+   
+                      
+
+</ul></div>
+			</div>
+			<div class="video-cont tv-mv clear" style="display: none;">
+				<script src="./科比27分篮板超越乔丹 书豪17+5湖人加时负掘金-搜狐体育_files/count.js"></script>
+
+				<div class="video-box clear">
+					<div class="video-pic"><a href="http://tv.sohu.com/s2014/ywaqyqj?pvid=9e67c19acc243c17" target="_blank"><img src="./科比27分篮板超越乔丹 书豪17+5湖人加时负掘金-搜狐体育_files/340a_efff9f54_6de8_a21f_90d9_f0007148cefb_1.jpg" width="125" height="85" alt="因为爱情有奇迹"></a><em class="floor"><a href="http://tv.sohu.com/s2014/ywaqyqj?pvid=9e67c19acc243c17" target="_blank"></a></em></div>
+					<div class="video-txt">
+						<h4><a href="http://tv.sohu.com/s2014/ywaqyqj?pvid=9e67c19acc243c17" target="_blank">热播-因为爱情有奇迹</a></h4>
+						<h5>主演：赵韩樱子/彭冠英/林佑威/路晨/许榕真</h5>
+						
+					</div>
+				</div>
+				
+				
+				<div class="broken-line"></div>
+
+								<div class="video-box clear">
+					<div class="video-pic"><a href="http://tv.sohu.com/s2014/dsjqdss?pvid=9e67c19acc243c17" target="_blank"><img src="./科比27分篮板超越乔丹 书豪17+5湖人加时负掘金-搜狐体育_files/340a_5b737323_97b2_3658_7170_e1bd93df0fb9_1.jpg" width="125" height="85" alt="情定三生"></a><em class="floor"><a href="http://tv.sohu.com/s2014/dsjqdss?pvid=9e67c19acc243c17" target="_blank"></a></em></div>
+					<div class="video-txt">
+						<h4><a href="http://tv.sohu.com/s2014/dsjqdss?pvid=9e67c19acc243c17" target="_blank">同步热播-情定三生</a></h4>
+						<h5>主演：杨蓉/蒲巴甲/张萌/朱一龙/郑佩佩/汤镇宗</h5>
+						
+					</div>	</div>
+				
+				<div class="broken-line"></div>
+
+				<div class="video-box clear">
+					<div class="video-pic"><a href="http://tv.sohu.com/s2014/madamsecretary1?pvid=9e67c19acc243c17" target="_blank"><img src="./科比27分篮板超越乔丹 书豪17+5湖人加时负掘金-搜狐体育_files/340a_c2798528_8f96_9a0f_fb24_c74ba11b78be_1.jpg" width="125" height="85" alt="国务卿女士第1季"></a><em class="floor"><a href="http://tv.sohu.com/s2014/madamsecretary1?pvid=9e67c19acc243c17" target="_blank"></a></em></div>
+					<div class="video-txt">
+						<h4><a href="http://tv.sohu.com/s2014/madamsecretary1?pvid=9e67c19acc243c17" target="_blank">独家热播-国务卿女士</a></h4>
+						<h5>主演：蒂娅·里欧妮/蒂姆·达利/莫赞·玛诺</h5>			
+</div> </div>
+<div class="broken-line"></div>
+
+<div class="video-box clear">
+					<div class="video-pic"><a href="http://tv.sohu.com/20140613/n400797299.shtml?spayid=220011&pvid=2de045044c8b9117" target="_blank"> <img src="./科比27分篮板超越乔丹 书豪17+5湖人加时负掘金-搜狐体育_files/340a_3a150f2a_a2ff_cfd6_97de_c5f8b25c246a_1.jpg" width="125" height="85" alt="海啸奇迹"></a><em class="floor"><a href="http://tv.sohu.com/20140613/n400797299.shtml?spayid=220011&pvid=2de045044c8b9117" target="_blank"></a></em></div>
+					<div class="video-txt">
+						<h4><a href="http://tv.sohu.com/20140613/n400797299.shtml?spayid=220011&pvid=2de045044c8b9117" target="_blank">海啸奇迹</a></h4>
+						<h5>主演：娜奥米·沃茨/伊万·麦格雷戈/玛塔·埃图娜</h5>
+						
+					</div>
+								</div>
+				<div class="broken-line"></div>
+<div class="video-box clear">
+					<div class="video-pic"><a href="http://tv.sohu.com/20140901/n403960924.shtml?spayid=220011&pvid=2de045044c8b9117" target="_blank"><img src="./科比27分篮板超越乔丹 书豪17+5湖人加时负掘金-搜狐体育_files/31b7_fe32434b_1522_3e73_9f9a_174c32e412b6_1.jpg" width="125" height="85" alt="超凡蜘蛛侠2"></a><em class="floor"><a href="http://tv.sohu.com/20131220/n392136079.shtml?spayid=220011&pvid=2de045044c8b9117" target="_blank"></a></em></div>
+					<div class="video-txt">
+						<h4><a href="http://tv.sohu.com/20140901/n403960924.shtml?spayid=220011&pvid=2de045044c8b9117" target="_blank">超凡蜘蛛侠2</a></h4>
+						<h5>马克·韦布</h5>
+						
+					</div>
+				</div>
+			</div>
+			<div class="video-cont zy clear" style="display: none;">
+				<div class="video-box clear">
+<div class="video-pic"><a href="http://tv.sohu.com/20141122/n406262985.shtml" target="_blank"><img src="./科比27分篮板超越乔丹 书豪17+5湖人加时负掘金-搜狐体育_files/302c_0d30a4d3_1441_58d9_3f80_6e682c0a896a_1.jpg" width="125" height="85" alt=""></a><em class="floor"><a href="http://tv.sohu.com/20141122/n406262985.shtml" target="_blank"></a></em></div>
+					<div class="video-txt">
+						<h4><a href="http://tv.sohu.com/20141122/n406262985.shtml" target="_blank">《极速前进》
+
+</a></h4>
+						<h5>明星流血溺水险丧命</h5>
+					</div>
+
+		</div>
+
+<div class="broken-line"></div>
+
+
+<div class="video-box clear">
+					<div class="video-pic"><a href="http://tv.sohu.com/20141124/n406298298.shtml" target="_blank"><img src="./科比27分篮板超越乔丹 书豪17+5湖人加时负掘金-搜狐体育_files/302c_0d30a4d3_1441_58d9_3f80_6e682c0a896a_4.jpg" width="125" height="85" alt=""></a><em class="floor"><a href="http://tv.sohu.com/20141124/n406298298.shtml" target="_blank"></a></em></div>
+					<div class="video-txt">
+						<h4><a href="http://tv.sohu.com/20141124/n406298298.shtml" target="_blank">《非常静距离》
+
+</a></h4>
+						<h5>钟丽缇揭秘两次失婚内幕</h5>
+						
+                                        </div>
+
+        
+		</div>
+
+<div class="broken-line"></div>
+
+
+<div class="video-box clear">
+
+                  <div class="video-pic"><a href="http://tv.sohu.com/20141123/n406294071.shtml" target="_blank"><img src="./科比27分篮板超越乔丹 书豪17+5湖人加时负掘金-搜狐体育_files/302c_c13fc6ea_b554_b85a_079e_c775a1b6f5a5_1.jpg" width="125" height="85" alt=""></a><em class="floor"><a href="http://tv.sohu.com/20141123/n406294071.shtml" target="_blank"></a></em></div>
+					<div class="video-txt">
+						<h4><a href="http://tv.sohu.com/20141123/n406294071.shtml" target="_blank">《明星家族》
+
+</a></h4>
+						<h5>田亮雨中骑车险出车祸</h5>	
+						
+	    </div>
+
+		</div>
+        
+        
+        
+<div class="broken-line"></div>
+
+
+
+
+<div class="video-box clear">
+
+                                <div class="video-pic"><a href="http://tv.sohu.com/20141122/n406270355.shtml" target="_blank"><img src="./科比27分篮板超越乔丹 书豪17+5湖人加时负掘金-搜狐体育_files/302c_0d30a4d3_1441_58d9_3f80_6e682c0a896a_5.jpg" width="125" height="85" alt=""></a><em class="floor"><a href="http://tv.sohu.com/20141122/n406270355.shtml" target="_blank"></a></em></div>
+					<div class="video-txt">
+						<h4><a href="http://tv.sohu.com/20141122/n406270355.shtml" target="_blank">《美版极速前进》
+
+</a></h4>
+						<h5>选手悬海独木棍狂奔落水</h5>
+					</div>
+
+</div>
+
+<div class="broken-line"></div>
+
+
+<div class="video-box clear">
+									
+                   <div class="video-pic"><a href="http://tv.sohu.com/20141123/n406294433.shtml" target="_blank"><img src="./科比27分篮板超越乔丹 书豪17+5湖人加时负掘金-搜狐体育_files/302c_0d30a4d3_1441_58d9_3f80_6e682c0a896a_2.jpg" width="125" height="85" alt=""></a><em class="floor"><a href="http://tv.sohu.com/20141123/n406294433.shtml" target="_blank"></a></em></div>
+					<div class="video-txt">
+						<h4><a href="http://tv.sohu.com/20141123/n406294433.shtml" target="_blank">《完美邂逅》
+
+</a></h4>
+						<h5>李维嘉借节目吻貌美大妞</h5>
+					</div>
+
+
+
+					
+				</div>
+			</div>
+			<div class="video-cont ych clear" style="display: none;">
+				<div class="video-box clear">
+<div class="video-pic"><a href="http://tv.sohu.com/20141029/n405557334.shtml?pvid=9e67c19acc243c17" target="_blank"><img src="./科比27分篮板超越乔丹 书豪17+5湖人加时负掘金-搜狐体育_files/3324_a1a8ad39_805e_b159_9a36_f01545ed538f_1.jpg" width="125" height="85" alt=""></a><em class="floor"><a href="http://tv.sohu.com/20141029/n405557334.shtml?pvid=9e67c19acc243c17" target="_blank"></a></em></div>
+<div class="video-txt">
+<h4><a href="http://tv.sohu.com/20141029/n405557334.shtml?pvid=9e67c19acc243c17" target="_blank">极品女士第三季</a></h4>
+<h5>极品女士第3季纪录片</h5>
+</div>
+
+</div>
+<div class="broken-line"></div>
+<div class="video-box clear">
+<div class="video-pic"><a href="http://tv.sohu.com/20140929/n404763039.shtml?pvid=9e67c19acc243c17" target="_blank"><img src="./科比27分篮板超越乔丹 书豪17+5湖人加时负掘金-搜狐体育_files/3324_7ea48c51_92e4_34c0_b159_49b270c3102e_1.jpg" width="125" height="85" alt=""></a><em class="floor"><a href="http://tv.sohu.com/20140929/n404763039.shtml?pvid=9e67c19acc243c17" target="_blank"></a></em></div>
+<div class="video-txt">
+<h4><a href="http://tv.sohu.com/20140929/n404763039.shtml?pvid=9e67c19acc243c17" target="_blank">匆匆那年第16集</a></h4>
+<h5>匆匆那年大结局</h5>
+</div>
+
+</div>				
+<div class="broken-line"></div>               
+<div class="video-box clear">
+<div class="video-pic"><a href="http://tv.sohu.com/20141120/n406193837.shtml?pvid=9e67c19acc243c17" target="_blank"><img src="./科比27分篮板超越乔丹 书豪17+5湖人加时负掘金-搜狐体育_files/3324_fc009ec5_7183_1d6e_6011_b888d94a8975_1.jpg" width="125" height="85" alt=""></a><em class="floor"><a href="http://tv.sohu.com/20141120/n406193837.shtml?pvid=9e67c19acc243c17" target="_blank"></a></em></div>
+<div class="video-txt">
+<h4><a href="http://tv.sohu.com/20141120/n406193837.shtml?pvid=9e67c19acc243c17" target="_blank">大鹏嘚吧嘚</a></h4>
+<h5>普京帮全国女性受孕</h5>
+</div>
+
+</div>
+<div class="broken-line"></div>
+<div class="video-box clear">
+<div class="video-pic"><a href="http://tv.sohu.com/20141117/n406117471.shtml?pvid=9e67c19acc243c17" target="_blank"><img src="./科比27分篮板超越乔丹 书豪17+5湖人加时负掘金-搜狐体育_files/3324_e0c9dbcd_108b_7c7b_b72e_0059b29d3742_1.jpg" width="125" height="85" alt=""></a><em class="floor"><a href="http://tv.sohu.com/20141117/n406117471.shtml?pvid=9e67c19acc243c17" target="_blank"></a></em></div>
+<div class="video-txt">
+<h4><a href="http://tv.sohu.com/20141117/n406117471.shtml?pvid=9e67c19acc243c17" target="_blank">THE KELLY SHOW</a></h4>
+<h5>盘点美剧极品熊孩子</h5>
+</div>
+
+</div>
+<div class="broken-line"></div>
+<div class="video-box clear">
+<div class="video-pic"><a href="http://tv.sohu.com/20140918/n404436802.shtml?pvid=9e67c19acc243c17" target="_blank"><img src="./科比27分篮板超越乔丹 书豪17+5湖人加时负掘金-搜狐体育_files/3324_fd4e5c62_d401_93b9_3ede_04a060be2fdc_1.jpg" width="125" height="85" alt=""></a><em class="floor"><a href="http://tv.sohu.com/20140918/n404436802.shtml?pvid=9e67c19acc243c17" target="_blank"></a></em></div>
+<div class="video-txt">
+<h4><a href="http://tv.sohu.com/20140918/n404436802.shtml?pvid=9e67c19acc243c17" target="_blank">隐秘而伟大第二季</a></h4>
+<h5>乔杉遭粉丝骚扰</h5>
+</div>
+				</div>
+			</div>
+		</div>
+		<div class="rightbar-foot"></div>		
+		<!-- 广告 -->
+		<sohuadcode><div class="ad300">
+<table width="300" height="250" border="0" cellpadding="0" cellspacing="0">
+<tbody><tr>
+<td width="300" height="250" align="middle">
+<div id="TurnAD514" width="300" height="250">
+ <script type="text/javascript">
+var TurnAD514=new Cookie(document,"TurnAD514",24);
+TurnAD514.load();
+TurnAD514.visit=(TurnAD514.visit==null)?parseInt(Math.random()*2+1):TurnAD514.visit;
+if(TurnAD514.visit!=0)var intTurnAD514=TurnAD514.visit;
+TurnAD514.visit++;
+TurnAD514.visit=(TurnAD514.visit>2)?1:TurnAD514.visit;
+TurnAD514.store();
+function showTurnAD514(basenum){
+if (basenum==1){
+document.write('<a style="display:none!important" id="tanx-a-mm_17187609_2273741_14706573"></a>');
+     tanx_s = document.createElement("script");
+     tanx_s.type = "text/javascript";
+     tanx_s.charset = "gbk";
+     tanx_s.id = "tanx-s-mm_17187609_2273741_14706573";
+     tanx_s.async = true;
+     tanx_s.src = "http://p.tanx.com/ex?i=mm_17187609_2273741_14706573";
+     tanx_h = document.getElementsByTagName("head")[0];
+     if(tanx_h)tanx_h.insertBefore(tanx_s,tanx_h.firstChild);}
+else{
+var sohuFlash2 = new sohuFlash("http://images.sohu.com/bill/s2014/jiaren/gonghang/3002501121.swf","_58d15933ed5a04ad62eedd84a8f206e5","300","250","7");
+sohuFlash2.addParam("quality", "high");
+sohuFlash2.addParam("wmode", "opaque");
+sohuFlash2.addVariable("clickthru",escape("http://clk.optaim.com/event.ng/Type=click&FlightID=201411&TargetID=sohu&Values=58d15933,ed5a04ad,62eedd84,a8f206e5&AdID=15902580"));
+if(typeof(document.pv)=='undefined') document.pv = new Array();var _a=new Image();var _b=new Image();
+_a.src='http://alpha.brand.sogou.com/brand_pv?md5=58d15933ed5a04ad62eedd84a8f206e5';document.pv.push(_a);
+_b.src='http://imp.optaim.com/201411/58d15933ed5a04ad62eedd84a8f206e5.php?a=99';document.pv.push(_b);
+sohuFlash2.write("TurnAD514");}
+}
+showTurnAD514(intTurnAD514);
+</script><a style="display:none!important" id="tanx-a-mm_17187609_2273741_14706573"></a>
+</div>
+</td>
+</tr>
+</tbody></table>
+</div>
+</sohuadcode>		
+		<!-- 中视网盟 -->
+		<sohuadcode><div class="ad300">
+<div>
+<div class="ad-pic clear">
+<iframe width="0" height="0" marginwidth="0" marginheight="0" hspace="0" vspace="0" frameborder="0" bordercolor="#F4F4F4" scrolling="no" src="about:blank" style="display: none !important; visibility: hidden !important; opacity: 0 !important; background-position: 300px 238px;"></iframe><img src="./科比27分篮板超越乔丹 书豪17+5湖人加时负掘金-搜狐体育_files/a92863f1a5aa5bb437a6fc70e01e2192.php" width="0" height="0" style="display:none;">
+</div></div>
+</div>
+</sohuadcode>
+		<!-- 彩票 st -->
+		<iframe src="./科比27分篮板超越乔丹 书豪17+5湖人加时负掘金-搜狐体育_files/season1415oct_cptzz.html" frameborder="no" scrolling="no" border="0" height="340" width="300"></iframe>
+		<!-- 彩票 end -->		
+		<!-- 我来说两句排行榜 -->
+		
+
+<div class="comment-rank clear">
+    <h2>
+        <span>我来说两句排行榜</span>
+    </h2>
+    
+    <dl>
+        <dt>
+            <a href="http://pinglun.sohu.com/s406321840.html" target="_blank">8712</a>
+        </dt>
+        <dd>
+            <a href="http://business.sohu.com/20141124/n406321840.shtml" target="_blank">江苏灌云国税局干部职工因工资太低拉横幅维权</a>
+            [<em class="red"><a href="http://pinglun.sohu.com/s406321840.html" target="_blank">评</a></em>]
+        </dd>
+    </dl>
+    
+    <div class="broken-line"></div>
+    
+    
+    <dl>
+        <dt>
+            <a href="http://pinglun.sohu.com/s403047045.html" target="_blank">7285</a>
+        </dt>
+        <dd>
+            <a href="http://news.sohu.com/20140803/n403047045.shtml" target="_blank">习近平对事故作重要指示</a>
+            [<em class="red"><a href="http://pinglun.sohu.com/s403047045.html" target="_blank">评</a></em>]
+        </dd>
+    </dl>
+    
+    <div class="broken-line"></div>
+    
+    
+    <dl>
+        <dt>
+            <a href="http://pinglun.sohu.com/s403900865.html" target="_blank">6152</a>
+        </dt>
+        <dd>
+            <a href="http://news.sohu.com/20140829/n403900865.shtml" target="_blank">习近平特使将出席第三届小岛屿发展中国家会议</a>
+            [<em class="red"><a href="http://pinglun.sohu.com/s403900865.html" target="_blank">评</a></em>]
+        </dd>
+    </dl>
+    
+    <div class="broken-line"></div>
+    
+    
+    <dl>
+        <dt>
+            <a href="http://pinglun.sohu.com/s406314609.html" target="_blank">3411</a>
+        </dt>
+        <dd>
+            <a href="http://business.sohu.com/20141124/n406314609.shtml" target="_blank">马云回应征80%税减少贫富差距：我自己会捐出去</a>
+            [<em class="red"><a href="http://pinglun.sohu.com/s406314609.html" target="_blank">评</a></em>]
+        </dd>
+    </dl>
+    
+    <div class="broken-line"></div>
+    
+    
+    <dl>
+        <dt>
+            <a href="http://pinglun.sohu.com/s406293264.html" target="_blank">3388</a>
+        </dt>
+        <dd>
+            <a href="http://news.sohu.com/s2014/dianji-1544/index.shtml" target="_blank">点击今日第1544期：中国人为什么爱“抄家”？-搜狐新闻</a>
+            [<em class="red"><a href="http://pinglun.sohu.com/s406293264.html" target="_blank">评</a></em>]
+        </dd>
+    </dl>
+    
+    <div class="broken-line"></div>
+    
+    
+    <dl>
+        <dt>
+            <a href="http://pinglun.sohu.com/s9000621223.html" target="_blank">2732</a>
+        </dt>
+        <dd>
+            <a href="http://pic.news.sohu.com/group-621223.shtml" target="_blank">甘肃陇西强征土地引冲突 多人受伤-新闻图片库-大视野-搜狐</a>
+            [<em class="red"><a href="http://pinglun.sohu.com/s9000621223.html" target="_blank">评</a></em>]
+        </dd>
+    </dl>
+    
+    <div class="broken-line"></div>
+    
+    
+    <dl>
+        <dt>
+            <a href="http://pinglun.sohu.com/s9000621065.html" target="_blank">1886</a>
+        </dt>
+        <dd>
+            <a href="http://pic.news.sohu.com/group-621065.shtml" target="_blank">“药水”泡豆芽 每日销售20吨-新闻图片库-大视野-搜狐</a>
+            [<em class="red"><a href="http://pinglun.sohu.com/s9000621065.html" target="_blank">评</a></em>]
+        </dd>
+    </dl>
+    
+    <div class="broken-line"></div>
+    
+    
+    <dl>
+        <dt>
+            <a href="http://pinglun.sohu.com/s406306744.html" target="_blank">1288</a>
+        </dt>
+        <dd>
+            <a href="http://news.sohu.com/20141124/n406306744.shtml" target="_blank">湖南平江县委书记辞职 称为“火电事件”担责</a>
+            [<em class="red"><a href="http://pinglun.sohu.com/s406306744.html" target="_blank">评</a></em>]
+        </dd>
+    </dl>
+    
+    <div class="broken-line"></div>
+    
+    
+    <dl>
+        <dt>
+            <a href="http://pinglun.sohu.com/s406306342.html" target="_blank">1129</a>
+        </dt>
+        <dd>
+            <a href="http://quan.sohu.com/pinglun/cyqemw6s1/406306342" target="_blank">印度廉价抗癌药“超A货”在中国被视为“假药”</a>
+            [<em class="red"><a href="http://pinglun.sohu.com/s406306342.html" target="_blank">评</a></em>]
+        </dd>
+    </dl>
+    
+    <div class="broken-line"></div>
+    
+    
+    <dl>
+        <dt>
+            <a href="http://pinglun.sohu.com/s406314533.html" target="_blank">1016</a>
+        </dt>
+        <dd>
+            <a href="http://business.sohu.com/20141124/n406314533.shtml" target="_blank">央行降息后六大城市房价有望反弹(名单)</a>
+            [<em class="red"><a href="http://pinglun.sohu.com/s406314533.html" target="_blank">评</a></em>]
+        </dd>
+    </dl>
+    
+    
+</div>
+		<div class="rightbar-foot"></div>		
+		<div class="leisure clear">
+<h2><span>社区热帖推荐</span></h2>
+<div class="pic-text">
+<div><a href="http://hd.club.cul.sohu.com/wangzhai/photo/2s2c7o6yesl?pvid=29ccf691185b03c7" target="_blank"><img src="./科比27分篮板超越乔丹 书豪17+5湖人加时负掘金-搜狐体育_files/2db9_2a0c3e19_ee61_b02c_b688_8da840463d1e_1.jpg" width="125" height="85" alt=""></a></div>
+<h4><a href="http://hd.club.cul.sohu.com/wangzhai/photo/2s2c7o6yesl?pvid=29ccf691185b03c7" target="_blank">实拍美女护士兼职模特生活</a></h4>
+<p>白衣天使诠释艺术美……[<a href="http://hd.club.cul.sohu.com/wangzhai/photo/2s2c7o6yesl?pvid=29ccf691185b03c7" target="_blank">详细</a>]</p>
+</div>   
+
+<div class="broken-line"></div><div class="list12">
+<ul>
+<li><a href="http://hd.club.travel.sohu.com/qiwen/photo/2q5pvp8jcxe?pvid=29ccf691185b03c7" target="_blank">随拍印度性爱神庙 情色尺度大得令人震惊！</a></li>
+<li><a href="http://club.women.sohu.com/bt0000/thread/2rrfa9uhefb?pvid=29ccf691185b03c7" target="_blank">这骚年简直太损了 看完这组图后真快疯了</a></li>
+<li><a href="http://club.men.sohu.com/zz1147/thread/2sa23z2e6gi?pvid=29ccf691185b03c7" target="_blank">原配出奇招天天找谈心 小三最终崩溃求饶</a></li>
+<li><a href="http://club.baobao.sohu.com/mom_daugh/thread/2s0pe9mk9g6?pvid=29ccf691185b03c7" target="_blank">后知后觉：娘家乡下的房子竟然要留给堂弟</a></li>
+<li><a href="http://hd.club.cul.sohu.com/zz2292/photo/2l1eaxvi77y?pvid=29ccf691185b03c7" target="_blank">你绝对没见过的超清晰慈禧老照片(组图)</a></li>
+
+</ul></div></div>
+<div class="rightbar-foot"></div>		
+		<!-- 广告 -->
+		<sohuadcode><script type="text/javascript"> 
+if(typeof(document.pv)=='undefined') document.pv = new Array();var _a=new Image();
+_a.src='http://xls.go.sohu.com/201012/ee970cf0f5c53c86014a16fd32d9629a.php?a=44';
+document.pv.push(_a);
+</script></sohuadcode>		
+		<div class="rightbar-head"></div>				
+		<!-- 信息 -->
+		<div class="sohu-info clear">
+			<div class="contact-icon"></div>
+			<div class="contact-txt">
+				<p>客服热线：86-10-58511234</p>
+				<p>客服邮箱：<a href="mailto:kf@vip.sohu.com" target="_blank">kf@vip.sohu.com</a></p>
+			</div>
+		</div>		
+	</div>
+	<div class="content-footer"></div>
+</div>
+
+<script type="text/javascript" src="./科比27分篮板超越乔丹 书豪17+5湖人加时负掘金-搜狐体育_files/business_news_1.1.3.js"></script>
+<script type="text/javascript" src="./科比27分篮板超越乔丹 书豪17+5湖人加时负掘金-搜狐体育_files/related_stock_1.0.1.js"></script>
+<script type="text/javascript" src="./科比27分篮板超越乔丹 书豪17+5湖人加时负掘金-搜狐体育_files/saved_resource"></script>
+<script type="text/javascript"> 
+if (new_ip == null) var new_ip=2130706433;
+var dns_requrl="\<script type=\"text/javascript\" src=\"http://" + new_ip +".sohuns.com/ip/\"\>\</script\>";
+document.write(dns_requrl);
+</script><script type="text/javascript" src="http://2081444408.sohuns.com/ip/"></script>
+
+<!-- 标准尾 start -->
+<div collection="Y">
+<div class="clear"></div>
+	<div id="foot" class="Area area">
+		<a href="javascript:void(0)" onclick="this.style.behavior=&#39;url(#default#homepage)&#39;;this.setHomePage(&#39;http://www.sohu.com&#39;);return" false;="">设置首页</a>
+		- <a href="http://pinyin.sogou.com/" target="_blank" rel="nofollow">搜狗输入法</a>
+		- <a href="http://pay.sohu.com/" target="_blank" rel="nofollow">支付中心</a>
+		- <a href="http://hr.sohu.com/" target="_blank" rel="nofollow">搜狐招聘</a>
+		- <a href="http://ad.sohu.com/" target="_blank" rel="nofollow">广告服务</a>
+		- <a href="http://sohucallcenter.blog.sohu.com/" target="_blan" rel="nofollow" k="">客服中心</a>
+		- <a href="http://corp.sohu.com/s2006/contactus/" target="_blank" rel="nofollow">联系方式</a>
+		- <a href="http://www.sohu.com/about/privacy.html" target="_blank" rel="nofollow">保护隐私权</a>
+		- <a href="http://investors.sohu.com/" target="_blank" rel="nofollow">About SOHU</a>
+		- <a href="http://corp.sohu.com/indexcn.shtml" target="_blank" rel="nofollow">公司介绍</a>
+		- <a href="http://sitemap.sohu.com/" target="_blank">网站地图</a>
+		- <a href="http://roll.sohu.com/" target="_blank">全部新闻</a>
+		- <a href="http://blog.sohu.com/roll" target="_blank">全部博文</a>
+		<br>Copyright <span class="fontArial">&#169;</span> 2014 Sohu.com Inc. All Rights Reserved. 搜狐公司 <span class="unline"><a href="http://corp.sohu.com/s2007/copyright/" target="_blank" rel="nofollow">版权所有</a></span>
+		<br>搜狐不良信息举报电话：010－62728061 举报邮箱：<a href="mailto:jubao@contact.sohu.com">jubao@contact.sohu.com</a>
+	</div>
+	<script language="JavaScript" src="http://a1.itc.cn/pv/js/spv.1309051632.js"></script>
+	<script language="javascript" src="./科比27分篮板超越乔丹 书豪17+5湖人加时负掘金-搜狐体育_files/wrating20120726.js"></script>
+	<script language="javascript"> 
+		var  _wratingId = null;
+		try{
+		_wratingId = _getAcc();
+		}catch(e){}
+		if(_wratingId !=null){
+		document.write('<scr'+'ipt type="text/javascript" src="http://sohu.wrating.com/a1.js"></scr'+'ipt>');
+		}
+		</script><script type="text/javascript" src="./科比27分篮板超越乔丹 书豪17+5湖人加时负掘金-搜狐体育_files/a1.js"></script>
+		<script language="javascript"> 
+		if(_wratingId !=null){
+		document.write('<scr'+'ipt type="text/javascript">');
+		document.write('var vjAcc="'+_wratingId+'";');
+		document.write('var wrUrl="http://sohu.wrating.com/";');
+		document.write('try{vjTrack();}catch(e){}');
+		document.write('</scr'+'ipt>');
+		}
+	</script><script type="text/javascript">var vjAcc="860010-0601010000";var wrUrl="http://sohu.wrating.com/";try{vjTrack();}catch(e){}</script><div style="display:none"><img src="./科比27分篮板超越乔丹 书豪17+5湖人加时负掘金-搜狐体育_files/a.gif" id="wrTagImage" width="1" height="1"></div>
+	<!--SOHU:DIV_FOOT-->
+</div>
+<!-- 标准尾 end -->
+
+<script type="text/javascript">
+<!--
+	function sogouRelateNews(itm){
+		var i=new Image();
+        var len=itm.getAttribute("len");   var  ind= itm.getAttribute("ind");
+        len=(len==null)?"":len;   ind=(ind==null)?"":ind;
+        if(len == "" || ind == "" ) {
+           i.src='http://pingback.sogou.com/rltnews.png?durl='+escape(itm.href)+'&surl='+escape(window.location)+'&'+Math.random();
+        } else {
+           i.src='http://pingback.sogou.com/rltnews.png?durl='+escape(itm.href)+'&surl='+escape(window.location)+'&len='+len+'&ind='+ind+'&'+Math.random();
+        }
+	    return true;
+	}
+
+	function sogouRelateWeb(itm){
+		var i=new Image();
+        var len=itm.getAttribute("len");  var  ind= itm.getAttribute("ind");
+        len=(len==null)?"":len; ind=(ind==null)?"":ind;
+        if(len == "" || ind == "" ) {
+	 	     i.src='http://pingback.sogou.com/rltweb.png?durl='+escape(itm.href)+'&surl='+escape(window.location)+'&'+Math.random();
+        } else {
+		     i.src='http://pingback.sogou.com/rltweb.png?durl='+escape(itm.href)+'&surl='+escape(window.location)+'&len='+len+'&ind='+ind+'&'+Math.random();
+        }
+		return true;
+	}
+
+	function sogouRelateSaybar(itm){
+		var i=new Image();
+		i.src='http://pingback.sogou.com/rltsb.png?durl='+escape(itm.href)+'&surl='+escape(window.location)+'&'+Math.random();
+		return true;
+	}
+
+	function sogouRelateBlog(itm){
+		var i=new Image();
+		i.src='http://pingback.sogou.com/rltblog.png?durl='+escape(itm.href)+'&surl='+escape(window.location)+'&'+Math.random();
+		return true;
+	}
+	
+	function sogouHotSaybar(itm){
+		var i=new Image();
+		i.src='http://pingback.sogou.com/rlthotsb.png?durl='+escape(itm.href)+'&surl='+escape(window.location)+'&'+Math.random();
+		return true;
+	}
+
+    function sogouRelateVideoNews(itm){
+      var i=new Image();
+      var len=itm.getAttribute("len");  var  ind= itm.getAttribute("ind");
+      len=(len==null)?"":len;    ind=(ind==null)?"":ind;
+      if(len == "" || ind == "" ) {
+        i.src='http://pingback.sogou.com/rltvideonews.png?durl='+escape(itm.href)+'&surl='+escape(window.location)+'&'+Math.random();
+      } else {
+        i.src='http://pingback.sogou.com/rltvideonews.png?durl='+escape(itm.href)+'&surl='+escape(window.location)+'&len='+len+'&ind='+ind+'&'+Math.random();
+      }
+	  return true;
+    }
+
+
+//-->
+</script>
+<sohuadcode>																																																																																																																																																																								<script language="Javascript">var cWidth=980;</script>
+<script language="Javascript" src="http://images.sohu.com/bill/s2013/PVJS/adm2012-20130926min.js"></script>
+<script src="http://images.sohu.com/bill/s2010/gates/sohucstech/javascript/2c327a58c4ed94bd99097411aa0107cd.js" type="text/javascript"></script>
+<!--—不能删除 投飞行广告时也必须带上—-->
+<script type="text/javascript">
+if(typeof(document.pv)=='undefined') document.pv = new Array();var _a=new Image();
+_a.src='http://xls.go.sohu.com/201012/ee970cf0f5c53c86014a16fd32d9629a.php?a=1';
+document.pv.push(_a);
+</script>
+
+<!--—不能删除—-->
+
+<!--<Script language="Javascript"> 
+AD = new ADM("FLOAT", 2);
+    AD.src = "http://images.sohu.com/bill/s2010/hailiu/jili/1001001109.swf";
+    AD.href="http://sohu.ad-plus.cn/event.ng/Type=click&FlightID=201011&TargetID=sohu&Values=d2d71597,80538603,82652985,74d8887b&AdID=30561939";
+    AD.tag="http://images.sohu.com/bill/s2010/hailiu/jili/201001109.gif";
+    AD.imp="";
+    AddSchedule(AD);
+</script>-->
+<script type="text/javascript">SohuAd.createScript("sohucsjs","http://imp.go.sohu.com/201111/ee4f7cebb2ef825bf6b3c8730c929929_30.js");</script>
+<script type="text/javascript">
+SohuAdPv_CPD   = {"#TurnAD513":"10131","#TurnAD514":"10133","#TurnAD512":"10130","#TurnAD511":"10033"};
+SohuAdFly_nCPD = {"float_r":"10624"};
+</script><script language="Javascript">if(jQuery){jQuery.getScript("http://images.sohu.com/bill/s2012/gates/all/map.2013040302.js");}</script>
+<script language="Javascript" src="http://images.sohu.com/bill/s2013/gates/js/fad_v9.js"></script>
+<script language="Javascript" src="http://images.sohu.com/bill/default/auto/pop.1.4.js?t=168"></script></sohuadcode>
+<sohuadcode></sohuadcode>
+<script type="text/javascript">	
+	function q(s) {return s.replace(/%/g,"%25").replace(/&/g,"%26").replace(/#/g,"%23");}	
+	var sogou_is_brand_url = "http://cpc.brand.sogou.com/brand_ad_new";	
+	var brand_cnt = 0;	
+	for(var p in sogou_is_brand)	
+	{	           if(typeof(sogou_is_brand[p]) == "string")
+	               sogou_is_brand_url += (brand_cnt++ ? "&" : "?") + q(p) + "=" + q(sogou_is_brand[p]);	
+	}	
+	if (brand_cnt>3)	
+	{	
+	         var test= document.createElement('SCRIPT');	
+	         test.src=sogou_is_brand_url;	
+	         document.getElementsByTagName('head')[0].appendChild(test);	
+	}	
+</script>
+<div style="display:none" id="sohu-dt0220mine-tag">sports</div><script src="./科比27分篮板超越乔丹 书豪17+5湖人加时负掘金-搜狐体育_files/mytag.min.js" type="text/javascript"></script>
+
+
+
+
+
+<div style="position: absolute; top: -1000px; left: -1000px;"><object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,0,0" id="sogou_fid_target" width="1" height="1"><param name="allowscriptaccess" value="always"><param name="movie" value="http://img.wan.sogou.com/cdn/ufo/fid/sogoufid_v3.swf"><param name="flashvars" value="funcname=sogou_fid_temp_func_1416810331392"><embed width="1" height="1" allowscriptaccess="always" flashvars="funcname=sogou_fid_temp_func_1416810331392" src="http://img.wan.sogou.com/cdn/ufo/fid/sogoufid_v3.swf" name="sogou_fid_target" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer"></object></div></body></html>
