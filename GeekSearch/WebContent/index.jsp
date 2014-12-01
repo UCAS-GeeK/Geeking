@@ -9,8 +9,7 @@ String basePath = request.getScheme()+"://"
 <html>
   <head>
     <base href="<%=basePath%>">    
-    <title>dySE</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />  
+    <title>Geeking</title>
  <style type="text/css"> 
  	#submit{
 	width:78px;
@@ -41,13 +40,12 @@ cursor: default;
 .highlight { 
 background-color: #9ACCFB; 
 } 
-
 	</style>
 	<script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="auto_complete.js"></script> 
   </head>
   <body>
-	<p align="center"><img src="dySE-logo.jpg" /></p>
+	<p align="center"><img src="Geeking.jpg" /></p>
 	<form id="search" action="search.jsp" method="get" enctype="application/x-www-form-urlencoded">	
 		<input align="center" type="text" maxlength="100" id="search-text" name="search-text"/>
 		<input type="submit" value="搜索一下"  id ="submit">		
