@@ -41,9 +41,9 @@
 		}else{
 			key = new_key;
 			resp = new Response();
-			recommend_words = JSONArray.fromObject(resp.get_recommend_query(key));
-			if(resp.getResponse(key)!=null){
-				results = JSONArray.fromObject(resp.getResponse(key));// 得到新闻信息
+			String rst = resp.getResponse(key);
+			if(rst != null){
+				results = JSONArray.fromObject(rst);// 得到新闻信息
 				pagecnt_total = JSONArray.fromObject(resp.getResultCnt());
 				//这里修改了return_results.add内容，添加的是每个JSONArray resp.getResultCnt()
 				if((pageIndex+1)*pageSize<results.size())
@@ -59,6 +59,7 @@
 			}
 			else
 			{
+				recommend_words = JSONArray.fromObject(resp.get_recommend_query(key));
 				return_results = null;
 			}
 		}

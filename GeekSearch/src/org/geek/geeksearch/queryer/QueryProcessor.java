@@ -9,14 +9,15 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
 import java.util.Map.Entry;
+import java.util.TreeMap;
 
-import org.codehaus.jackson.map.util.Comparators;
 import org.geek.geeksearch.configure.Configuration;
+import org.geek.geeksearch.indexer.Tokenizer;
 import org.geek.geeksearch.model.InvertedIndex;
 import org.geek.geeksearch.model.PageInfo;
 import org.geek.geeksearch.model.TermStat;
+import org.geek.geeksearch.queryer.Response.VarInteger;
 import org.geek.geeksearch.util.DBOperator;
 
 
@@ -48,7 +49,7 @@ public class QueryProcessor {
 	 * 第二层链表表示同一类page
 	 * 
 	 */
-	public List<List<PageInfo>> doQuery(String query) {
+	public List<List<PageInfo>> doQuery(String query, VarInteger resultCnt) {
 		//初始化查询
 		queryTerms.clear();
 		
@@ -65,6 +66,8 @@ public class QueryProcessor {
 			System.out.println("nothing retrived for query: "+ query);
 			return null;
 		}
+		//获得相关网页数目
+		resultCnt.setVar(resultPages.size());
 		
 		// 聚类
 		return PageCluster.doCluster(resultPages);
@@ -115,8 +118,6 @@ public class QueryProcessor {
 			resultPages.add(page);
 			System.out.println("\nretrived page: "+ doc.getKey());
 		}
-		//获得相关网页数目
-		Response.setResultCnt(resultPages.size());
 		return resultPages;
 	}
 	
@@ -175,11 +176,11 @@ public class QueryProcessor {
 	/* query解析 */
 	private List<Long> parseQuery(String query) {
 		// 分词
-//		List<String> qTerms = Tokenizer.doTokenise(query);
-		List<String> qTerms = new ArrayList<>();// just for test
+		List<String> qTerms = Tokenizer.doTokenise(query);
+//		List<String> qTerms = new ArrayList<>();// just for test
 //		qTerms.add("中");
 //		qTerms.add("林书豪");
-		qTerms.add("詹姆斯");
+//		qTerms.add("詹姆斯");
 		if (qTerms == null || qTerms.isEmpty()) {
 			return null;
 		}
@@ -293,7 +294,8 @@ public class QueryProcessor {
 		QueryProcessor queryProc = new QueryProcessor();
 		
 		long start = System.currentTimeMillis();
-		List<List<PageInfo>> result = queryProc.doQuery("科比");//中 詹姆斯
+		VarInteger cnt = new VarInteger(); 
+		List<List<PageInfo>> result = queryProc.doQuery("科比", cnt);//中 詹姆斯
 		System.err.println("===Time cost for doing query: "
 				+(System.currentTimeMillis()-start)/1000+" ===");
 		

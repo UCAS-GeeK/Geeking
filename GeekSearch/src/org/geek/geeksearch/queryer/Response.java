@@ -17,25 +17,18 @@ public class Response {
 		Configuration config = new Configuration("configure.properties");//初始化
 		new DBOperator(config);
 	}
-	static private int resultCnt = 0;//相关新闻数目
+	private VarInteger resultCnt = new VarInteger();//相关新闻数目
 	private static QueryProcessor processor = new QueryProcessor();//所有response对象共有
-	private boolean need_to_recommend = true;// 对象独有
-
 
 	public Response(){
-		resultCnt = 0;//初始化
 		//do nothing
 	}
-		
+
 	/* 获取推荐词 */
 	public String get_recommend_query(String query){
-		if(need_to_recommend){
-			ArrayList<String> sug = CheckSpell.suggestSimilar(query,3);
-			System.out.println("==="+sug.toString());
-			return JSONArray.fromObject(sug).toString();
-		} else {
-			return null;
-		}
+		ArrayList<String> sug = CheckSpell.suggestSimilar(query,3);
+		System.out.println("============"+sug.toString());
+		return JSONArray.fromObject(sug).toString();
 //		List<String> sug = new ArrayList<String>();
 //		sug.add("科比");
 //		sug.add("科技");
@@ -46,13 +39,8 @@ public class Response {
 	/*服务器端入口*/
 	public String getResponse(String query)
 	{
-		List<List<PageInfo>> resultList = processor.doQuery(query);
+		List<List<PageInfo>> resultList = processor.doQuery(query, resultCnt);
 		
-		//若无返回结果，则执行搜索词推荐
-		if (resultList == null || resultList.isEmpty()) {
-			need_to_recommend = true;
-			return null;
-		}
 		//有结果才将query存入热词库
 		CheckSpell.store_query(query);
 		
@@ -79,12 +67,18 @@ public class Response {
 		return json_result.toString();
 	}
 	
-	public static int getResultCnt() {
-		return resultCnt;
+	public int getResultCnt() {
+		return resultCnt.getVar();
 	}
 	
-	public static void setResultCnt(int cnt) {
-		resultCnt = cnt;
+	static class VarInteger {
+		private int varInteger = 0;
+		public void setVar(int var) {
+			this.varInteger = var;
+		}
+		public int getVar() {
+			return varInteger;
+		}
 	}
 	
 	/**
@@ -92,8 +86,8 @@ public class Response {
 	 */
 	public static void main(String[] args) {
 		Response response = new Response();
-//		System.out.println(response.getResponse("詹姆斯"));
-		System.out.println(response.get_recommend_query("科"));//单字推荐报错
+		System.out.println(response.getResponse("詹姆"));
+		System.out.println(response.get_recommend_query("詹姆四"));//单字推荐报错
 //		System.out.println("相关数："+resultCnt);
 	}
 

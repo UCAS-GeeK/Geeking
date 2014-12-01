@@ -24,6 +24,8 @@ public class PageInfo implements Cloneable{
 	private String keyWords;
 	private String type = ""; // 考虑枚举常量enum
 	private String source = "";//将网页来源
+	
+	private int descriLength = 50; //限制description长度
 
 	private Map<String, List<Integer>> titleHlightPos = new HashMap<String, List<Integer>>();// 标题高亮位置
 	private Map<String, List<Integer>> descHlightPos = new HashMap<String, List<Integer>>();// 摘要高亮位置
@@ -54,7 +56,9 @@ public class PageInfo implements Cloneable{
 			while (rSet.next()) {
 				url = rSet.getString("Url");
 				title = rSet.getString("Title");
-				description = rSet.getString("Description");
+				String desc = rSet.getString("Description");
+				description = (desc.length() < descriLength ? desc :
+					desc.substring(0, 50)) +"...";
 				title = rSet.getString("Title");
 				type = rSet.getString("Type");
 				keyWords = rSet.getString("keywords");
