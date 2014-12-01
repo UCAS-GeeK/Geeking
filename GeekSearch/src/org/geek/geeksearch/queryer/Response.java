@@ -27,7 +27,6 @@ public class Response {
 	/* 获取推荐词 */
 	public String get_recommend_query(String query){
 		ArrayList<String> sug = CheckSpell.suggestSimilar(query,3);
-		System.out.println("============"+sug.toString());
 		return JSONArray.fromObject(sug).toString();
 //		List<String> sug = new ArrayList<String>();
 //		sug.add("科比");
@@ -40,6 +39,10 @@ public class Response {
 	public String getResponse(String query)
 	{
 		List<List<PageInfo>> resultList = processor.doQuery(query, resultCnt);
+		
+		if (resultList == null || resultList.isEmpty()) {
+			return null;
+		}
 		
 		//有结果才将query存入热词库
 		CheckSpell.store_query(query);
