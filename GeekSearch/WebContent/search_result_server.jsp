@@ -42,6 +42,7 @@
 			key = new_key;
 			resp = new Response();
 			String rst = resp.getResponse(key);
+			System.out.println("************"+rst+"*****************");
 			if(rst != null){
 				results = JSONArray.fromObject(rst);// 得到新闻信息
 				pagecnt_total = JSONArray.fromObject(resp.getResultCnt());
