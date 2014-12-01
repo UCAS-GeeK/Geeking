@@ -176,11 +176,11 @@ public class QueryProcessor {
 	/* query解析 */
 	private List<Long> parseQuery(String query) {
 		// 分词
-//		List<String> qTerms = Tokenizer.doTokenise(query);
-		List<String> qTerms = new ArrayList<>();// just for test
+		List<String> qTerms = Tokenizer.doTokenise(query);
+//		List<String> qTerms = new ArrayList<>();// just for test
 //		qTerms.add("中");
 //		qTerms.add("林书豪");
-		qTerms.add("詹姆斯");
+//		qTerms.add("詹姆斯");
 		if (qTerms == null || qTerms.isEmpty()) {
 			return null;
 		}
