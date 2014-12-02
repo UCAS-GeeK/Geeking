@@ -141,7 +141,7 @@ $(function(){
 	               					+page.source+"   "+page.pubTime+"    "
 	            					+"<a href='RawPages4Test\163\test.html'> Geeking快照</a>     "
    	            					+"</div>");
-    								$(".others"+index ).hide();	//默认隐藏
+    								$(".others"+index ).hide();	//默认隐藏 
     								
         	    				}
      						}
