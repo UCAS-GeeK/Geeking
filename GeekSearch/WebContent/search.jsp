@@ -49,7 +49,7 @@
 <script type="text/javascript" src="auto_complete.js"></script>
 <script type="text/javascript" src="jquery.min.js"></script>
 <script type="text/javascript" src="jquery.pagination.js"></script>
-<script type="text/javascript" src="auto_complete.js"></script> 
+
 <script type="text/javascript">
 $(function(){
 	var pageSize = 4;
@@ -125,10 +125,10 @@ $(function(){
     						if (count_samenews[index]>1){
     							if (j==0){
     							//	alert("first"+j);
-    								$("#Searchresult").append("<div class=first"+index+"> "
-               						+"<h2><a href="+page.url+">"+page.title+"</a></h2>" 
+    								$("#Searchresult").append("<div  class=first"+index+" style=width:500px;> "
+               						+"<h4><a href="+page.url+">"+page.title+"</a></h2>" 
                						+page.source+"   "+page.pubTime+"    "
-            						+"<p>"+page.description+"</p>"
+            						+"<p width=40% >"+page.description+"</p>"
             						+"<a  href='javascript:void(0)' class=samenews"+index+"    >显示"+(count_samenews[index]-1)+"条相同新闻</a>    "
             						+"<a href='RawPages4Test\163\test.html'> Geeking快照</a>     "
             						+"</div>");
@@ -136,8 +136,8 @@ $(function(){
         	 					}
      							else {
     							//	alert("others"+j);
-    								$("#Searchresult").append("<div class =others"+index+">" 
-									+"<h4><a href="+page.url+">"+page.title+"</a></h2>" 
+    								$("#Searchresult").append("<div class =others"+index+" style=width:500px;>" 
+									+"<h5><a href="+page.url+">"+page.title+"</a></h2>" 
 	               					+page.source+"   "+page.pubTime+"    "
 	            					+"<a href='RawPages4Test\163\test.html'> Geeking快照</a>     "
    	            					+"</div>");
@@ -174,29 +174,22 @@ $(function(){
         							}
 							 });
     						
-    					});// $.each(data.results,事件注册完毕
+    					});// $.each(data.results,事件注册完毕，给出新闻总篇数
     					$("#num_Searchresult").append("找到相关新闻"+numberSearchresult+"篇");
-    					//判断有没有推荐词
-    					if(data.recommend_words!=null){
-    						$("#recommend_words").append("<p></p>您是不是要找：");
-    						$.each(data.recommend_words,function(index,term){
-    							var html="<a href='search.jsp?search-text="+term+"'>"+term+"</a>";
-    							$("#recommend_words").append(html+"   ");
-    						});
-    					
-    					}
+    				
     					
     				}//if (data.results!=null) 到此结束
-    				//如果data.results==null
+    				//如果data.results==null,//判断有没有推荐词
     				else 
     					{
     					$("#Searchresult").append("<h2>抱歉！没有相关新闻</h2>");
+    					$("#Pagination").hide();
 	    					if(data.recommend_words!=null){
+	    						$("#recommend_words").append("<p></p>您是不是要找：");
 	    						$.each(data.recommend_words,function(index,term){
 	    							var html="<a href='search.jsp?search-text="+term+"'>"+term+"</a>";
-	    							$("#recommend_words").append("<p>您是不是要找："+html+"</p>");
+	    							$("#recommend_words").append(html+"   ");
 	    						});
-	    					
 	    					}
 	    					
     					}
@@ -223,11 +216,12 @@ $(function(){
 		<input type="submit" value="搜索一下"id="submit">
 	</form>
 
-	<div id="recommend_words"></div>
-	<div><p> </p></div>
+
 	<div id="num_Searchresult"></div>	
 	<div><p> </p></div>
 	<div id="Searchresult"></div>
+	<div><p> </p></div>
+	<div id="recommend_words"></div>
 	<div><p> </p></div>
 	<div id="Pagination" class="pagination"><!-- 这里显示分页 --></div>
 </body>
