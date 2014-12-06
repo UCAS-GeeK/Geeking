@@ -203,7 +203,7 @@ public class QueryProcessor {
 	
 	/* 从TermsIndex获取termID */
 	private long fetchTermID(String term) {
-		String sql = " SELECT * FROM TERMSINDEX WHERE term='"+term+"' ";
+		String sql = " SELECT * FROM termsindex WHERE term='"+term+"' ";
 		ResultSet rSet = dbOperator.executeQuery(sql);
 		if (rSet == null) {
 			System.out.println("can not find term: "+term);
@@ -224,7 +224,7 @@ public class QueryProcessor {
 
 	/* 加载 InvertedIndex 表 */
 	private void loadInvertedIndex() {
-		String sql = " SELECT * FROM INVERTEDINDEX ";
+		String sql = " SELECT * FROM invertedindex ";
 		ResultSet rSet = dbOperator.executeQuery(sql);
 		if (rSet == null) {
 			System.err.println("load nothing from table InvertedIndex!");
@@ -253,7 +253,7 @@ public class QueryProcessor {
 
 	/* 加载 TermsIndex 表 */
 	private void loadTermsIndex() {
-		String sql = " SELECT * FROM TERMSINDEX ";
+		String sql = " SELECT * FROM termsindex ";
 		ResultSet rSet = dbOperator.executeQuery(sql);
 		if (rSet == null) {
 			System.err.println("load nothing from table TermsIndex!");

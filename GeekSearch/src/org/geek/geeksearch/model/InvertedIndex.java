@@ -78,7 +78,7 @@ public class InvertedIndex {
 				positions = entry2.getValue().getPosSet().toString();
 				docIDs += dID+":"+tfIdf+":"+positions+"#";
 			}
-			String sql = " INSERT INTO InvertedIndex values("+tID+",'"	
+			String sql = " INSERT INTO invertedindex values("+tID+",'"	
 					+dF+"|"+docIDs+"') ";// testInvertedIndex for test
 			dbOp.executeUpdate(sql);
 			docIDs = "";

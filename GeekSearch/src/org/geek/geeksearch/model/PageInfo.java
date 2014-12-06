@@ -47,7 +47,7 @@ public class PageInfo implements Cloneable{
 	}
 	
 	public boolean loadInfo(DBOperator dbOperator) {
-		String sql = " SELECT * FROM PAGESINDEX WHERE DocID='"+docID+"' ";
+		String sql = " SELECT * FROM pagesindex WHERE DocID='"+docID+"' ";
 		ResultSet rSet = dbOperator.executeQuery(sql);
 		if (rSet == null) {
 			return false;
@@ -90,7 +90,7 @@ public class PageInfo implements Cloneable{
 	}
 	
 	public void add2DB(DBOperator dbOp) {
-		String sql = " INSERT INTO PagesIndex values("+docID+",'"+url+"','"+title
+		String sql = " INSERT INTO pagesindex values("+docID+",'"+url+"','"+title
 				+"','"+description+"','"+pubTime+"','"+type+"','"+keyWords+"') ";
 		dbOp.executeUpdate(sql);
 	}
