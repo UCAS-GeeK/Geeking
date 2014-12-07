@@ -106,7 +106,7 @@ $(function(){
     				callback(num_entries);
     				var tag_samenews  = new Array();//用于判断显示相同新闻点击奇偶次数
     				var count_samenews = new Array();
-
+					
     				if (data.results!=null) {
     					//alert("data不为空");
     					// 遍历data，添加到自动完成区					
@@ -123,17 +123,17 @@ $(function(){
     							if (j==0){
     							//	alert("first"+j);
     								$("#Searchresult").append("<div class=first"+index+" style=width:500px;> "
-               						+"<h4><a href='http://www.baidu.com/'"+page.url+">"+page.title+"</a></h2>" 
+               						+"<h4><a href='http://www.baidu.com/'"+page.url+">"+"<br class=tohighli>"+page.title+"</br>"+"</a></h2>" 
                						+page.source+"   "+page.pubTime+"    "
-            						+"<br width=40% >"+page.description+"</br>"
+            						+"<br width=40% >"+"<a class=tohighli>"+page.description+"</a>"+"</br>"
             						+"<a  href='javascript:void(0)' class=samenews"+index+"    >显示"+(count_samenews[index]-1)+"条相同新闻</a>    "
             						+"<a href='RawPages4Test//qq//qq3.html'> Geeking快照</a>     "
             						+"</div><p></p>");
         	 					}
      							else {
-    							//	alert("others"+j);
+    							//	alert("others"+j);page.description
     								$("#Searchresult").append("<div class =others"+index+" style=width:500px;>" 
-									+"<h5><a href="+page.url+">"+page.title+"</a></h2>" 
+									+"<h5><a href="+page.url+">"+"<br class=tohighli>"+page.title+"</br>"+"</a></h2>" 
 	               					+page.source+"   "+page.pubTime+"    "
 	            					+"<a href='RawPages4Test//qq//qq3.html'> Geeking快照</a>     "
    	            					+"</div>");
@@ -152,7 +152,7 @@ $(function(){
     						});
     						//判断显示相同新闻点击奇偶次数
     						//必须放在$.each(term,外面，否则执行term.length次
-    							
+    						
     						tag_samenews[index] = 0;
     						$(".samenews"+index).click(function(){
     							if(tag_samenews[index]==0){
@@ -189,8 +189,9 @@ $(function(){
 	    					}
 	    					
     					}
-    			$('#Searchresult').highlight($("#search-text").val());
+    			$('.tohighli').highlight($("#search-text").val());
     			}//'success' : function(data)到此结束，$.ajax还未添加error的function
+    			
     		});// $.ajax到此结束  		
     	} //判断(keyword!="") 到此结束 
     	
