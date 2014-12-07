@@ -129,7 +129,6 @@ $(function(){
             						+"<a  href='javascript:void(0)' class=samenews"+index+"    >显示"+(count_samenews[index]-1)+"条相同新闻</a>    "
             						+"<a href='RawPages4Test//qq//qq3.html'> Geeking快照</a>     "
             						+"</div><p></p>");
-    								
         	 					}
      							else {
     							//	alert("others"+j);
@@ -139,7 +138,6 @@ $(function(){
 	            					+"<a href='RawPages4Test//qq//qq3.html'> Geeking快照</a>     "
    	            					+"</div>");
     								$(".others"+index ).hide();	//默认隐藏 
-    								
         	    				}
      						}
     						//判断该类别个数只等于1时不分组显示
@@ -154,6 +152,7 @@ $(function(){
     						});
     						//判断显示相同新闻点击奇偶次数
     						//必须放在$.each(term,外面，否则执行term.length次
+    							
     						tag_samenews[index] = 0;
     						$(".samenews"+index).click(function(){
     							if(tag_samenews[index]==0){
@@ -181,7 +180,7 @@ $(function(){
     					{
     					$("#Searchresult").append("<h2>抱歉！没有相关新闻</h2>");
     					$("#Pagination").hide();
-	    					if(data.recommend_words!=null){
+	    					if(data.recommend_words!=""){
 	    						$("#recommend_words").append("<p></p>您是不是要找：");
 	    						$.each(data.recommend_words,function(index,term){
 	    							var html="<a href='search.jsp?search-text="+term+"'>"+term+"</a>";
