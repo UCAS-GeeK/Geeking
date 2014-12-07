@@ -295,7 +295,7 @@ public class QueryProcessor {
 		
 		long start = System.currentTimeMillis();
 		VarInteger cnt = new VarInteger(); 
-		List<List<PageInfo>> result = queryProc.doQuery("科比", cnt);//中 詹姆斯
+		List<List<PageInfo>> result = queryProc.doQuery("波波维奇", cnt);//中 詹姆斯
 		System.err.println("===Time cost for doing query: "
 				+(System.currentTimeMillis()-start)/1000+" ===");
 		

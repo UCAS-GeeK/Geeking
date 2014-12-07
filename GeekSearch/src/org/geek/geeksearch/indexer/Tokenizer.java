@@ -65,6 +65,8 @@ public class Tokenizer {
 		}
 		try {
 			String line = null;
+			System.out.println("===================================");
+			System.out.println("===================================");
 			BufferedReader reader = new BufferedReader(new FileReader(file));
 			while((line = reader.readLine()) != null) {
 				if (line.isEmpty()) {
