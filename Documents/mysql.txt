@@ -1,3 +1,4 @@
+ĞŞ¸Ätf-idfÏÈ
 create database geekdb;
 mysql -uroot -p geekdb < geekdb.sql
 #cp mysql-connector
