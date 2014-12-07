@@ -18,13 +18,7 @@
 <title>Search Result</title>
 
 <style type="text/css">
-#search {
-	text-align: center;
-	position: relative;
-	width: 78px;
-	height: 28px;
-	font: 14px "宋体"
-}
+
 .autocomplete {
 	border: 1px solid #9ACCFB;
 	background-color: white;
@@ -49,11 +43,14 @@
 <script type="text/javascript" src="auto_complete.js"></script>
 <script type="text/javascript" src="jquery.min.js"></script>
 <script type="text/javascript" src="jquery.pagination.js"></script>
+<script type="text/javascript" src="jquery.highlighter-1.0.0.min.js"></script> 
+<style> .highlight{background-color: #FFFF88;} </style>
 
 <script type="text/javascript">
 $(function(){
 	var pageSize = 4;
 	var pageIndex = 0;
+    
 //	InitTable(0)
 	//此demo通过Ajax加载分页元素		
 		var tag_pageselectCallback=0;
@@ -125,13 +122,13 @@ $(function(){
     						if (count_samenews[index]>1){
     							if (j==0){
     							//	alert("first"+j);
-    								$("#Searchresult").append("<div  class=first"+index+" style=width:500px;> "
-               						+"<h4><a href="+page.url+">"+page.title+"</a></h2>" 
+    								$("#Searchresult").append("<div class=first"+index+" style=width:500px;> "
+               						+"<h4><a href='http://www.baidu.com/'"+page.url+">"+page.title+"</a></h2>" 
                						+page.source+"   "+page.pubTime+"    "
-            						+"<p width=40% >"+page.description+"</p>"
+            						+"<br width=40% >"+page.description+"</br>"
             						+"<a  href='javascript:void(0)' class=samenews"+index+"    >显示"+(count_samenews[index]-1)+"条相同新闻</a>    "
-            						+"<a href='RawPages4Test\163\test.html'> Geeking快照</a>     "
-            						+"</div>");
+            						+"<a href='RawPages4Test//qq//qq3.html'> Geeking快照</a>     "
+            						+"</div><p></p>");
     								
         	 					}
      							else {
@@ -139,7 +136,7 @@ $(function(){
     								$("#Searchresult").append("<div class =others"+index+" style=width:500px;>" 
 									+"<h5><a href="+page.url+">"+page.title+"</a></h2>" 
 	               					+page.source+"   "+page.pubTime+"    "
-	            					+"<a href='RawPages4Test\163\test.html'> Geeking快照</a>     "
+	            					+"<a href='RawPages4Test//qq//qq3.html'> Geeking快照</a>     "
    	            					+"</div>");
     								$(".others"+index ).hide();	//默认隐藏 
     								
@@ -150,9 +147,9 @@ $(function(){
     							$("#Searchresult").append("<div class=first"+index+"> "
                						+"<h4><a href="+page.url+">"+page.title+"</a></h2>" 
                						+"网页来源: "+page.source+"   时间: "+page.pubTime+"    "
-            						+"<p>"+page.description+"</p>"
-            						+"<a href='RawPages4Test\163\test.html'>快照</a>"
-            						+"</div>");
+            						+"<br>"+page.description+"</br>"
+            						+"<a href='RawPages4Test//qq//qq3.html'>快照</a>"
+            						+"</div><p></p>");
      						}
     						});
     						//判断显示相同新闻点击奇偶次数
@@ -193,12 +190,15 @@ $(function(){
 	    					}
 	    					
     					}
+    			$('#Searchresult').highlight($("#search-text").val());
     			}//'success' : function(data)到此结束，$.ajax还未添加error的function
     		});// $.ajax到此结束  		
     	} //判断(keyword!="") 到此结束 
     	
     	
     }//InitTable(pageIndex)到此结束
+    
+    
 });//$(function()到此结束
 </script>
 </head>
@@ -212,10 +212,11 @@ $(function(){
 				.getBytes("ISO-8859-1"), "utf-8");
 	%>
 	<form id="search" action="search.jsp" method="get">
-		<input name="search-text" type="text" maxlength="100" id="search-text" value=<%=keyword%>> 
-		<input type="submit" value="搜索一下"id="submit">
+	    <img src="Geeking.jpg" height="40" width="100"/>
+		<input name="search-text" type="text" maxlength="10" id="search-text" value=<%=keyword%>> 
+		<input type="submit" value="搜索一下" id="submit">
 	</form>
-
+<div style="margin-left:100px">
 
 	<div id="num_Searchresult"></div>	
 	<div><p> </p></div>
@@ -224,5 +225,6 @@ $(function(){
 	<div id="recommend_words"></div>
 	<div><p> </p></div>
 	<div id="Pagination" class="pagination"><!-- 这里显示分页 --></div>
+</div>	
 </body>
 </html>
