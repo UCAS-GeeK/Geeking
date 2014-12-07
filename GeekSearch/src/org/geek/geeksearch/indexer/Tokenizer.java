@@ -30,6 +30,7 @@ public class Tokenizer {
 	 */
 	public static List<String> doTokenise(String plainText) {
 		// ToAnalysis
+		System.out.println("--------------------"+plainText);
 		List<Term> splitedTerms = ToAnalysis.parse(plainText);
 		// 去除停用词
 		splitedTerms = deleStopWords(splitedTerms);
@@ -76,6 +77,7 @@ public class Tokenizer {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		System.out.println("finished loading Stopwords library");
 	}
 	
 	public static List<String> cleanTerms(List<Term> splitedTerms) {

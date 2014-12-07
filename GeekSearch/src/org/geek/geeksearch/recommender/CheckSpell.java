@@ -46,7 +46,7 @@ public class CheckSpell {
 	/* 从数据库加载热词（keywords） */
 	private static Map<String, Integer> loadHotWords() {
 		Map<String, Integer> wordsMap = new HashMap<>();
-		String sql = " SELECT * FROM PAGESINDEX ";//
+		String sql = " SELECT * FROM pagesindex ";//
 		ResultSet rSet = dbOperator.executeQuery(sql);
 		if (rSet == null) {
 			System.err.println("load nothing from table PagesIndex!");

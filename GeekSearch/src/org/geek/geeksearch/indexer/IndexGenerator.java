@@ -72,7 +72,8 @@ public class IndexGenerator {
 
 	/* 生成各种索引 */
 	public void createIndexes(String type, String html) {
-		String path = rawPagesDir+"\\"+type+"\\"+html;
+//		String path = rawPagesDir+type+"\\"+html; //under windows
+		String path = rawPagesDir+type+"/"+html; //under linux
 		if (!HtmlParser.checkPath(path)) {
 			return;
 		}
@@ -100,7 +101,7 @@ public class IndexGenerator {
 		//因为建倒排索引需要较大内存，因此先释放不再需要的数据结构
 		termIDsMap.clear();
 		//读取数据库docIndex整张表（默认内存够用）
-		String sql = " SELECT * FROM DocsIndex "; // 要执行的SQL语句
+		String sql = " SELECT * FROM docsindex "; // 要执行的SQL语句
 		ResultSet res = dbOperator.executeQuery(sql);
 		long totalDocCnt = -1;//对总文档数计数
 		//遍历每条记录
@@ -154,7 +155,7 @@ public class IndexGenerator {
 			Map.Entry<String, Long> entry = iter.next();
 			String terms = entry.getKey();
 			long tID = entry.getValue();
-			String sql = " INSERT INTO TermsIndex values("+tID+",'"+terms+"') "; 
+			String sql = " INSERT INTO termsindex values("+tID+",'"+terms+"') "; 
 			dbOperator.executeUpdate(sql);
 		}
 	}
@@ -219,7 +220,7 @@ public class IndexGenerator {
 	
 	/* 从 类型目录获取html文件列表*/
 	public String[] getHTMLs(String type) {
-		File typeDir = new File(rawPagesDir+"\\"+type);
+		File typeDir = new File(rawPagesDir+type);
 		if (!typeDir.exists() || !typeDir.isDirectory()) {   
 			System.err.printf("unexisting path of type: %s\n", typeDir.toString());   
 		    return null;

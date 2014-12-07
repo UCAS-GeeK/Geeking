@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
 
+import org.ansj.splitWord.analysis.ToAnalysis;
 import org.geek.geeksearch.configure.Configuration;
 import org.geek.geeksearch.indexer.Tokenizer;
 import org.geek.geeksearch.model.InvertedIndex;
@@ -190,6 +191,7 @@ public class QueryProcessor {
 			if (term == null || term.isEmpty()) {
 				continue;
 			}
+			System.out.println("======"+term+"=============");
 			long id = fetchTermID(term);
 			if (id < 0) {
 				//跳过索引库中没有的词项
@@ -203,7 +205,7 @@ public class QueryProcessor {
 	
 	/* 从TermsIndex获取termID */
 	private long fetchTermID(String term) {
-		String sql = " SELECT * FROM TERMSINDEX WHERE term='"+term+"' ";
+		String sql = " SELECT * FROM termsindex WHERE term='"+term+"' ";
 		ResultSet rSet = dbOperator.executeQuery(sql);
 		if (rSet == null) {
 			System.out.println("can not find term: "+term);
@@ -224,7 +226,7 @@ public class QueryProcessor {
 
 	/* 加载 InvertedIndex 表 */
 	private void loadInvertedIndex() {
-		String sql = " SELECT * FROM INVERTEDINDEX ";
+		String sql = " SELECT * FROM invertedindex ";
 		ResultSet rSet = dbOperator.executeQuery(sql);
 		if (rSet == null) {
 			System.err.println("load nothing from table InvertedIndex!");
@@ -253,7 +255,7 @@ public class QueryProcessor {
 
 	/* 加载 TermsIndex 表 */
 	private void loadTermsIndex() {
-		String sql = " SELECT * FROM TERMSINDEX ";
+		String sql = " SELECT * FROM termsindex ";
 		ResultSet rSet = dbOperator.executeQuery(sql);
 		if (rSet == null) {
 			System.err.println("load nothing from table TermsIndex!");
@@ -295,7 +297,7 @@ public class QueryProcessor {
 		
 		long start = System.currentTimeMillis();
 		VarInteger cnt = new VarInteger(); 
-		List<List<PageInfo>> result = queryProc.doQuery("科比", cnt);//中 詹姆斯
+		List<List<PageInfo>> result = queryProc.doQuery("波波维奇", cnt);//中 詹姆斯
 		System.err.println("===Time cost for doing query: "
 				+(System.currentTimeMillis()-start)/1000+" ===");
 		
