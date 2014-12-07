@@ -101,6 +101,22 @@ public class PageInfo implements Cloneable{
 		return object;
 	}
 	
+	/* 计算title和description中搜索词出现的此处，返回权重。1次+10*/
+	public long countInTitleDesc(String term) {
+		String text = title + description;
+		long weight = 0;
+		int start = 0;
+		
+		int idx = text.indexOf(term, start);
+		while (idx >= 0) {
+			weight += 10;
+			start = idx + term.length();
+			idx = start < text.length() ? text.indexOf(term, start) : -1;
+		}
+		
+		return weight;
+	}
+	
 	/* 计算 title/description 高亮位置 */
 	public void highlight(List<String> queryTerms) {
 		//highlight title
