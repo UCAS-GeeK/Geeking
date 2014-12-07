@@ -82,14 +82,14 @@ public class IndexGenerator {
 			return;
 		}
 		//建立网页信息索引
-		createPageIndex(htmlStr, type, html);		
+		String titleDesc = createPageIndex(htmlStr, type, html);		
 		//过滤标签获取正文
 		String plainText = HtmlParser.getPlainText(htmlStr, type);
 		if (plainText == null || plainText.isEmpty()) {
 			return;
 		}
 		// 使用第三方分词工具ansj实现分词
-		List<String> parsedTerms = Tokenizer.doTokenise(plainText);
+		List<String> parsedTerms = Tokenizer.doTokenise(titleDesc+plainText);
 		if (parsedTerms == null || parsedTerms.isEmpty()) {
 			return;
 		}
@@ -191,14 +191,14 @@ public class IndexGenerator {
 	}
 	
 	/* 建立网页信息索引 */
-	public void createPageIndex(String htmlStr, String type, String url) {
+	public String createPageIndex(String htmlStr, String type, String url) {
 		String title = HtmlParser.getTitle(htmlStr);
 		String pubTime = HtmlParser.getPubTime(htmlStr, type);
 		String[] kwAndDesc = HtmlParser.getKeyWordAndDesc(htmlStr);
 		if (url.isEmpty() || type.isEmpty() || kwAndDesc.length != 2) {
 			String err = "type="+type+";url="+url+";kwAndDesc="+kwAndDesc.toString();
 			System.err.printf("bad page info: %s\n", err);
-			return;
+			return "";
 		}
 		
 		PageInfo pageInfo = new PageInfo(docID.incrementAndGet(), url, type, 
@@ -206,12 +206,13 @@ public class IndexGenerator {
 		pageInfo.add2DB(dbOperator);
 //		System.out.print("title="+title+";  kw="+kwAndDesc[0]+";  pubTime="
 //				+pubTime+"\ndescrip="+kwAndDesc[1]+"\n");
+		return title+kwAndDesc[1];//返回 标题+描述
 	}
 	
 	/* 从网页库目录获取类型目录 的列表*/
 	public String[] getTypes() {
 		File rootDir = new File(rawPagesDir);
-		if (!rootDir.exists() || !rootDir.isDirectory()) {   
+		if (!rootDir.exists() || !rootDir.isDirectory()) {
 			System.err.printf("unexisting path of rawPages: %s\n", rawPagesDir);   
 		    return null;
 		}

@@ -35,8 +35,8 @@ public class QueryProcessor {
 	private final Configuration config = new Configuration();
 	private final DBOperator dbOperator = new DBOperator();
 	
-	// 不支持多线程
-	private List<String> queryTerms = new ArrayList<>(); //查询词  
+	// 不支持多线程,用于匹配标题
+	private Map<Long, String> queryTerms = new HashMap<>(); //查询词  
 	
 	public QueryProcessor() {
 		setTopK(config);
@@ -77,6 +77,7 @@ public class QueryProcessor {
 	/* 获取相关网页，并从数据库PagesIndex获取网页信息 */
 	private List<PageInfo> getResultPages(List<Long> queryIDs) {
 		List<PageInfo> resultPages = new ArrayList<>();
+		Map<Long, PageInfo> tmpPages = new HashMap<>();
 		
 		List<Map.Entry<Long, TermStat>> relevantDocs = getRelevantDocs(queryIDs);
 		if (relevantDocs == null || relevantDocs.isEmpty()) {
@@ -84,15 +85,30 @@ public class QueryProcessor {
 			return null;
 		}
 		
-		//计算相似度权重nnn.ntn
+		//计算相似度权重nnn.ntn, 顺便从PagesIndex获取PageInfo
+		PageInfo page;
 		for (Map.Entry<Long, TermStat> doc : relevantDocs) {
+			//获取pageinfo
 			System.out.println("doc: "+doc.getKey()+"");
+			page = new PageInfo(doc.getKey());
+			if (!page.loadInfo(dbOperator)) {
+				System.out.println("no page info of "+doc.getKey());
+				continue;
+			}
+			//计算关键词高亮位置
+//			page.highlight(queryTerms);//弃用
+			tmpPages.put(doc.getKey(), page);
+			
+			//计算权重
 			for (long term : queryIDs) {
 				TermStat stat = invIdxMap.get(term).getStatsMap().get(doc.getKey());
 				if (stat == null) {
 					System.out.println("can not find doc stat in term: "+term);
 				}
-				doc.getValue().addWeight(stat.getTfIdf());
+				//计算“标题+描述”中搜索词出现次数，1次weight+10
+				long titWeight = page.countInTitleDesc(queryTerms.get(term));
+				doc.getValue().addWeight(stat.getTfIdf()+titWeight);
+				
 				System.out.println("w["+term +", "+doc.getKey()
 						+"]="+stat.getTfIdf());//
 			}
@@ -106,17 +122,9 @@ public class QueryProcessor {
 			}
 		});
 		
-		//从PagesIndex获取PageInfo
-		PageInfo page;
+		//返回排好序的结果信息
 		for (Map.Entry<Long, TermStat> doc : relevantDocs) {
-			page = new PageInfo(doc.getKey());
-			if (!page.loadInfo(dbOperator)) {
-				System.out.println("no page info of "+doc.getKey());
-				continue;
-			}
-			//计算关键词高亮位置
-			page.highlight(queryTerms);
-			resultPages.add(page);
+			resultPages.add(tmpPages.get(doc.getKey()));
 			System.out.println("\nretrived page: "+ doc.getKey());
 		}
 		return resultPages;
@@ -197,7 +205,7 @@ public class QueryProcessor {
 				//跳过索引库中没有的词项
 				continue;
 			}
-			queryTerms.add(term);
+			queryTerms.put(id, term);
 			queryIDs.add(id);
 		}
 		return queryIDs;
@@ -297,7 +305,7 @@ public class QueryProcessor {
 		
 		long start = System.currentTimeMillis();
 		VarInteger cnt = new VarInteger(); 
-		List<List<PageInfo>> result = queryProc.doQuery("波波维奇", cnt);//中 詹姆斯
+		List<List<PageInfo>> result = queryProc.doQuery("中", cnt);//中 詹姆斯
 		System.err.println("===Time cost for doing query: "
 				+(System.currentTimeMillis()-start)/1000+" ===");
 		

@@ -89,8 +89,8 @@ public class Response {
 	 */
 	public static void main(String[] args) {
 		Response response = new Response();
-		System.out.println(response.getResponse("波波维奇"));
-		System.out.println(response.get_recommend_query("詹姆四"));//单字推荐报错
+		System.out.println(response.getResponse("詹姆斯 中"));
+//		System.out.println(response.get_recommend_query("詹姆四"));//单字推荐报错
 //		System.out.println("相关数："+resultCnt);
 	}
 
