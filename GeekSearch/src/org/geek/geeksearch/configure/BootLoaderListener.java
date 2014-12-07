@@ -3,6 +3,7 @@ package org.geek.geeksearch.configure;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
+import org.geek.geeksearch.indexer.Tokenizer;
 import org.geek.geeksearch.queryer.Response;
 import org.geek.geeksearch.recommender.CheckSpell;
 import org.geek.geeksearch.util.DBOperator;
@@ -18,7 +19,7 @@ public class BootLoaderListener implements ServletContextListener {
 		new DBOperator(new Configuration());
 		
 		//初始化分词，加载词典
-//		new Tokenizer(new Configuration());
+		new Tokenizer(new Configuration());
 		
 		//初始化Response，加载倒排索引
 		new Response();

@@ -212,7 +212,7 @@ $(function(){
 				.getBytes("ISO-8859-1"), "utf-8");
 	%>
 	<form id="search" action="search.jsp" method="get">
-	    <img src="Geeking.jpg" height="40" width="100"/>
+	    <img src="geeking.jpg" height="40" width="100"/>
 		<input name="search-text" type="text" maxlength="10" id="search-text" value=<%=keyword%>> 
 		<input type="submit" value="搜索一下" id="submit">
 	</form>

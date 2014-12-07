@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
 
+import org.ansj.splitWord.analysis.ToAnalysis;
 import org.geek.geeksearch.configure.Configuration;
 import org.geek.geeksearch.indexer.Tokenizer;
 import org.geek.geeksearch.model.InvertedIndex;
@@ -190,6 +191,7 @@ public class QueryProcessor {
 			if (term == null || term.isEmpty()) {
 				continue;
 			}
+			System.out.println("======"+term+"=============");
 			long id = fetchTermID(term);
 			if (id < 0) {
 				//跳过索引库中没有的词项
