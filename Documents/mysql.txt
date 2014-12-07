@@ -1,9 +1,14 @@
+
 修改tf-idf先
+===================================
 create database geekdb;
 mysql -uroot -p geekdb < geekdb.sql
 #cp mysql-connector
 prepare cxquan/geeking/ dir
 put geeking.jar RawPages library
+
+====================================
+
 
 linux下导入、导出mysql数据库命令
 
