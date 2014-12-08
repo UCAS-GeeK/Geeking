@@ -12,11 +12,11 @@ import org.geek.geeksearch.util.DBOperator;
 
 
 public class Response {
-//	static {
-//		//配置文件初始化，临时在此初始化，便于调试，工程完工后会在BootLoader里初始化
-//		Configuration config = new Configuration("configure.properties");//初始化
-//		new DBOperator(config);
-//	}
+	static {
+		//配置文件初始化，临时在此初始化，便于调试，工程完工后会在BootLoader里初始化
+		Configuration config = new Configuration("configure.properties");//初始化
+		new DBOperator(config);
+	}
 	private VarInteger resultCnt = new VarInteger();//相关新闻数目
 	private static QueryProcessor processor = new QueryProcessor();//所有response对象共有
 

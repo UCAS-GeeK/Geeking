@@ -199,7 +199,7 @@ $(function(){
     				
 	    		    for(var i=0;i<myquerys.length;i++){
 //	    		    	$('.tohighli').highlight($("#search-text").val());
-						alert(myquerys[i]);
+						//alert(myquerys[i]);
 	    		    	$('.tohighli').highlight(myquerys[i]);
 	    	        }
 	    		    $('.tohighli').highlight($("#search-text").val());
