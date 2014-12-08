@@ -8,16 +8,16 @@ public class Configuration {
 
 	/**
 	 * 读取properties文件
+	 * 所有对象共用
 	 */
-	private final Properties propertie;
+	private static final Properties propertie = new Properties();
 
 	/**
 	 * 初始化Configuration类
 	 */
-	public Configuration() {
-		propertie = new Properties();
+	public Configuration(String configFile) {
 		try {
-			propertie.load(getClass().getClassLoader().getResourceAsStream("configure.properties"));
+			propertie.load(getClass().getClassLoader().getResourceAsStream(configFile));
 		} catch (FileNotFoundException ex) {
 			System.err.println("文件路径错误或者文件不存在");
 			ex.printStackTrace();
@@ -25,6 +25,10 @@ public class Configuration {
 			System.err.println("装载文件失败!");
 			ex.printStackTrace();
 		}
+	}
+	
+	/**/
+	public Configuration() {
 	}
 
 	/**

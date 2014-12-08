@@ -18,14 +18,19 @@ import org.geek.geeksearch.configure.Configuration;
  */
 public class DBOperator 
 {
-    private Connection conn = null;
-    private Statement stmt = null;
-    private PreparedStatement prepStmt = null;
+    private static Connection conn = null;
+    private static Statement stmt = null;
+    private static PreparedStatement prepStmt = null;
     /* configure.properties */
-    private String path_GeekDB = null;//指向要访问的数据库名
-    private String user_GeekDB = null;// MySQL配置时的用户名
-    private String password_GeekDB = null; // MySQL配置时的密码
+    private static String path_GeekDB = null;//指向要访问的数据库名
+    private static String user_GeekDB = null;// MySQL配置时的用户名
+    private static String password_GeekDB = null; // MySQL配置时的密码
     
+    public DBOperator() {
+		
+	}
+    
+    /* 初始化 */
     public DBOperator(Configuration config)
     {
         try
@@ -54,13 +59,13 @@ public class DBOperator
     }
     
     public void cleanAllTables() {
-    	String sql = " TRUNCATE TABLE TermsIndex ";
+    	String sql = " TRUNCATE TABLE termsindex ";
 		executeUpdate(sql);
-    	sql = " TRUNCATE TABLE PagesIndex ";
+    	sql = " TRUNCATE TABLE pagesindex ";
 		executeUpdate(sql);
-		sql = " TRUNCATE TABLE DocsIndex ";
+		sql = " TRUNCATE TABLE docsindex ";
 		executeUpdate(sql);
-		sql = " TRUNCATE TABLE InvertedIndex ";
+		sql = " TRUNCATE TABLE invertedindex ";
 		executeUpdate(sql);
 	}
     
@@ -223,7 +228,7 @@ public class DBOperator
         }
     }
     
-    public void close()     
+    public static void close()     
     {
         try
         {

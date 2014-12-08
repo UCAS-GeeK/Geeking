@@ -78,7 +78,7 @@ public class InvertedIndex {
 				positions = entry2.getValue().getPosSet().toString();
 				docIDs += dID+":"+tfIdf+":"+positions+"#";
 			}
-			String sql = " INSERT INTO InvertedIndex values("+tID+",'"	
+			String sql = " INSERT INTO invertedindex values("+tID+",'"	
 					+dF+"|"+docIDs+"') ";// testInvertedIndex for test
 			dbOp.executeUpdate(sql);
 			docIDs = "";
@@ -123,6 +123,7 @@ public class InvertedIndex {
 			}
 			statsMap.put(tStat.getDocID(), tStat);
 		}
+		
 		// 根据tf-idf值对statsMap降序排序，用于TopK处理
 		List<Map.Entry<Long, TermStat>> sortedStatsMap = 
 				new ArrayList<Map.Entry<Long,TermStat>>(statsMap.entrySet());

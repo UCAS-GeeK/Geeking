@@ -44,7 +44,7 @@ public class DocIndex {
 	
 	/* 每有一条文档索引，就写一次数据库 */
 	private void add2DB(DBOperator dbOp, long docID, String terms) {
-		String sql = " INSERT INTO DocsIndex values("+docID+",'"+terms+"') ";
+		String sql = " INSERT INTO docsindex values("+docID+",'"+terms+"') ";
 		dbOp.executeUpdate(sql);
 	}
 	

@@ -35,40 +35,45 @@ public class IndexGenerator {
 	private Map<Long,InvertedIndex> invIdxMap = new HashMap<>(); //倒排索引表 
 	
 	private final Configuration config;
-	private final Tokenizer tokenizer;
 	private final DBOperator dbOperator;
 	
 	public IndexGenerator() {
-		this.config = new Configuration();
+		this.config = new Configuration("configure.properties");
 		this.rawPagesDir = config.getValue("RawPagesPath");
-		this.tokenizer = new Tokenizer(config);
 		this.dbOperator = new DBOperator(config);
+		new Tokenizer(config);
 		dbOperator.cleanAllTables();//重建索引，清空所有table		
-	}
-	
-	public static void main(String[] args) {
-		IndexGenerator generator = new IndexGenerator();
-		generator.createIndexes();
 	}
 	
 	/* 构建索引入口 */
 	public void createIndexes() {
 		String[] typeArr = getTypes();
+		long start = System.currentTimeMillis();
 		for (String type : typeArr) {
 			String[] htmlArr = getHTMLs(type);
 			for (String html : htmlArr) {
 				createIndexes(type, html);
 			}
 		}
+		long end = System.currentTimeMillis();
+		System.err.println("===Time cost for parsing html + "
+				+ "creating pageIndex&docsIndex: "+(end-start)/1000+" ===");
 		//建立 词项ID-词项 索引表
-		createTermIdIndex();		
+		createTermIdIndex();
+		start = System.currentTimeMillis();
+		
+		System.err.println("===Time cost for creating TermIdIndex "
+				+ ": "+(start-end)/1000+" ===");
 		// 建立倒排索引
-		createInvertedIndex();		
+		createInvertedIndex();
+		System.err.println("===Time cost for creating InvertedIndex "
+				+ ": "+(System.currentTimeMillis()-start)/1000+" ===");
 	}
 
 	/* 生成各种索引 */
 	public void createIndexes(String type, String html) {
-		String path = rawPagesDir+"\\"+type+"\\"+html;
+//		String path = rawPagesDir+type+"\\"+html; //under windows
+		String path = rawPagesDir+type+"/"+html; //under linux
 		if (!HtmlParser.checkPath(path)) {
 			return;
 		}
@@ -77,14 +82,14 @@ public class IndexGenerator {
 			return;
 		}
 		//建立网页信息索引
-		createPageIndex(htmlStr, type, html);		
+		String titleDesc = createPageIndex(htmlStr, type, html);		
 		//过滤标签获取正文
 		String plainText = HtmlParser.getPlainText(htmlStr, type);
 		if (plainText == null || plainText.isEmpty()) {
 			return;
 		}
 		// 使用第三方分词工具ansj实现分词
-		List<String> parsedTerms = tokenizer.doTextTokenise(plainText);
+		List<String> parsedTerms = Tokenizer.doTokenise(titleDesc+plainText);
 		if (parsedTerms == null || parsedTerms.isEmpty()) {
 			return;
 		}
@@ -96,7 +101,7 @@ public class IndexGenerator {
 		//因为建倒排索引需要较大内存，因此先释放不再需要的数据结构
 		termIDsMap.clear();
 		//读取数据库docIndex整张表（默认内存够用）
-		String sql = " SELECT * FROM DocsIndex "; // 要执行的SQL语句
+		String sql = " SELECT * FROM docsindex "; // 要执行的SQL语句
 		ResultSet res = dbOperator.executeQuery(sql);
 		long totalDocCnt = -1;//对总文档数计数
 		//遍历每条记录
@@ -150,7 +155,7 @@ public class IndexGenerator {
 			Map.Entry<String, Long> entry = iter.next();
 			String terms = entry.getKey();
 			long tID = entry.getValue();
-			String sql = " INSERT INTO TermsIndex values("+tID+",'"+terms+"') "; 
+			String sql = " INSERT INTO termsindex values("+tID+",'"+terms+"') "; 
 			dbOperator.executeUpdate(sql);
 		}
 	}
@@ -186,14 +191,14 @@ public class IndexGenerator {
 	}
 	
 	/* 建立网页信息索引 */
-	public void createPageIndex(String htmlStr, String type, String url) {
+	public String createPageIndex(String htmlStr, String type, String url) {
 		String title = HtmlParser.getTitle(htmlStr);
 		String pubTime = HtmlParser.getPubTime(htmlStr, type);
 		String[] kwAndDesc = HtmlParser.getKeyWordAndDesc(htmlStr);
 		if (url.isEmpty() || type.isEmpty() || kwAndDesc.length != 2) {
 			String err = "type="+type+";url="+url+";kwAndDesc="+kwAndDesc.toString();
 			System.err.printf("bad page info: %s\n", err);
-			return;
+			return "";
 		}
 		
 		PageInfo pageInfo = new PageInfo(docID.incrementAndGet(), url, type, 
@@ -201,21 +206,13 @@ public class IndexGenerator {
 		pageInfo.add2DB(dbOperator);
 //		System.out.print("title="+title+";  kw="+kwAndDesc[0]+";  pubTime="
 //				+pubTime+"\ndescrip="+kwAndDesc[1]+"\n");
+		return title+kwAndDesc[1];//返回 标题+描述
 	}
-	
-//	public String getURL(String fileName) {
-//		int idx = fileName.lastIndexOf(".");
-//		if (idx <= 0) {
-//			System.err.printf("wrong type of file name!", fileName);
-//			return "";
-//		}
-//		return fileName.substring(0, idx); 
-//	}
 	
 	/* 从网页库目录获取类型目录 的列表*/
 	public String[] getTypes() {
 		File rootDir = new File(rawPagesDir);
-		if (!rootDir.exists() || !rootDir.isDirectory()) {   
+		if (!rootDir.exists() || !rootDir.isDirectory()) {
 			System.err.printf("unexisting path of rawPages: %s\n", rawPagesDir);   
 		    return null;
 		}
@@ -224,12 +221,17 @@ public class IndexGenerator {
 	
 	/* 从 类型目录获取html文件列表*/
 	public String[] getHTMLs(String type) {
-		File typeDir = new File(rawPagesDir+"\\"+type);
+		File typeDir = new File(rawPagesDir+type);
 		if (!typeDir.exists() || !typeDir.isDirectory()) {   
 			System.err.printf("unexisting path of type: %s\n", typeDir.toString());   
 		    return null;
 		}
 		return typeDir.list();
+	}
+
+	public static void main(String[] args) {
+		IndexGenerator generator = new IndexGenerator();
+		generator.createIndexes();
 	}
 
 }
