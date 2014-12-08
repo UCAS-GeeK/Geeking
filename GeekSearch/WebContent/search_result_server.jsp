@@ -17,6 +17,7 @@
 	JSONArray return_results = new JSONArray();
 	JSONArray recommend_words = new JSONArray();
 	JSONArray pagecnt_total = new JSONArray();//添加的返回结果总数目,若用JSONObject,seach.jsp读取失败 
+	JSONArray querys = new JSONArray();
 	if (request.getParameter("search-text") != null) {
 		
 		return_results.clear();//清空return_results
@@ -56,7 +57,8 @@
 					for (int i = 0; i < results.size()-(pageIndex)*pageSize; i++){
 						return_results.add(i,results.getJSONArray(i+pageSize*pageIndex));
 					}
-				}	
+				}
+				querys = JSONArray.fromObject(resp.getQuerys());
 			}
 			else
 			{
@@ -72,6 +74,7 @@
 		final_results.put("recommend_words",recommend_words);
 		final_results.put("pagecnt_total",pagecnt_total);
 		final_results.put("resultscnt",results.size());
+		final_results.put("querys",querys);
 		System.out.println(final_results.toString());
 		System.out.println(recommend_words);
 		out.println(final_results.toString());

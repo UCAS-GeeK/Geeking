@@ -34,6 +34,11 @@ public class Response {
 //		sug.add("科学");
 //		return JSONArray.fromObject(sug).toString();
 	}
+	public String getQuerys(){
+		JSONArray querys = JSONArray.fromObject(processor.get_query());
+		System.out.println("results:\n"+querys.toString());
+		return querys.toString();
+	}
 	
 	/*服务器端入口*/
 	public String getResponse(String query)
@@ -49,6 +54,8 @@ public class Response {
 		
 		/*construct json and output it*/
 		JSONArray json_result = JSONArray.fromObject(resultList);
+		
+//		JSONObject json = new JSONObject();
 		
 /*		JSONObject json = new JSONObject();
 		JSONArray jsonMembers = new JSONArray();

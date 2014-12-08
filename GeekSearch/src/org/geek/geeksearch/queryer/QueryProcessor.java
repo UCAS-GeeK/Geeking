@@ -38,6 +38,18 @@ public class QueryProcessor {
 	// 不支持多线程,用于匹配标题
 	private Map<Long, String> queryTerms = new HashMap<>(); //查询词  
 	
+	public ArrayList<String> get_query(){
+		ArrayList<String> querys = new ArrayList<String>();
+		Iterator iter = queryTerms.entrySet().iterator(); 
+		while (iter.hasNext()) { 
+		    Map.Entry entry = (Map.Entry) iter.next(); 
+		    Object key = entry.getKey(); 
+		    Object val = entry.getValue(); 
+		    querys.add((String) val);
+		} 
+		return querys;
+	}
+	
 	public QueryProcessor() {
 		setTopK(config);
 		loadInvertedIndex();
