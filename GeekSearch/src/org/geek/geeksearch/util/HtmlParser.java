@@ -30,7 +30,7 @@ public class HtmlParser {
 	public static String getPlainText(String htmlStr, String type) {
 		StringBuffer textBuf = new StringBuffer();
 		
-		htmlStr = deleNoise(htmlStr);
+//		htmlStr = deleNoise(htmlStr);//在爬虫部分已经执行过
 		NodeFilter filter = createTextFilter(type);
 		try {
 			parser = Parser.createParser(htmlStr, "GB2312");
@@ -48,6 +48,9 @@ public class HtmlParser {
 	}
 	
 	private static String deleSpace(String text) {
+		if (text == null || text.isEmpty()) {
+			return null;
+		}
 		text = text.replaceAll("\\s{2,}", " ");
 		text = text.replaceAll("\n|\r|\t", "");
 		return text.trim();

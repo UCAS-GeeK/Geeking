@@ -21,7 +21,7 @@ public class Tokenizer {
 	/* for index generating */
 	public Tokenizer(Configuration config) {
 		loadStopWordsLib(config.getValue("StopLibPath"));
-		ToAnalysis.parse("");
+		ToAnalysis.parse("初始化");
 	}
 		
 	/* 正文词条化
@@ -30,7 +30,7 @@ public class Tokenizer {
 	 */
 	public static List<String> doTokenise(String plainText) {
 		// ToAnalysis
-		System.out.println("--------------------"+plainText);
+		System.out.println("----等待分词："+plainText);
 		List<Term> splitedTerms = ToAnalysis.parse(plainText);
 		// 去除停用词
 		splitedTerms = deleStopWords(splitedTerms);
@@ -61,7 +61,7 @@ public class Tokenizer {
 	private static void loadStopWordsLib(String path) {
 		File file = new File(path);
 		if (file.isDirectory() || !file.exists()) {
-			System.err.println("can not find stopwords library: "+path);
+			System.out.println("can not find stopwords library: "+path);
 			return;
 		}
 		try {
@@ -84,7 +84,9 @@ public class Tokenizer {
 		List<String> parsedTerms = new ArrayList<>();
 		String tmp = null;
 		int idx = 0;
-		for (Term term : splitedTerms) {
+		Term term;
+		for (int i=0; i<splitedTerms.size();i++) {
+			term = splitedTerms.get(i);
 			tmp = term.toString();
 			if (tmp != null && (idx = tmp.indexOf("/")) > 0) {
 				parsedTerms.add(tmp.substring(0, idx));

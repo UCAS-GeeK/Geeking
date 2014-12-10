@@ -56,24 +56,22 @@ public class IndexGenerator {
 			}
 		}
 		long end = System.currentTimeMillis();
-		System.err.println("===Time cost for parsing html + "
-				+ "creating pageIndex&docsIndex: "+(end-start)/1000+" ===");
+		System.out.println("=== 网页预处理(文本抽取过滤+文档索引表+网页信息表)建立完成，用时: "+(end-start)/1000+"秒 ===");
 		//建立 词项ID-词项 索引表
 		createTermIdIndex();
 		start = System.currentTimeMillis();
 		
-		System.err.println("===Time cost for creating TermIdIndex "
-				+ ": "+(start-end)/1000+" ===");
+		System.out.println("=== 词项索引表建立完成，用时："+(start-end)/1000+"秒 ===");
 		// 建立倒排索引
 		createInvertedIndex();
-		System.err.println("===Time cost for creating InvertedIndex "
-				+ ": "+(System.currentTimeMillis()-start)/1000+" ===");
+		System.out.println("=== 倒排索引表建立完成，用时："+(System.currentTimeMillis()-start)/1000+"秒 ===");
 	}
 
 	/* 生成各种索引 */
-	public void createIndexes(String type, String html) {
-//		String path = rawPagesDir+type+"\\"+html; //under windows
+	public void createIndexes(String type, String html) {		
+//		long start = System.currentTimeMillis();
 		String path = rawPagesDir+type+"/"+html; //under linux
+//		System.out.println("------------ 正在处理网页："+ path +" ------------");
 		if (!HtmlParser.checkPath(path)) {
 			return;
 		}
@@ -81,20 +79,41 @@ public class IndexGenerator {
 		if (htmlStr == null || htmlStr.isEmpty()) {
 			return;
 		}
+//		long end = System.currentTimeMillis();
+//		System.out.println("==== 读取网页，用时："+ (end-start) +"毫秒 ====");
+		
 		//建立网页信息索引
-		String titleDesc = createPageIndex(htmlStr, type, html);		
+		String titleDesc = createPageIndex(htmlStr, type, html);
+		if (titleDesc == null || titleDesc.isEmpty()) {
+			return;
+		}
+		
+//		start = System.currentTimeMillis();
+//		System.out.println("==== 建立网页信息索引，用时："+ (start-end) +"毫秒 ====");
+		
 		//过滤标签获取正文
 		String plainText = HtmlParser.getPlainText(htmlStr, type);
 		if (plainText == null || plainText.isEmpty()) {
 			return;
 		}
+		
+//		end = System.currentTimeMillis();
+//		System.out.println("==== 获取正文，用时："+ (end - start) +"毫秒 ====");
+		
 		// 使用第三方分词工具ansj实现分词
 		List<String> parsedTerms = Tokenizer.doTokenise(titleDesc+plainText);
 		if (parsedTerms == null || parsedTerms.isEmpty()) {
 			return;
 		}
+		
+//		start = System.currentTimeMillis();
+//		System.out.println("==== 分词，用时："+ (start-end) +"毫秒 ====");
+		
 		//建立文档索引
 		createDocIndex(parsedTerms);
+		
+//		end = System.currentTimeMillis();
+//		System.out.println("==== 将正文转化为IDs，用时："+ (end - start) +"毫秒 ====");
 	}
 	
 	public void createInvertedIndex() {
@@ -166,13 +185,14 @@ public class IndexGenerator {
 		List<Long> docTermIDs = transTerm2ID(parsedTerms);
 //		String tran = parsedTerms.toString()+"\n"+docTermIDs.toString();
 //		System.out.println(tran);
-		DocIndex docIndex = new DocIndex();
-		docIndex.addIndex(docID.get(), docTermIDs, dbOperator);
+		DocIndex.addIndex(docID.get(), docTermIDs, dbOperator);
 	}
 	
 	public List<Long> transTerm2ID(List<String> parsedTerms) {
 		List<Long> docTermIDs = new ArrayList<>();
-		for (String term : parsedTerms) {
+		String term;
+		for (int i=0;i<parsedTerms.size();i++) {
+			term = parsedTerms.get(i);
 			if (term == null) {
 				continue;
 			}

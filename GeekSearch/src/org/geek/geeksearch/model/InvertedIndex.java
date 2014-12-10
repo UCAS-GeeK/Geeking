@@ -21,8 +21,10 @@ import org.geek.geeksearch.util.DBOperator;
 public class InvertedIndex {
 	private final long termID;
 	private long docFreq = 0; //document frequency
-	private Map<Long, TermStat> statsMap = new TreeMap<Long, TermStat>();//该词项在各个文档中的统计信息
-	private Map<Long, TermStat> topKStatsMap = new TreeMap<>();//降序排列的statsMap
+	//该词项在各个文档中的统计信息
+	private Map<Long, TermStat> statsMap = new TreeMap<Long, TermStat>();
+	//降序排列的statsMap
+	private Map<Long, TermStat> topKStatsMap = new TreeMap<>();
 	
 	public InvertedIndex(long termID) {
 		this.termID = termID;
