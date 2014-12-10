@@ -227,7 +227,7 @@ $(function(){
 //		System.out.println("my key word : "+keyword);
 	%>
 	<form id="search" action="search.jsp" method="get">
-	    <img src="geeking.jpg" height="40" width="100"/>
+	    <img src="geek_logo.jpg" height="40" width="100"/>
 		<input name="search-text" type="text" maxlength="10" id="search-text" value=<%=keyword%>> 
 		<input type="submit" value="搜索一下" id="submit">
 	</form>
