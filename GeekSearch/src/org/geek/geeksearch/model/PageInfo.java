@@ -37,7 +37,7 @@ public class PageInfo implements Cloneable{
 		this.type = type;
 		this.title = title;
 		this.pubTime = pubTime;
-		this.keyWords = Tokenizer.doNLpTokenise(keywords).toString();
+		this.keyWords = Tokenizer.doTokenise(keywords).toString();
 		this.description = descrip;
 	}
 	

@@ -13,7 +13,7 @@ import org.geek.geeksearch.util.DBOperator;
  */
 public class DocIndex {
 	
-	public void addIndex(long docID, List<Long> docTermIDs, DBOperator dbOp) {
+	public static void addIndex(long docID, List<Long> docTermIDs, DBOperator dbOp) {
 		if (docID < 0) {
 			System.err.printf("bad docID: %s\n", docID);
 			return;
@@ -33,7 +33,7 @@ public class DocIndex {
 		return docTermIDs;
 	}
 	
-	private String toString(List<Long> docTermIDs) {
+	private static String toString(List<Long> docTermIDs) {
 		StringBuffer docTerms = new StringBuffer();
 		for (Long termID : docTermIDs) {
 			docTerms = docTerms.append(termID.toString()).append("#");
@@ -43,7 +43,7 @@ public class DocIndex {
 	}
 	
 	/* 每有一条文档索引，就写一次数据库 */
-	private void add2DB(DBOperator dbOp, long docID, String terms) {
+	private static void add2DB(DBOperator dbOp, long docID, String terms) {
 		String sql = " INSERT INTO docsindex values("+docID+",'"+terms+"') ";
 		dbOp.executeUpdate(sql);
 	}

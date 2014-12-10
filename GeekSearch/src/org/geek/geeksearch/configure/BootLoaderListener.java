@@ -12,6 +12,7 @@ public class BootLoaderListener implements ServletContextListener {
 	
 	@Override
 	public void contextInitialized(ServletContextEvent sce) {
+		long start = System.currentTimeMillis();
 		//初始化配置
 		new Configuration("configure.properties");
 		
@@ -27,7 +28,8 @@ public class BootLoaderListener implements ServletContextListener {
 		//初始化CheckSpell,加载关键词
 		new CheckSpell();
 		
-		System.out.println("===== 初始化完成  =====");
+		long time = (System.currentTimeMillis()-start)/1000;
+		System.out.println("===== 初始化完成  用时:"+time+"秒 =====");
 	}
 
 	@Override
