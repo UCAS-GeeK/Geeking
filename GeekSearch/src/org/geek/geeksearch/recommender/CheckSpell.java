@@ -86,11 +86,13 @@ public class CheckSpell {
 		//addGram
 		Iterator<Map.Entry<String, Integer>> iter = wordsMap.entrySet().iterator();
 //		System.out.println("hot_words:");
+		long start = System.currentTimeMillis();
 		while (iter.hasNext()) {
 		    Map.Entry<String, Integer> entry = iter.next(); 
 		    addGram(entry.getKey().toString());
 //		    System.out.println(entry.getKey().toString()+"!!!!!!!!!");
 		}
+		System.out.println("==== 加载关键词结束，用时："+(System.currentTimeMillis()-start)+"毫秒 ====");
 		return wordsMap;
 	}
 

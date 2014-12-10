@@ -13,15 +13,15 @@ import org.geek.geeksearch.util.DBOperator;
 
 
 public class Response {
-	static {
-		long start = System.currentTimeMillis();
-		//配置文件初始化，临时在此初始化，便于调试，工程完工后会在BootLoader里初始化
-		Configuration config = new Configuration("configure.properties");//初始化
-		new DBOperator(config);
-		//初始化分词，加载词典
-		new Tokenizer(new Configuration());
-		System.out.println("===== 初始化全部完成，总共用时:"+(System.currentTimeMillis()-start)+"毫秒 =====");
-	}
+//	static {
+//		long start = System.currentTimeMillis();
+//		//配置文件初始化，临时在此初始化，便于调试，工程完工后会在BootLoader里初始化
+//		Configuration config = new Configuration("configure.properties");//初始化
+//		new DBOperator(config);
+//		//初始化分词，加载词典
+//		new Tokenizer(new Configuration());
+//		System.out.println("===== 初始化全部完成，总共用时:"+(System.currentTimeMillis()-start)+"毫秒 =====");
+//	}
 	private VarInteger resultCnt = new VarInteger();//相关新闻数目
 	private static QueryProcessor processor = new QueryProcessor();//所有response对象共有
 

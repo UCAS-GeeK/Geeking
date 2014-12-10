@@ -20,9 +20,9 @@ public class TermStat {
 	
 	//计算tf-idf
 	public long calcTfIdf(long idf) {
-		/**********测试阶段使用不带log的tf-idf**********/
-//		tfIdf = (long)(1+Math.log(termFreq))*idf;
-		tfIdf = termFreq*idf;
+		/**********使用不带log的tf-idf**********/
+		tfIdf = (long)(1+termFreq)*idf;
+//		tfIdf = termFreq*idf;
 		return tfIdf;
 	}
 	

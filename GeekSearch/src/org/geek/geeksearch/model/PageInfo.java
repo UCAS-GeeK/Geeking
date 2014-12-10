@@ -18,6 +18,7 @@ import org.geek.geeksearch.util.DBOperator;
 public class PageInfo implements Cloneable{
 	private final long docID;
 	private String url;
+	private String turl;
 	private String title = "";
 	private String description = "";
 	private String pubTime = ""; //网页发布时间
@@ -101,7 +102,7 @@ public class PageInfo implements Cloneable{
 		return object;
 	}
 	
-	/* 计算title和description中搜索词出现的此处，返回权重。1次+10*/
+	/* 计算title和description中搜索词出现的此处，返回权重。1次+100*/
 	public long countInTitleDesc(String term) {
 		String text = title + description;
 		long weight = 0;
@@ -109,7 +110,7 @@ public class PageInfo implements Cloneable{
 		
 		int idx = text.indexOf(term, start);
 		while (idx >= 0) {
-			weight += 10;
+			weight += 100;
 			start = idx + term.length();
 			idx = start < text.length() ? text.indexOf(term, start) : -1;
 		}
@@ -202,6 +203,10 @@ public class PageInfo implements Cloneable{
 	
 	public void setType(String type) {
 		this.type = type;
+	}
+	
+	public String getTurl() {
+		return url;
 	}
 	
 	

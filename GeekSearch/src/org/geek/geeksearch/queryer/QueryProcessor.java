@@ -30,7 +30,7 @@ public class QueryProcessor {
 //	}
 	private Map<String, Long> termIDsMap = new HashMap<>(); //词项-词项ID 映射表
 	private Map<Long,InvertedIndex> invIdxMap = new HashMap<>(); //倒排索引表
-	private int topK = 80; //设置胜者表的topK，默认80
+	private int topK = 50; //设置胜者表的topK，默认50
 	
 	private final Configuration config = new Configuration();
 	private final DBOperator dbOperator = new DBOperator();
@@ -52,8 +52,17 @@ public class QueryProcessor {
 	
 	public QueryProcessor() {
 		setTopK(config);
+		long start = System.currentTimeMillis();
+		
 		loadInvertedIndex();
+		
+		long end = System.currentTimeMillis();
+		System.out.println("==== 加载倒排索引结束，用时："+(end-start)+"毫秒 ====");
+		
 		loadTermsIndex();
+		
+		start = System.currentTimeMillis();
+		System.out.println("==== 加载词项索引结束，用时："+(start-end)+"毫秒 ====");
 	}
 	
 	/**
@@ -139,7 +148,13 @@ public class QueryProcessor {
 		//relevantDocs根据相似度权重降序排列
 		Collections.sort(relevantDocs, new Comparator<Map.Entry<Long, TermStat>>() {
 			public int compare(Map.Entry<Long, TermStat> o1, Map.Entry<Long, TermStat> o2) {
-				return o2.getValue().getWeight() > o1.getValue().getWeight() ? 1 : -1;
+				if (o2.getValue().getWeight() > o1.getValue().getWeight()) {
+					return 1;
+				} else if (o2.getValue().getWeight() >= o1.getValue().getWeight()){
+					return 0;
+				} else {
+					return -1;
+				}
 			}
 		});
 		
@@ -191,7 +206,7 @@ public class QueryProcessor {
 		List<Map.Entry<Long, Integer>> indexSizesList = new ArrayList<>(indexSizes.entrySet());
 		Collections.sort(indexSizesList, new Comparator<Map.Entry<Long, Integer>>() {
 			public int compare(Entry<Long, Integer> o1, Entry<Long, Integer> o2) {
-				return o2.getValue() < o1.getValue() ? 1 : -1;
+				return o2.getValue() <= o1.getValue() ? 1 : -1;
 			}
 		});
 //		System.out.println("after sort:");
@@ -330,7 +345,7 @@ public class QueryProcessor {
 		
 		long start = System.currentTimeMillis();
 		VarInteger cnt = new VarInteger(); 
-		List<List<PageInfo>> result = queryProc.doQuery("主副食品", cnt);//中 詹姆斯
+		List<List<PageInfo>> result = queryProc.doQuery("中", cnt);//中 詹姆斯
 		System.err.println("===Time cost for doing query: "
 				+(System.currentTimeMillis()-start)/1000+" ===");
 		

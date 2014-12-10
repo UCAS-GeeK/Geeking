@@ -56,7 +56,7 @@ public class IndexGenerator {
 			}
 		}
 		long end = System.currentTimeMillis();
-		System.out.println("=== 网页预处理(文本抽取过滤+文档索引表+网页信息表)建立完成，用时: "+(end-start)/1000+"秒 ===");
+		System.out.println("=== 网页预处理(文本抽取过滤+正向索引表+网页信息表)建立完成，用时: "+(end-start)/1000+"秒 ===");
 		//建立 词项ID-词项 索引表
 		createTermIdIndex();
 		start = System.currentTimeMillis();
@@ -184,7 +184,7 @@ public class IndexGenerator {
 		// 将词项转化成ID	
 		List<Long> docTermIDs = transTerm2ID(parsedTerms);
 //		String tran = parsedTerms.toString()+"\n"+docTermIDs.toString();
-//		System.out.println(tran);
+		System.out.println("----正在建立正向索引，docID："+docID.get());
 		DocIndex.addIndex(docID.get(), docTermIDs, dbOperator);
 	}
 	
@@ -215,9 +215,9 @@ public class IndexGenerator {
 		String title = HtmlParser.getTitle(htmlStr);
 		String pubTime = HtmlParser.getPubTime(htmlStr, type);
 		String[] kwAndDesc = HtmlParser.getKeyWordAndDesc(htmlStr);
-		if (url.isEmpty() || type.isEmpty() || kwAndDesc.length != 2) {
-			String err = "type="+type+";url="+url+";kwAndDesc="+kwAndDesc.toString();
-			System.err.printf("bad page info: %s\n", err);
+		if (url.isEmpty() || type.isEmpty() || kwAndDesc == null || kwAndDesc.length != 2) {
+//			String err = "type="+type+";url="+url+";kwAndDesc="+kwAndDesc.toString();
+//			System.err.println("bad page info");
 			return "";
 		}
 		

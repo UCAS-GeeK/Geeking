@@ -2,3 +2,7 @@
 /crawl/
 *.class
 /bin
+/RawPages/
+*html
+*.shtml
+*.htm

@@ -62,9 +62,8 @@ public class InvertedIndex {
 				/*do nothing*/
 			} else {
 				//计算 idf，鉴于数据集较小，使用2为底
-				/**********测试阶段使用不带log的tf-idf**********/
+				/**********使用不带log的tf-idf**********/
 				idf = (long)(totalDocCnt/dF);
-//				idf = (long)Math.log(totalDocCnt/dF);
 			}
 			
 			/* 
@@ -109,7 +108,7 @@ public class InvertedIndex {
 				continue;
 			}
 			tStat = new TermStat(Long.parseLong(stat[0]));
-			/**********测试阶段使用不带log的tf-idf*********/
+			/**********使用不带log的tf-idf*********/
 			tStat.setTfIdf(Long.parseLong(stat[1]));
 			//[pos1, pos2...]
 			List<String> posList = Arrays.asList(stat[2].substring(1, stat[2].length()-1).split(","));
@@ -126,13 +125,18 @@ public class InvertedIndex {
 			statsMap.put(tStat.getDocID(), tStat);
 		}
 		
+		//System.setProperty("java.util.Arrays.useLegacyMergeSort", "true");
 		// 根据tf-idf值对statsMap降序排序，用于TopK处理
 		List<Map.Entry<Long, TermStat>> sortedStatsMap = 
 				new ArrayList<Map.Entry<Long,TermStat>>(statsMap.entrySet());
 		Collections.sort(sortedStatsMap, new Comparator<Map.Entry<Long, TermStat>>() {
 			public int compare(Entry<Long, TermStat> o1, Entry<Long, TermStat> o2) {
-				return o2.getValue().getTfIdf() > o1.getValue().getTfIdf() ?
-						1 : -1;
+				if (o2.getValue().getTfIdf() > o1.getValue().getTfIdf()) {
+					return 1;
+				} else if (o2.getValue().getTfIdf() == o1.getValue().getTfIdf()) {
+					return 0;
+				} else 
+					return -1;
 			}
 		});
 		
