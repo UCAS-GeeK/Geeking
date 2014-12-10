@@ -256,7 +256,7 @@ public class CheckSpell {
 						continue;
 				}
 				System.out.println(sugWord.string+":"+sugWord.score);
-				 System.out.println("插入词："+sugWord.string);
+				System.out.println("插入词："+sugWord.string);
 				sugQueue.insertWithOverflow(sugWord);
 				if (sugQueue.size() == numSug) {
 					// if queue full, maintain the minScore score
@@ -268,13 +268,17 @@ public class CheckSpell {
 			}
 
 			// convert to array string
-			ArrayList<String> list = new ArrayList<String>(sugQueue.size());
-			System.out.println("推荐词：");
-			for (int i = sugQueue.size() - 1; i >= 0; i--) {
-				list.add(i, sugQueue.pop().string);
-				System.out.println(list.get(i));
+		    System.out.println("sugQueue_size:"+sugQueue.size());
+			ArrayList<String> mylist = new ArrayList<String>();
+			int len = sugQueue.size();
+			for (int i = 0; i < len; i++) {
+				
+				mylist.add(sugQueue.pop().string);
+				System.out.println(mylist.get(i));
 			}
-			return list;
+			Collections.reverse(mylist);
+//			mylist.
+			return mylist;
 	}
 
 	private static Set<String> search(BooleanQuery query) {
