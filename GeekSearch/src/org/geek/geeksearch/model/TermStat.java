@@ -13,7 +13,7 @@ public class TermStat {
 	private long termFreq = 0; // term frequency
 	private Set<Long> posSet = new HashSet<>(); // position set
 	private long tfIdf = 0; //该文档和某个词项的tf-idf值
-	/* 点乘结果:weight = Σ{检索词项权重(1)*该文档权重(tf-idf)}
+	/* 点乘结果:weight = Σ{检索词项权重(1)*该文档权重(tf-idf)}+标题中搜索词出现次数*10
 	 * 在本类中，只和docID有关，是产生query最终结果时该文档和query的相似度
 	 */
 	private long weight = 0; 

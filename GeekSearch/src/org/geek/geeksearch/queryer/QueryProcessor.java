@@ -23,11 +23,11 @@ import org.geek.geeksearch.util.DBOperator;
 
 
 public class QueryProcessor {
-	static {
-		//配置文件初始化，临时在此初始化，便于调试，工程完工后会在BootLoader里初始化
-		Configuration config = new Configuration("configure.properties");//初始化
-		new DBOperator(config);
-	}
+//	static {
+//		//配置文件初始化，临时在此初始化，便于调试，工程完工后会在BootLoader里初始化
+//		Configuration config = new Configuration("configure.properties");//初始化
+//		new DBOperator(config);
+//	}
 	private Map<String, Long> termIDsMap = new HashMap<>(); //词项-词项ID 映射表
 	private Map<Long,InvertedIndex> invIdxMap = new HashMap<>(); //倒排索引表
 	private int topK = 80; //设置胜者表的topK，默认80
@@ -66,12 +66,16 @@ public class QueryProcessor {
 		//初始化查询
 		queryTerms.clear();
 		
+		long start = System.currentTimeMillis();
 		// 分词 		
 		List<Long> queryIDs = parseQuery(query);
 		if (queryIDs == null || queryIDs.isEmpty()) {
 			System.out.println("nothing to search!");
 			return null;
 		}
+		long end = System.currentTimeMillis();
+		
+		System.out.println("===== 分词完成，用时:"+(end-start)+"毫秒 =====");
 		
 		// 获取已排序的相关网页及信息
 		List<PageInfo> resultPages = getResultPages(queryIDs);
@@ -91,11 +95,14 @@ public class QueryProcessor {
 		List<PageInfo> resultPages = new ArrayList<>();
 		Map<Long, PageInfo> tmpPages = new HashMap<>();
 		
+		long start = System.currentTimeMillis();
 		List<Map.Entry<Long, TermStat>> relevantDocs = getRelevantDocs(queryIDs);
 		if (relevantDocs == null || relevantDocs.isEmpty()) {
 			System.out.println("no pages retrived");
 			return null;
 		}
+		long end = System.currentTimeMillis();
+		System.out.println("===== 相关文档已找到并合并，用时:"+(end-start)+"毫秒 =====");
 		
 		//计算相似度权重nnn.ntn, 顺便从PagesIndex获取PageInfo
 		PageInfo page;
@@ -119,10 +126,12 @@ public class QueryProcessor {
 				}
 				//计算“标题+描述”中搜索词出现次数，1次weight+10
 				long titWeight = page.countInTitleDesc(queryTerms.get(term));
+				
+				//累计相似度结果:
+				//weight = Σ{检索词项权重(1)*该文档权重(tf-idf)+标题中搜索词出现次数*10}
 				doc.getValue().addWeight(stat.getTfIdf()+titWeight);
 				
-				System.out.println("w["+term +", "+doc.getKey()
-						+"]="+stat.getTfIdf());//
+				System.out.println("w["+term +", "+doc.getKey()+"]="+stat.getTfIdf());//
 			}
 			System.out.println("weight["+doc.getKey()+"]="+doc.getValue().getWeight());//
 		}
@@ -139,6 +148,8 @@ public class QueryProcessor {
 			resultPages.add(tmpPages.get(doc.getKey()));
 			System.out.println("\nretrived page: "+ doc.getKey());
 		}
+		
+		System.out.println("===== 相似度计算并排序完成，用时:"+(System.currentTimeMillis()-end)+"毫秒 =====");
 		return resultPages;
 	}
 	
@@ -207,11 +218,12 @@ public class QueryProcessor {
 		}
 		// 映射成ID
 		List<Long> queryIDs = new ArrayList<>();
+		System.out.print("-----分词结果：");
 		for (String term : qTerms) {
 			if (term == null || term.isEmpty()) {
 				continue;
 			}
-			System.out.println("======"+term+"=============");
+			System.out.print(term+" ");
 			long id = fetchTermID(term);
 			if (id < 0) {
 				//跳过索引库中没有的词项
@@ -220,6 +232,7 @@ public class QueryProcessor {
 			queryTerms.put(id, term);
 			queryIDs.add(id);
 		}
+		System.out.println();
 		return queryIDs;
 	}
 	
@@ -308,7 +321,7 @@ public class QueryProcessor {
 			e.printStackTrace();
 			return;
 		}
-		topK = tmp;		
+		topK = tmp;
 	}
 
 	/* just for test */
@@ -317,7 +330,7 @@ public class QueryProcessor {
 		
 		long start = System.currentTimeMillis();
 		VarInteger cnt = new VarInteger(); 
-		List<List<PageInfo>> result = queryProc.doQuery("中", cnt);//中 詹姆斯
+		List<List<PageInfo>> result = queryProc.doQuery("主副食品", cnt);//中 詹姆斯
 		System.err.println("===Time cost for doing query: "
 				+(System.currentTimeMillis()-start)/1000+" ===");
 		
