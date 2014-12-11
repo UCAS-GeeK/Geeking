@@ -9,7 +9,7 @@ $searchInput.attr('autocomplete','off');
 //创建自动完成的下拉列表，用于显示服务器返回的数据,插入在搜索按钮的后面，等显示的时候再调整位置 
 var $autocomplete = $('<div class="autocomplete"></div>') 
 .hide() 
-.insertAfter('#submit'); 
+.insertAfter('#aaa'); 
 //清空下拉列表的内容并且隐藏下拉列表区 
 var clear = function(){ 
 $autocomplete.empty().hide(); 
