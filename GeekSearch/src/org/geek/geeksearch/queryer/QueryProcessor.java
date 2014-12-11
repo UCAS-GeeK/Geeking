@@ -124,11 +124,11 @@ public class QueryProcessor {
 				if (stat == null) {
 					System.out.println("can not find doc stat in term: "+term);
 				}
-				//计算“标题+描述”中搜索词出现次数，1次weight+10
+				//计算“标题+描述”中搜索词出现次数，1次weight+100
 				long titWeight = page.countInTitleDesc(queryTerms.get(term));
 				
 				//累计相似度结果:
-				//weight = Σ{检索词项权重(1)*该文档权重(tf-idf)+标题中搜索词出现次数*10}
+				//weight = Σ{检索词项权重(1)*该文档权重(tf-idf)+标题中搜索词出现次数*100}
 				doc.getValue().addWeight(stat.getTfIdf()+titWeight);
 				
 				System.out.println("w["+term +", "+doc.getKey()+"]="+stat.getTfIdf());//

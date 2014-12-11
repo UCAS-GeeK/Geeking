@@ -18,7 +18,6 @@
 <title>Search Result</title>
 
 <style type="text/css">
-
 .autocomplete {
 	border: 1px solid #9ACCFB;
 	background-color: white;
@@ -50,7 +49,6 @@
 $(function(){
 	var pageSize = 4;
 	var pageIndex = 0;
-	var myquerys=new Array();
     
 //	InitTable(0)
 	//此demo通过Ajax加载分页元素		
@@ -82,7 +80,7 @@ $(function(){
 	}
     function InitTable(pageIndex,callback) {
     	var keyword=$("#search-text").val();
-//   	alert(keyword);
+//    	alert(keyword);
     	if(keyword=="")
     		;
     	else
@@ -107,16 +105,10 @@ $(function(){
     				callback(num_entries);
     				var tag_samenews  = new Array();//用于判断显示相同新闻点击奇偶次数
     				var count_samenews = new Array();
-    				
-    				if(data.querys!=null){
-    					$.each(data.querys,function(index,term){
-    						myquerys.push(term);
-    					});
-    				}
 					
     				if (data.results!=null) {
     					//alert("data不为空");
-    					// 遍历data，添加到自动完成区
+    					// 遍历data，添加到自动完成区					
     					$.each(data.results, function(index, term) {
     					//	alert("results"+index);
 	    					count_samenews[index] = term.length;
@@ -128,21 +120,21 @@ $(function(){
     						//判断该类别个数大于1时分组显示
     						if (count_samenews[index]>1){
     							if (j==0){
-    							//	alert("first"+j);
+    								//alert("first"+j);
     								$("#Searchresult").append("<div class=first"+index+" style=width:500px;> "
-               						+"<h4><a class=tohighli href='http://www.baidu.com/'"+page.url+">"+"<br>"+page.title+"</br>"+"</a></h2>" 
+               						+"<h4><a href="+page.url+" target=_blank>"+"<br class=tohighli>"+page.title+"</br>"+"</a></h4>" 
                						+page.source+"   "+page.pubTime+"    "
             						+"<br width=40% >"+"<a class=tohighli>"+page.description+"</a>"+"</br>"
             						+"<a  href='javascript:void(0)' class=samenews"+index+"    >显示"+(count_samenews[index]-1)+"条相同新闻</a>    "
-            						+"<a href='RawPages4Test//qq//qq3.html'> Geeking快照</a>     "
+            						+"<a href=RawPagespage/"+page.type+"/"+page.turl+" target=_blank> Geeking快照</a>     "
             						+"</div><p></p>");
         	 					}
      							else {
     							//	alert("others"+j);page.description
     								$("#Searchresult").append("<div class =others"+index+" style=width:500px;>" 
-									+"<h5><a class=tohighli href="+page.url+">"+"<br>"+page.title+"</br>"+"</a></h2>" 
+									+"<h5><a href="+page.url+" target=_blank>"+"<br class=tohighli>"+page.title+"</br>"+"</a></h2>" 
 	               					+page.source+"   "+page.pubTime+"    "
-	            					+"<a href='RawPages4Test//qq//qq3.html'> Geeking快照</a>     "
+	            					+"<a href=RawPagespage/"+page.type+"/"+page.turl+" target=_blank> Geeking快照</a>     "
    	            					+"</div>");
     								$(".others"+index ).hide();	//默认隐藏 
         	    				}
@@ -150,10 +142,10 @@ $(function(){
     						//判断该类别个数只等于1时不分组显示
     						else{
     							$("#Searchresult").append("<div class=first"+index+"> "
-               						+"<h4><a class=tohighli href="+page.url+">"+page.title+"</a></h2>" 
+               						+"<h4><a href="+page.url+" target=_blank>"+page.title+"</a></h2>" 
                						+"网页来源: "+page.source+"   时间: "+page.pubTime+"    "
             						+"<br>"+page.description+"</br>"
-            						+"<a href='RawPages4Test//qq//qq3.html'>快照</a>"
+            						+"<a href=RawPagespage/"+page.type+"/"+page.turl+" target=_blank>Geeking快照</a>"
             						+"</div><p></p>");
      						}
     						});
@@ -196,13 +188,7 @@ $(function(){
 	    					}
 	    					
     					}
-    				
-	    		    for(var i=0;i<myquerys.length;i++){
-//	    		    	$('.tohighli').highlight($("#search-text").val());
-						//alert(myquerys[i]);
-	    		    	$('.tohighli').highlight(myquerys[i]);
-	    	        }
-	    		    $('.tohighli').highlight($("#search-text").val());
+    			$('.tohighli').highlight($("#search-text").val());
     			}//'success' : function(data)到此结束，$.ajax还未添加error的function
     			
     		});// $.ajax到此结束  		
@@ -222,9 +208,7 @@ $(function(){
 		String keyword="";
 		if(request.getParameter("search-text")!=null)
 			keyword = new String(request.getParameter("search-text")
-				.getBytes("ISO-8859-1"), "utf-8");		
-		keyword=keyword.replaceAll(" ", "&nbsp;");
-//		System.out.println("my key word : "+keyword);
+				.getBytes("ISO-8859-1"), "utf-8");
 	%>
 	<form id="search" action="search.jsp" method="get">
 	    <img src="geeking.jpg" height="40" width="100"/>
