@@ -62,8 +62,14 @@ public class PageInfo implements Cloneable{
 				url = rSet.getString("Url");
 				title = rSet.getString("Title");
 				String desc = rSet.getString("Description");
-				description = (desc.length() < descriLength ? desc :
-					desc.substring(0, 50)) +"...";
+				if (desc == null || desc.isEmpty()) {
+					description = (title.length() < descriLength ? title :
+						title.substring(0, 50)) +"...";
+				} else {
+					description = (desc.length() < descriLength ? desc :
+						desc.substring(0, 50)) +"...";
+				}
+				
 				title = rSet.getString("Title");
 				type = rSet.getString("Type");
 				keyWords = rSet.getString("keywords");

@@ -3,6 +3,6 @@
 *.class
 /bin
 /RawPages/
-*html
+http*
 *.shtml
 *.htm
