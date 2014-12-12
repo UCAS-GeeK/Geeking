@@ -30,7 +30,7 @@ public class Tokenizer {
 	 */
 	public static List<String> doTokenise(String plainText) {
 		// ToAnalysis
-		System.out.println("----等待分词："+plainText);
+//		System.out.println("----等待分词："+plainText);
 		List<Term> splitedTerms = ToAnalysis.parse(plainText);
 		// 去除停用词
 		splitedTerms = deleStopWords(splitedTerms);

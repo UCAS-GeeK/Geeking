@@ -108,7 +108,7 @@ public class Response {
 		
 		Response response = new Response();
 		
-//		System.out.println(response.getResponse("湖人加时负掘金遭两连败"));
+		System.out.println(response.getResponse("林丹"));
 		System.out.println(response.get_recommend_query("大运艺术"));//单字推荐报错
 //		System.out.println("相关数："+resultCnt);
 	}

@@ -3,7 +3,9 @@ package org.geek.geeksearch.model;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -60,13 +62,19 @@ public class PageInfo implements Cloneable{
 				url = rSet.getString("Url");
 				title = rSet.getString("Title");
 				String desc = rSet.getString("Description");
-				description = (desc.length() < descriLength ? desc :
-					desc.substring(0, 50)) +"...";
+				if (desc == null || desc.isEmpty()) {
+					description = (title.length() < descriLength ? title :
+						title.substring(0, 50)) +"...";
+				} else {
+					description = (desc.length() < descriLength ? desc :
+						desc.substring(0, 50)) +"...";
+				}
+				
 				title = rSet.getString("Title");
 				type = rSet.getString("Type");
 				keyWords = rSet.getString("keywords");
 				source = typeToSource();
-				pubTime = rSet.getString("Date");
+				pubTime = rSet.getString("Date").trim();
 				if (pubTime.equals("null") || pubTime.isEmpty()) {
 					pubTime = "\\(╯-╰)/";
 				}
@@ -104,7 +112,7 @@ public class PageInfo implements Cloneable{
 		return object;
 	}
 	
-	/* 计算title和description中搜索词出现的此处，返回权重。1次+10*/
+	/* 计算title和description中搜索词出现的此处，返回权重。1次+8*/
 	public long countInTitleDesc(String term) {
 		String text = title + description;
 		long weight = 0;
@@ -112,11 +120,33 @@ public class PageInfo implements Cloneable{
 		
 		int idx = text.indexOf(term, start);
 		while (idx >= 0) {
-			weight += 10;
+			weight += 8;
 			start = idx + term.length();
 			idx = start < text.length() ? text.indexOf(term, start) : -1;
 		}
-		
+		System.out.print(" 词:"+term+" "+weight);
+		return weight;
+	}
+	
+	/* 计算发布日期与当前时间距离，返回权重。*/
+	public long countPubTimeWeight() {
+		long weight = 0;
+		if (pubTime.length() < 10) {
+			return 0;
+		}
+		try {
+			String time = pubTime.substring(0, 11).replaceAll("-", "")+"000000";
+			Calendar calendar = Calendar.getInstance();
+			calendar.setTime(new SimpleDateFormat("yyyyMMddHHmmss").parse(time));
+			long t = calendar.getTimeInMillis();
+			long cur = System.currentTimeMillis();
+			//时间权重公式
+			weight = (long)Math.pow(Math.log(cur / (cur-t)), 2);
+			
+		} catch (Exception e) {
+			
+		}
+		System.out.println(" 时间权重:"+weight);
 		return weight;
 	}
 	
@@ -178,6 +208,10 @@ public class PageInfo implements Cloneable{
 	
 	public void setDescription(String description) {
 		this.description = description;
+	}
+	
+	public long getDocID() {
+		return docID;
 	}
 	
 	public String getPubTime() {
