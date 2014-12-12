@@ -20,6 +20,7 @@ import org.geek.geeksearch.util.DBOperator;
 public class PageInfo implements Cloneable{
 	private final long docID;
 	private String url;
+	private String turl;
 	private String title = "";
 	private String description = "";
 	private String pubTime = ""; //网页发布时间
@@ -31,7 +32,9 @@ public class PageInfo implements Cloneable{
 
 	private Map<String, List<Integer>> titleHlightPos = new HashMap<String, List<Integer>>();// 标题高亮位置
 	private Map<String, List<Integer>> descHlightPos = new HashMap<String, List<Integer>>();// 摘要高亮位置
-	
+	public String getTurl(){
+		return url;
+	}
 	/* for IndexGenerator */
 	public PageInfo(long docID, String url, String type, String title, String pubTime, String keywords, String descrip) {
 		this.docID = docID;
