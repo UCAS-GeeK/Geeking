@@ -11,7 +11,7 @@ import java.util.Set;
 public class TermStat {
 	private final long docID;
 	private long termFreq = 0; // term frequency
-	private Set<Long> posSet = new HashSet<>(); // position set
+	private Set<Long> posSet = null;//new HashSet<>(); // position set
 	private long tfIdf = 0; //该文档和某个词项的tf-idf值
 	/* 点乘结果:weight = Σ{检索词项权重(1)*该文档权重(tf-idf)}+标题中搜索词出现次数*10
 	 * 在本类中，只和docID有关，是产生query最终结果时该文档和query的相似度
@@ -26,8 +26,13 @@ public class TermStat {
 		return tfIdf;
 	}
 	
-	public void setTfIdf(long tfIdf) {
-		this.tfIdf = tfIdf;
+	public void setTfIdf(long tfIdf, long df, long totalDocs) {
+		/*由于构建索引时公式用的是不带log的，在此补偿
+		 * 参数tfidf=totalDocs/df * (tf+1)反解
+		*/
+		this.tfIdf = (long)((Math.log((tfIdf*1.000/totalDocs)*df-1)+1)*Math.log(totalDocs/df));
+		String aString="";
+		aString="";
 	}
 	
 	public long getTfIdf() {

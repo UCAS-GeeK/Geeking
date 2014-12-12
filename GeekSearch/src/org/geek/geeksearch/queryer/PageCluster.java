@@ -29,7 +29,7 @@ public class PageCluster {
 					if (isSimilarPage(page, tmp)) {
 						cluster.add(tmp);
 						pageList.remove(i--);
-					}				
+					}	
 				}
 				result.add(cluster);
 			}
