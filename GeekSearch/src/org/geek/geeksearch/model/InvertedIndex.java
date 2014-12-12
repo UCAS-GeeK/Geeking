@@ -122,7 +122,7 @@ public class InvertedIndex {
 			doc = docs[i];
 			//doc = docID1:tfIdf:[pos1, pos2...]
 			String[] stat = doc.split(":");
-			if (stat.length != 2) {
+			if (stat.length < 2) {
 				continue;
 			}
 			tStat = new TermStat(Long.parseLong(stat[0]));

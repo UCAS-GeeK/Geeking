@@ -1,6 +1,4 @@
 /build/
 /crawl/
 *.class
-/bin
-/RawPages/
-http$*
+http*

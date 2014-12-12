@@ -32,7 +32,7 @@ public class QueryProcessor {
 	private Map<String, Long> termIDsMap = new HashMap<>(); //词项-词项ID 映射表
 	private Map<Long,InvertedIndex> invIdxMap = new HashMap<>(); //倒排索引表
 	private int topK = 50; //设置胜者表的topK，默认50
-	private int idxNumInMem = 500; //内存中倒排索引的初始数目
+	private int idxNumInMem = 100; //内存中倒排索引的初始数目
 	private int totalDocs = 61725; //正向索引数
 	
 	private final Configuration config = new Configuration();
@@ -426,7 +426,7 @@ public class QueryProcessor {
 		
 		long start = System.currentTimeMillis();
 		VarInteger cnt = new VarInteger(); 
-		List<List<PageInfo>> result = queryProc.doQuery("曲棍球", cnt);//中 詹姆斯
+		List<List<PageInfo>> result = queryProc.doQuery("黄征", cnt);//中 詹姆斯
 		System.err.println("===Time cost for doing query: "
 				+(System.currentTimeMillis()-start)/1000+" ===");
 		
