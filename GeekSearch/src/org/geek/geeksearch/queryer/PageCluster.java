@@ -15,6 +15,7 @@ public class PageCluster {
 	
 	/* 网页聚类入口  */
 	public static List<List<PageInfo>> doCluster(List<PageInfo> pageList) {
+		long start = System.currentTimeMillis();
 		List<List<PageInfo>> result = new ArrayList<List<PageInfo>>();
 		List<PageInfo> cluster;
 		PageInfo page, tmp;
@@ -28,13 +29,15 @@ public class PageCluster {
 					if (isSimilarPage(page, tmp)) {
 						cluster.add(tmp);
 						pageList.remove(i--);
-					}				
+					}	
 				}
 				result.add(cluster);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
+		System.out.println("===== 聚类完成，用时:"+(System.currentTimeMillis()-start)+"毫秒 =====");
 		return result;
 	}
 	

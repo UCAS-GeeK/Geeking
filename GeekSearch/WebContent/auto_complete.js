@@ -1,15 +1,13 @@
 $(function(){ 
 //取得div层 
-
 var $search = $('#search'); 
 //取得输入框JQuery对象 
 var $searchInput = $search.find('#search-text'); 
 //关闭浏览器提供给输入框的自动完成 
 $searchInput.attr('autocomplete','off'); 
 //创建自动完成的下拉列表，用于显示服务器返回的数据,插入在搜索按钮的后面，等显示的时候再调整位置 
-var $autocomplete = $('<div class="autocomplete"></div>') 
-.hide() 
-.insertAfter('#submit'); 
+var $autocomplete = $('<div class="autocomplete"></div>').hide()
+.insertAfter('#submit'); //这个位置'#submit'切记不能更换，若用'#search'会不能贴近
 //清空下拉列表的内容并且隐藏下拉列表区 
 var clear = function(){ 
 $autocomplete.empty().hide(); 
@@ -40,7 +38,7 @@ $autocomplete.find('li').removeClass('highlight')
 var ajax_request = function(){ 
 //ajax服务端通信 
 $.ajax({ 
-'url' : '/GeekSearch/auto_server.jsp', //服务器的地址 
+'url' : '/GeekSearch/auto_server.jsp', // 服务器的地址
 'data':{'search-text':$searchInput.val()}, //参数 
 'dataType':'json', //返回数据类型 
 'type':'POST', //请求类型 

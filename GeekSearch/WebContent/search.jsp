@@ -18,7 +18,6 @@
 <title>Search Result</title>
 
 <style type="text/css">
-
 .autocomplete {
 	border: 1px solid #9ACCFB;
 	background-color: white;
@@ -48,6 +47,7 @@
 
 <script type="text/javascript">
 $(function(){
+	
 	var pageSize = 4;
 	var pageIndex = 0;
     
@@ -118,24 +118,24 @@ $(function(){
     						$.each(term, function(j,page){
     						//	alert("term"+j);
     						// 创建li标签,添加到下拉列表中,
-    						//判断该类别个数大于1时分组显示
+    						//判断该类别个数大于1时分组显示 >"+"<br  "</br>"+  >"+"<br  "</br>"+
     						if (count_samenews[index]>1){
     							if (j==0){
-    							//	alert("first"+j);
+    								//alert("first"+j);
     								$("#Searchresult").append("<div class=first"+index+" style=width:500px;> "
-               						+"<h4><a href='http://www.baidu.com/'"+page.url+">"+"<br class=tohighli>"+page.title+"</br>"+"</a></h2>" 
+               						+"<h4><a href="+page.url+" target=_blank class=tohighli>"+page.title+"</a></h4>" 
                						+page.source+"   "+page.pubTime+"    "
             						+"<br width=40% >"+"<a class=tohighli>"+page.description+"</a>"+"</br>"
             						+"<a  href='javascript:void(0)' class=samenews"+index+"    >显示"+(count_samenews[index]-1)+"条相同新闻</a>    "
-            						+"<a href='RawPages4Test//qq//qq3.html'> Geeking快照</a>     "
+            						+"<a href=RawPagespage/"+page.type+"/"+page.turl+" target=_blank> Geeking快照</a>     "
             						+"</div><p></p>");
         	 					}
      							else {
     							//	alert("others"+j);page.description
     								$("#Searchresult").append("<div class =others"+index+" style=width:500px;>" 
-									+"<h5><a href="+page.url+">"+"<br class=tohighli>"+page.title+"</br>"+"</a></h2>" 
+									+"<h5><a href="+page.url+" target=_blank class=tohighli>"+page.title+ "</a></h2>" 
 	               					+page.source+"   "+page.pubTime+"    "
-	            					+"<a href='RawPages4Test//qq//qq3.html'> Geeking快照</a>     "
+	            					+"<a href=RawPagespage/"+page.type+"/"+page.turl+" target=_blank> Geeking快照</a>     "
    	            					+"</div>");
     								$(".others"+index ).hide();	//默认隐藏 
         	    				}
@@ -143,10 +143,10 @@ $(function(){
     						//判断该类别个数只等于1时不分组显示
     						else{
     							$("#Searchresult").append("<div class=first"+index+"> "
-               						+"<h4><a href="+page.url+">"+page.title+"</a></h2>" 
+               						+"<h4><a href="+page.url+" target=_blank class=tohighli>"+page.title+"</a></h2>" 
                						+"网页来源: "+page.source+"   时间: "+page.pubTime+"    "
-            						+"<br>"+page.description+"</br>"
-            						+"<a href='RawPages4Test//qq//qq3.html'>快照</a>"
+               						+"<br width=40% >"+"<a class=tohighli>"+page.description+"</a>"+"</br>"
+            						+"<a href=RawPagespage/"+page.type+"/"+page.turl+" target=_blank> Geeking快照</a>"
             						+"</div><p></p>");
      						}
     						});
@@ -212,7 +212,7 @@ $(function(){
 				.getBytes("ISO-8859-1"), "utf-8");
 	%>
 	<form id="search" action="search.jsp" method="get">
-	    <img src="geeking.jpg" height="40" width="100"/>
+	    <img src="geek_logo.jpg" height="40" width="100"/>
 		<input name="search-text" type="text" maxlength="10" id="search-text" value=<%=keyword%>> 
 		<input type="submit" value="搜索一下" id="submit">
 	</form>

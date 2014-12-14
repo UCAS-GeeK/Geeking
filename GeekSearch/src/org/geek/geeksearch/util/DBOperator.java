@@ -59,13 +59,13 @@ public class DBOperator
     }
     
     public void cleanAllTables() {
-    	String sql = " TRUNCATE TABLE termsindex ";
-		executeUpdate(sql);
-    	sql = " TRUNCATE TABLE pagesindex ";
-		executeUpdate(sql);
-		sql = " TRUNCATE TABLE docsindex ";
-		executeUpdate(sql);
-		sql = " TRUNCATE TABLE invertedindex ";
+//    	String sql = " TRUNCATE TABLE termsindex ";
+//		executeUpdate(sql);
+//    	sql = " TRUNCATE TABLE pagesindex ";
+//		executeUpdate(sql);
+//		sql = " TRUNCATE TABLE docsindex ";
+//		executeUpdate(sql);
+		String sql = " TRUNCATE TABLE invertedindex ";
 		executeUpdate(sql);
 	}
     

@@ -53,6 +53,7 @@ public class CheckSpell {
 			return null;
 		}
 		String[] keywords;
+		int cnt=0;
 		try {
 			while (rSet.next()) {
 				keywords = PageInfo.parseKeyWords(rSet.getString("keywords"));
@@ -69,6 +70,9 @@ public class CheckSpell {
 						wordsMap.put(word, wordsMap.get(word)+1);
 					}
 				}
+				if (++cnt > 2000) {//low mem
+					break;
+				}
 			}
 		} catch (SQLException e) {
 			System.err.println("error occurs while loading keywords");
@@ -79,6 +83,7 @@ public class CheckSpell {
 	
 	/* 初始化hot_words, 只需一次初始化*/
 	private static Map<String, Integer> create_ngram_index() {
+		long start = System.currentTimeMillis();
 		Map<String, Integer> wordsMap = loadHotWords();//从数据库加载
 //		Map<String, Integer> wordsMap = new HashMap<String, Integer>();
 //		wordsMap.put("科比", 2);
@@ -91,6 +96,7 @@ public class CheckSpell {
 		    addGram(entry.getKey().toString());
 //		    System.out.println(entry.getKey().toString()+"!!!!!!!!!");
 		}
+		System.out.println("==== 加载关键词结束，用时："+(System.currentTimeMillis()-start)+"毫秒 ====");
 		return wordsMap;
 	}
 
@@ -256,7 +262,7 @@ public class CheckSpell {
 						continue;
 				}
 				System.out.println(sugWord.string+":"+sugWord.score);
-				 System.out.println("插入词："+sugWord.string);
+				System.out.println("插入词："+sugWord.string);
 				sugQueue.insertWithOverflow(sugWord);
 				if (sugQueue.size() == numSug) {
 					// if queue full, maintain the minScore score
@@ -268,13 +274,17 @@ public class CheckSpell {
 			}
 
 			// convert to array string
-			ArrayList<String> list = new ArrayList<String>(sugQueue.size());
-			System.out.println("推荐词：");
-			for (int i = sugQueue.size() - 1; i >= 0; i--) {
-				list.add(i, sugQueue.pop().string);
-				System.out.println(list.get(i));
+		    System.out.println("sugQueue_size:"+sugQueue.size());
+			ArrayList<String> mylist = new ArrayList<String>();
+			int len = sugQueue.size();
+			for (int i = 0; i < len; i++) {
+				
+				mylist.add(sugQueue.pop().string);
+				System.out.println(mylist.get(i));
 			}
-			return list;
+			Collections.reverse(mylist);
+//			mylist.
+			return mylist;
 	}
 
 	private static Set<String> search(BooleanQuery query) {

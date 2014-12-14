@@ -12,7 +12,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
 
-import org.ansj.splitWord.analysis.ToAnalysis;
 import org.geek.geeksearch.configure.Configuration;
 import org.geek.geeksearch.indexer.Tokenizer;
 import org.geek.geeksearch.model.InvertedIndex;
@@ -23,14 +22,18 @@ import org.geek.geeksearch.util.DBOperator;
 
 
 public class QueryProcessor {
-	static {
-		//配置文件初始化，临时在此初始化，便于调试，工程完工后会在BootLoader里初始化
-		Configuration config = new Configuration("configure.properties");//初始化
-		new DBOperator(config);
-	}
+//	static {
+//		//配置文件初始化，临时在此初始化，便于调试，工程完工后会在BootLoader里初始化
+//		Configuration config = new Configuration("configure.properties");//初始化
+//		new DBOperator(config);
+//		//初始化分词，加载词典
+//		new Tokenizer(new Configuration());
+//	}
 	private Map<String, Long> termIDsMap = new HashMap<>(); //词项-词项ID 映射表
 	private Map<Long,InvertedIndex> invIdxMap = new HashMap<>(); //倒排索引表
-	private int topK = 80; //设置胜者表的topK，默认80
+	private int topK = 50; //设置胜者表的topK，默认50
+	private int idxNumInMem = 100; //内存中倒排索引的初始数目
+	private int totalDocs = 61725; //正向索引数
 	
 	private final Configuration config = new Configuration();
 	private final DBOperator dbOperator = new DBOperator();
@@ -38,10 +41,33 @@ public class QueryProcessor {
 	// 不支持多线程,用于匹配标题
 	private Map<Long, String> queryTerms = new HashMap<>(); //查询词  
 	
+	public ArrayList<String> get_query(){
+		ArrayList<String> querys = new ArrayList<String>();
+		Iterator iter = queryTerms.entrySet().iterator(); 
+		while (iter.hasNext()) { 
+		    Map.Entry entry = (Map.Entry) iter.next(); 
+		    Object key = entry.getKey(); 
+		    Object val = entry.getValue(); 
+		    querys.add((String) val);
+		}
+		return querys;
+	}
+	
 	public QueryProcessor() {
 		setTopK(config);
-		loadInvertedIndex();
-		loadTermsIndex();
+		setTotalDocs(config);
+		setIdxNum(config);
+		long start = System.currentTimeMillis();
+		
+		System.out.println("----开始加载倒排索引...");
+		loadInvertedIndex(-1);
+		long end = System.currentTimeMillis();
+		System.out.println("==== 加载倒排索引结束，用时："+(end-start)+"毫秒 ====");
+		
+		System.out.println("----开始加载词项ID映射表...");
+		loadTermsIndex();		
+		start = System.currentTimeMillis();
+		System.out.println("==== 加载词项DI映射表结束，用时："+(start-end)+"毫秒 ====");
 	}
 	
 	/**
@@ -54,12 +80,16 @@ public class QueryProcessor {
 		//初始化查询
 		queryTerms.clear();
 		
+		long start = System.currentTimeMillis();
 		// 分词 		
 		List<Long> queryIDs = parseQuery(query);
 		if (queryIDs == null || queryIDs.isEmpty()) {
 			System.out.println("nothing to search!");
 			return null;
 		}
+		long end = System.currentTimeMillis();
+		
+		System.out.println("===== 分词完成，用时:"+(end-start)+"毫秒 =====");
 		
 		// 获取已排序的相关网页及信息
 		List<PageInfo> resultPages = getResultPages(queryIDs);
@@ -79,22 +109,27 @@ public class QueryProcessor {
 		List<PageInfo> resultPages = new ArrayList<>();
 		Map<Long, PageInfo> tmpPages = new HashMap<>();
 		
+		long start = System.currentTimeMillis();
 		List<Map.Entry<Long, TermStat>> relevantDocs = getRelevantDocs(queryIDs);
 		if (relevantDocs == null || relevantDocs.isEmpty()) {
 			System.out.println("no pages retrived");
 			return null;
 		}
+		long end = System.currentTimeMillis();
+		System.out.println("===== 相关文档已找到并合并，用时:"+(end-start)+"毫秒 =====");
 		
 		//计算相似度权重nnn.ntn, 顺便从PagesIndex获取PageInfo
 		PageInfo page;
 		for (Map.Entry<Long, TermStat> doc : relevantDocs) {
 			//获取pageinfo
-			System.out.println("doc: "+doc.getKey()+"");
+			long t1 = System.currentTimeMillis();
 			page = new PageInfo(doc.getKey());
 			if (!page.loadInfo(dbOperator)) {
 				System.out.println("no page info of "+doc.getKey());
 				continue;
 			}
+			long t2 = System.currentTimeMillis();
+			System.out.println("-- 从数据库获取网页信息，用时:"+(t2-t1)+"毫秒  --");
 			//计算关键词高亮位置
 //			page.highlight(queryTerms);//弃用
 			tmpPages.put(doc.getKey(), page);
@@ -105,20 +140,34 @@ public class QueryProcessor {
 				if (stat == null) {
 					System.out.println("can not find doc stat in term: "+term);
 				}
-				//计算“标题+描述”中搜索词出现次数，1次weight+10
+				//计算“标题+描述”中搜索词出现次数，1次weight+10,以及时间权重
 				long titWeight = page.countInTitleDesc(queryTerms.get(term));
-				doc.getValue().addWeight(stat.getTfIdf()+titWeight);
 				
-				System.out.println("w["+term +", "+doc.getKey()
-						+"]="+stat.getTfIdf());//
+				//累计相似度结果:
+				//weight = Σ{检索词项权重(1)*该文档权重(tf-idf)+标题中搜索词出现次数*10}
+				doc.getValue().addWeight(stat.getTfIdf()+titWeight);
 			}
-			System.out.println("weight["+doc.getKey()+"]="+doc.getValue().getWeight());//
+			//计算并加入日期权重
+			doc.getValue().addWeight(page.countPubTimeWeight());
+			
+			System.out.println("doc:"+doc.getKey()+
+					"; weight["+doc.getKey()+"]="+doc.getValue().getWeight());//
+			t1 = System.currentTimeMillis();
+			System.out.println("--权重计算完成，用时:"+(t1-t2)+"毫秒 --");
 		}
+		start = System.currentTimeMillis();
+		System.out.println("===== 相似度计算完成，用时:"+(start-end)+"毫秒 =====");
 		
 		//relevantDocs根据相似度权重降序排列
 		Collections.sort(relevantDocs, new Comparator<Map.Entry<Long, TermStat>>() {
 			public int compare(Map.Entry<Long, TermStat> o1, Map.Entry<Long, TermStat> o2) {
-				return o2.getValue().getWeight() > o1.getValue().getWeight() ? 1 : -1;
+				if (o2.getValue().getWeight() > o1.getValue().getWeight()) {
+					return 1;
+				} else if (o2.getValue().getWeight() >= o1.getValue().getWeight()){
+					return 0;
+				} else {
+					return -1;
+				}
 			}
 		});
 		
@@ -127,6 +176,8 @@ public class QueryProcessor {
 			resultPages.add(tmpPages.get(doc.getKey()));
 			System.out.println("\nretrived page: "+ doc.getKey());
 		}
+		System.out.println("===== 根据相似度排序完成，用时:"+(System.currentTimeMillis()-start)+"毫秒 =====");
+		
 		return resultPages;
 	}
 	
@@ -138,9 +189,22 @@ public class QueryProcessor {
 		List<Long> sortedQIDs = sortQueryIDs(queryIDs);
 		
 		//对每个词项id获取topK文档
-		mergedResult = invIdxMap.get(sortedQIDs.get(0)).getTopKDocs();
+		InvertedIndex invIdx;
+		if (!invIdxMap.containsKey(sortedQIDs.get(0))) {
+			loadInvertedIndex(sortedQIDs.get(0));//数据库也没有？和词项映射表对应，不大可能没有
+		}
+		invIdx = invIdxMap.get(sortedQIDs.get(0));
+		mergedResult = invIdx.getTopKDocs();
+		invIdx=null;//release mem
+		
 		for (int k = 1; k < sortedQIDs.size(); k++) {
-			tmpDocs = invIdxMap.get(sortedQIDs.get(k)).getTopKDocs();
+			if (!invIdxMap.containsKey(sortedQIDs.get(k))) {
+				loadInvertedIndex(sortedQIDs.get(0));
+			}
+			invIdx = invIdxMap.get(sortedQIDs.get(k));
+			tmpDocs = invIdx.getTopKDocs();
+			invIdx = null;//release mem
+			
 			//将该词项id的topK文档与上一次merge结果进行merge
 			Iterator<Map.Entry<Long, TermStat>> iter = mergedResult.entrySet().iterator();
 			while (iter.hasNext()) {
@@ -162,13 +226,17 @@ public class QueryProcessor {
 		List<Long> sortedQIDs = new ArrayList<>();
 		Map<Long, Integer> indexSizes = new HashMap<Long, Integer>();
 		for (long id : queryIDs) {
+			
+			if (!invIdxMap.containsKey(id)) {
+				loadInvertedIndex(id);
+			}
 			indexSizes.put(id, invIdxMap.get(id).getTopKDocs().size());
 //			System.out.println("key:"+id+"  value:"+indexSizes.get(id));
 		}
 		List<Map.Entry<Long, Integer>> indexSizesList = new ArrayList<>(indexSizes.entrySet());
 		Collections.sort(indexSizesList, new Comparator<Map.Entry<Long, Integer>>() {
 			public int compare(Entry<Long, Integer> o1, Entry<Long, Integer> o2) {
-				return o2.getValue() < o1.getValue() ? 1 : -1;
+				return o2.getValue() <= o1.getValue() ? 1 : -1;
 			}
 		});
 //		System.out.println("after sort:");
@@ -195,12 +263,20 @@ public class QueryProcessor {
 		}
 		// 映射成ID
 		List<Long> queryIDs = new ArrayList<>();
+		System.out.print("-----分词结果：");
 		for (String term : qTerms) {
 			if (term == null || term.isEmpty()) {
 				continue;
 			}
-			System.out.println("======"+term+"=============");
-			long id = fetchTermID(term);
+			System.out.print(term+" ");
+			
+			long id;
+			if (!termIDsMap.containsKey(term)) {
+				id = fetchTermID(term);				
+			} else {
+				id = termIDsMap.get(term);
+			}
+			
 			if (id < 0) {
 				//跳过索引库中没有的词项
 				continue;
@@ -208,6 +284,7 @@ public class QueryProcessor {
 			queryTerms.put(id, term);
 			queryIDs.add(id);
 		}
+		System.out.println();
 		return queryIDs;
 	}
 	
@@ -232,14 +309,23 @@ public class QueryProcessor {
 		return termID;
 	}
 
-	/* 加载 InvertedIndex 表 */
-	private void loadInvertedIndex() {
-		String sql = " SELECT * FROM invertedindex ";
+	/* 加载 InvertedIndex  */
+	private void loadInvertedIndex(long id) {
+		String sql;
+		if (id > -1) {
+			/*内存中找不到，从数据库查找倒排索引*/
+			sql = " SELECT * FROM invertedindex where TermID = "+id;
+			//System.out.println("----从数据库读取索引："+id);
+		} else {
+			/*加载IdxNumInMem个索引到内存*/
+			sql = " SELECT * FROM invertedindex ";			
+		}
+		
 		ResultSet rSet = dbOperator.executeQuery(sql);
 		if (rSet == null) {
 			System.err.println("load nothing from table InvertedIndex!");
 			return;
-		}		
+		}
 		InvertedIndex invIdx;
 		long termID = -1;
 		String docIDs = "";
@@ -251,9 +337,17 @@ public class QueryProcessor {
 					continue;
 				}
 				invIdx = new InvertedIndex(termID);
-				invIdx.parseIndex(docIDs, topK);
+				invIdx.parseIndex(docIDs, topK, totalDocs);
 				invIdxMap.put(termID, invIdx);
+				invIdx=null;//release mem
+				if (termID % 100 == 0) {
+					//System.out.println("----已载入倒排索引："+termID);
+				}
+				if (termID > idxNumInMem) {//low mem
+					break;
+				}
 			}
+			rSet=null;//release mem
 		} catch (SQLException e) {
 			System.err.println("error occurs while loading termID: "+termID);
 			e.printStackTrace();
@@ -280,7 +374,11 @@ public class QueryProcessor {
 				}
 				termIDsMap.put(term, id);
 //				System.out.println(id+" = "+term);//
+				if (id > idxNumInMem) {//low mem
+					break;
+				}
 			}
+			rSet = null;//release mem
 		} catch (SQLException e) {
 			System.err.println("error occurs while loading term: "+term);
 			e.printStackTrace();
@@ -296,7 +394,30 @@ public class QueryProcessor {
 			e.printStackTrace();
 			return;
 		}
-		topK = tmp;		
+		topK = tmp;
+	}
+	
+	/* 设置内存中的初始索引数目 */
+	private void setIdxNum(Configuration config) {
+		int tmp;
+		try {
+			tmp = Integer.parseInt(config.getValue("IdxNumInMem"));
+		} catch (Exception e) {
+			e.printStackTrace();
+			return;
+		}
+		idxNumInMem = tmp;
+	}
+	/* 设置内存中的初始索引数目 */
+	private void setTotalDocs(Configuration config) {
+		int tmp;
+		try {
+			tmp = Integer.parseInt(config.getValue("TotalDocs"));
+		} catch (Exception e) {
+			e.printStackTrace();
+			return;
+		}
+		totalDocs = tmp;
 	}
 
 	/* just for test */
@@ -305,7 +426,7 @@ public class QueryProcessor {
 		
 		long start = System.currentTimeMillis();
 		VarInteger cnt = new VarInteger(); 
-		List<List<PageInfo>> result = queryProc.doQuery("中", cnt);//中 詹姆斯
+		List<List<PageInfo>> result = queryProc.doQuery("黄征", cnt);//中 詹姆斯
 		System.err.println("===Time cost for doing query: "
 				+(System.currentTimeMillis()-start)/1000+" ===");
 		
@@ -316,7 +437,7 @@ public class QueryProcessor {
 		for (List<PageInfo> set : result) {
 			System.out.println("\n以下新闻为一类：");
 			for (PageInfo page : set) {
-				System.out.println("URL："+page.getUrl()+"\n标题："+page.getTitle());
+				System.out.println("docID："+page.getDocID()+"\n标题："+page.getTitle());
 			}
 		}
 	}

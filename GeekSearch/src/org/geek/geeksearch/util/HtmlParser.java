@@ -4,7 +4,17 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
+import org.apache.jasper.tagplugins.jstl.core.If;
+import org.apache.log4j.chainsaw.Main;
+import org.htmlparser.Node;
+import org.htmlparser.NodeFilter;
+import org.htmlparser.Parser;
 import org.htmlparser.filters.AndFilter;
 import org.htmlparser.filters.HasAttributeFilter;
 import org.htmlparser.filters.HasParentFilter;
@@ -15,10 +25,6 @@ import org.htmlparser.tags.ParagraphTag;
 import org.htmlparser.tags.TitleTag;
 import org.htmlparser.util.NodeList;
 import org.htmlparser.util.ParserException;
-import org.htmlparser.*;
-
-import java.util.regex.Pattern;
-import java.util.regex.Matcher;
 
 /**
  * Html解析器
@@ -30,7 +36,7 @@ public class HtmlParser {
 	public static String getPlainText(String htmlStr, String type) {
 		StringBuffer textBuf = new StringBuffer();
 		
-		htmlStr = deleNoise(htmlStr);
+//		htmlStr = deleNoise(htmlStr);//在爬虫部分已经执行过
 		NodeFilter filter = createTextFilter(type);
 		try {
 			parser = Parser.createParser(htmlStr, "GB2312");
@@ -48,6 +54,9 @@ public class HtmlParser {
 	}
 	
 	private static String deleSpace(String text) {
+		if (text == null || text.isEmpty()) {
+			return null;
+		}
 		text = text.replaceAll("\\s{2,}", " ");
 		text = text.replaceAll("\n|\r|\t", "");
 		return text.trim();
@@ -122,12 +131,13 @@ public class HtmlParser {
                 }
                 matcher = pKeywords.matcher(name);                
                 // 只取首次出现的keywords 和 description
-                if (!keyWords.isEmpty() && !descrip.isEmpty()) {
+                if ((keyWords != null && !keyWords.isEmpty()) 
+                		&& (descrip != null && !descrip.isEmpty()) ) {
 					break;
 				}
-                if(keyWords.isEmpty() && matcher.find()) {
+                if((keyWords == null || keyWords.isEmpty()) && matcher.find()) {
                 	keyWords = meta.getMetaContent();
-                } else if (descrip.isEmpty()) {
+                } else if (descrip == null || descrip.isEmpty()) {
 					matcher = pDesc.matcher(name);
 					descrip = matcher.find() ? meta.getMetaContent() : "";
 				}
@@ -185,6 +195,44 @@ public class HtmlParser {
 			e.printStackTrace();
 		}
 		return pubTime;
+	}
+	
+	public static String getPubtimeReg(String htmlStr) {
+		String dateStr = htmlStr.replaceAll("r?n", " ")
+				.replaceAll("年", "-").replaceAll("月", "-").replaceAll("日", " ");
+		//System.out.println("--"+dateStr);
+        try {
+            Pattern p = Pattern.compile("(\\d{1,4}[-|\\/]\\d{1,2}[-|\\/]\\d{1,2} \\d{1,2}:\\d{1,2})", Pattern.CASE_INSENSITIVE|Pattern.MULTILINE);
+        	Pattern p2 = Pattern.compile("(\\d{1,4}[-|\\/]\\d{1,2}[-|\\/]\\d{1,2} )", Pattern.CASE_INSENSITIVE|Pattern.MULTILINE);
+            Matcher matcher = p.matcher(dateStr);
+            String time = null;
+            int year;
+            if (matcher.find() && matcher.groupCount() >= 1) {
+                for (int i = 0; i < matcher.groupCount(); i++) {
+                	time = matcher.group(i).trim();
+                	year = time.length() > 4 ? Integer.parseInt(time.substring(0, 4)) : 0;
+                	if (year < 2005 || year > 2014) {
+						continue;
+					}
+                	return time.replaceAll("/", "-");
+				}
+            } else {
+            	matcher = p2.matcher(dateStr);
+            	if (matcher.find() && matcher.groupCount() >= 1) {
+            		for (int i = 0; i < matcher.groupCount(); i++) {
+                    	time = matcher.group(i).trim();
+                    	year = time.length() > 4 ? Integer.parseInt(time.substring(0, 4)) : 0;
+                    	if (year < 2005 || year > 2014) {
+    						continue;
+    					}
+                    	return time.replaceAll("/", "-");
+    				}
+            	}
+			}
+        } catch (Exception e) { 
+            //
+        } 
+        return ""; 
 	}
 	
 	private static NodeFilter createTimeFilter(String type) {
@@ -245,5 +293,10 @@ public class HtmlParser {
 			}
 		}
 		return strBuf.toString();
+	}
+	
+	public static void main(String[] arg){
+		String string = HtmlParser.getPubtimeReg("<span class=c>2008年01月24日19:50</span>");
+		System.out.println("=="+string);
 	}
 }
