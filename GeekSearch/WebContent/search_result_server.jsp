@@ -10,8 +10,8 @@
 	String basePath = request.getScheme() + "://"
 			+ request.getServerName() + ":" + request.getServerPort()
 			+ path + "/";
-
-	String key = "";
+	
+	String  key = "";	
 	Response resp;
 	JSONArray results = new JSONArray();
 	JSONArray return_results = new JSONArray();
@@ -29,6 +29,7 @@
 		//这里修改了return_results.add内容，添加的是每个JSONArray,并判断页面请求有没有超出范围
 		
 		if (new_key.equals(key)){
+			
 			if((pageIndex+1)*pageSize<results.size())
 			for (int i = 0; i < pageSize; i++){
 				return_results.add(i,results.getJSONArray(i+pageSize*pageIndex));
