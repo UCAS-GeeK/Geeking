@@ -47,6 +47,7 @@
 
 <script type="text/javascript">
 $(function(){
+	
 	var pageSize = 4;
 	var pageIndex = 0;
     
@@ -117,12 +118,12 @@ $(function(){
     						$.each(term, function(j,page){
     						//	alert("term"+j);
     						// 创建li标签,添加到下拉列表中,
-    						//判断该类别个数大于1时分组显示
+    						//判断该类别个数大于1时分组显示 >"+"<br  "</br>"+  >"+"<br  "</br>"+
     						if (count_samenews[index]>1){
     							if (j==0){
     								//alert("first"+j);
     								$("#Searchresult").append("<div class=first"+index+" style=width:500px;> "
-               						+"<h4><a href="+page.url+" target=_blank>"+"<br class=tohighli>"+page.title+"</br>"+"</a></h4>" 
+               						+"<h4><a href="+page.url+" target=_blank class=tohighli>"+page.title+"</a></h4>" 
                						+page.source+"   "+page.pubTime+"    "
             						+"<br width=40% >"+"<a class=tohighli>"+page.description+"</a>"+"</br>"
             						+"<a  href='javascript:void(0)' class=samenews"+index+"    >显示"+(count_samenews[index]-1)+"条相同新闻</a>    "
@@ -132,7 +133,7 @@ $(function(){
      							else {
     							//	alert("others"+j);page.description
     								$("#Searchresult").append("<div class =others"+index+" style=width:500px;>" 
-									+"<h5><a href="+page.url+" target=_blank>"+"<br class=tohighli>"+page.title+"</br>"+"</a></h2>" 
+									+"<h5><a href="+page.url+" target=_blank class=tohighli>"+page.title+ "</a></h2>" 
 	               					+page.source+"   "+page.pubTime+"    "
 	            					+"<a href=RawPagespage/"+page.type+"/"+page.turl+" target=_blank> Geeking快照</a>     "
    	            					+"</div>");
@@ -142,10 +143,10 @@ $(function(){
     						//判断该类别个数只等于1时不分组显示
     						else{
     							$("#Searchresult").append("<div class=first"+index+"> "
-               						+"<h4><a href="+page.url+" target=_blank>"+page.title+"</a></h2>" 
+               						+"<h4><a href="+page.url+" target=_blank class=tohighli>"+page.title+"</a></h2>" 
                						+"网页来源: "+page.source+"   时间: "+page.pubTime+"    "
-            						+"<br>"+page.description+"</br>"
-            						+"<a href=RawPagespage/"+page.type+"/"+page.turl+" target=_blank>Geeking快照</a>"
+               						+"<br width=40% >"+"<a class=tohighli>"+page.description+"</a>"+"</br>"
+            						+"<a href=RawPagespage/"+page.type+"/"+page.turl+" target=_blank> Geeking快照</a>"
             						+"</div><p></p>");
      						}
     						});
