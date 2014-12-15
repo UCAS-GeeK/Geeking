@@ -2,3 +2,4 @@
 /crawl/
 *.class
 http*
+/bin/
